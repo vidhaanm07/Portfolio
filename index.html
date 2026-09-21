@@ -2538,5 +2538,750 @@ document.querySelectorAll('.fx-card').forEach(c=>{c.addEventListener('pointermov
  addEventListener('scroll',()=>{let max=d.documentElement.scrollHeight-innerHeight;bar.style.transform=`scaleX(${max>0?scrollY/max:0})`},{passive:true});
 })();
 </script>
+   <!-- =========================
+     VIDHAAN AI ASSISTANT
+========================= -->
+
+<style>
+/* AI BUTTON */
+#vidhaan-ai-button{
+    position:fixed;
+    right:28px;
+    bottom:28px;
+    width:68px;
+    height:68px;
+    border-radius:50%;
+    border:1px solid rgba(117,246,255,.55);
+    background:
+        radial-gradient(circle at 35% 30%,
+        rgba(117,246,255,.45),
+        rgba(90,167,255,.16) 45%,
+        rgba(8,12,20,.95) 75%);
+    color:#fff;
+    display:grid;
+    place-items:center;
+    cursor:pointer;
+    z-index:10050;
+    box-shadow:
+        0 0 25px rgba(101,183,255,.3),
+        inset 0 0 20px rgba(117,246,255,.08);
+    transition:.3s ease;
+}
+
+#vidhaan-ai-button:hover{
+    transform:scale(1.1);
+    box-shadow:
+        0 0 45px rgba(101,183,255,.5),
+        0 0 90px rgba(117,246,255,.12);
+}
+
+#vidhaan-ai-button::before,
+#vidhaan-ai-button::after{
+    content:"";
+    position:absolute;
+    inset:-8px;
+    border:1px solid rgba(117,246,255,.18);
+    border-radius:50%;
+    animation:aiPulse 2.5s infinite;
+}
+
+#vidhaan-ai-button::after{
+    inset:-16px;
+    animation-delay:1.2s;
+    opacity:.5;
+}
+
+@keyframes aiPulse{
+    0%{
+        transform:scale(.85);
+        opacity:0;
+    }
+    35%{
+        opacity:1;
+    }
+    100%{
+        transform:scale(1.25);
+        opacity:0;
+    }
+}
+
+.vai-icon{
+    font-family:"Space Grotesk";
+    font-weight:700;
+    font-size:17px;
+    letter-spacing:-1px;
+    position:relative;
+    z-index:2;
+}
+
+
+/* CHAT WINDOW */
+#vidhaan-ai-panel{
+    position:fixed;
+    right:28px;
+    bottom:110px;
+    width:390px;
+    max-width:calc(100vw - 32px);
+    height:570px;
+    max-height:calc(100vh - 140px);
+    background:
+        linear-gradient(
+            145deg,
+            rgba(10,16,27,.97),
+            rgba(3,7,14,.98)
+        );
+    border:1px solid rgba(117,246,255,.2);
+    border-radius:22px;
+    backdrop-filter:blur(25px);
+    box-shadow:
+        0 30px 100px rgba(0,0,0,.65),
+        0 0 50px rgba(90,167,255,.08);
+    z-index:10040;
+    overflow:hidden;
+
+    opacity:0;
+    visibility:hidden;
+    transform:translateY(20px) scale(.96);
+    transition:
+        opacity .3s ease,
+        transform .3s ease,
+        visibility .3s;
+}
+
+#vidhaan-ai-panel.open{
+    opacity:1;
+    visibility:visible;
+    transform:translateY(0) scale(1);
+}
+
+
+/* HEADER */
+.vai-header{
+    height:72px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 18px;
+    border-bottom:1px solid rgba(255,255,255,.08);
+    background:rgba(255,255,255,.025);
+}
+
+.vai-brand{
+    display:flex;
+    align-items:center;
+    gap:11px;
+}
+
+.vai-mini-orb{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    background:
+        radial-gradient(
+            circle,
+            rgba(117,246,255,.45),
+            rgba(90,167,255,.12) 55%,
+            transparent 70%
+        );
+    border:1px solid rgba(117,246,255,.35);
+    box-shadow:0 0 20px rgba(117,246,255,.18);
+    font:700 11px "DM Mono";
+}
+
+.vai-title{
+    font:600 14px "Space Grotesk";
+}
+
+.vai-status{
+    font:9px "DM Mono";
+    color:#75f6ff;
+    margin-top:2px;
+    letter-spacing:.08em;
+}
+
+.vai-close{
+    width:32px;
+    height:32px;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:8px;
+    background:transparent;
+    color:#9aa8bc;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.vai-close:hover{
+    color:#fff;
+    border-color:rgba(117,246,255,.35);
+}
+
+
+/* MESSAGES */
+#vai-messages{
+    height:calc(100% - 138px);
+    overflow-y:auto;
+    padding:18px;
+    scroll-behavior:smooth;
+}
+
+#vai-messages::-webkit-scrollbar{
+    width:4px;
+}
+
+#vai-messages::-webkit-scrollbar-thumb{
+    background:rgba(117,246,255,.2);
+    border-radius:10px;
+}
+
+.vai-message{
+    max-width:88%;
+    padding:11px 13px;
+    margin-bottom:11px;
+    border-radius:13px;
+    font-size:13px;
+    line-height:1.55;
+    animation:vaiMessage .3s ease;
+}
+
+@keyframes vaiMessage{
+    from{
+        opacity:0;
+        transform:translateY(8px);
+    }
+    to{
+        opacity:1;
+        transform:none;
+    }
+}
+
+.vai-ai{
+    background:rgba(255,255,255,.045);
+    border:1px solid rgba(255,255,255,.08);
+    color:#c8d3e3;
+}
+
+.vai-user{
+    margin-left:auto;
+    background:rgba(90,167,255,.13);
+    border:1px solid rgba(90,167,255,.2);
+    color:#e9f4ff;
+}
+
+.vai-welcome{
+    padding:5px 0 18px;
+}
+
+.vai-welcome h3{
+    font:600 20px "Space Grotesk";
+    margin-bottom:7px;
+}
+
+.vai-welcome p{
+    color:#7f8da2;
+    font-size:12px;
+}
+
+
+/* SUGGESTIONS */
+.vai-suggestions{
+    display:flex;
+    gap:7px;
+    flex-wrap:wrap;
+    margin-bottom:18px;
+}
+
+.vai-suggestion{
+    border:1px solid rgba(255,255,255,.1);
+    background:rgba(255,255,255,.025);
+    color:#9eacc0;
+    padding:7px 9px;
+    border-radius:8px;
+    font:9px "DM Mono";
+    cursor:pointer;
+    transition:.2s;
+}
+
+.vai-suggestion:hover{
+    color:#fff;
+    border-color:rgba(117,246,255,.35);
+    background:rgba(117,246,255,.05);
+}
+
+
+/* INPUT */
+.vai-input-area{
+    position:absolute;
+    bottom:0;
+    left:0;
+    right:0;
+    padding:13px;
+    border-top:1px solid rgba(255,255,255,.08);
+    background:rgba(4,8,15,.94);
+}
+
+#vai-form{
+    display:flex;
+    gap:8px;
+}
+
+#vai-input{
+    flex:1;
+    min-width:0;
+    border:1px solid rgba(255,255,255,.1);
+    background:rgba(255,255,255,.035);
+    color:#fff;
+    outline:none;
+    padding:11px 12px;
+    border-radius:10px;
+    font:12px Inter,sans-serif;
+}
+
+#vai-input::placeholder{
+    color:#66748a;
+}
+
+#vai-input:focus{
+    border-color:rgba(117,246,255,.35);
+}
+
+#vai-send{
+    width:44px;
+    border:none;
+    border-radius:10px;
+    background:#fff;
+    color:#05070b;
+    font-weight:700;
+    cursor:pointer;
+    transition:.2s;
+}
+
+#vai-send:hover{
+    transform:translateY(-2px);
+}
+
+
+/* TYPING */
+.vai-typing{
+    display:flex;
+    gap:4px;
+    padding:5px 2px;
+}
+
+.vai-typing span{
+    width:5px;
+    height:5px;
+    border-radius:50%;
+    background:#75f6ff;
+    animation:typing 1s infinite;
+}
+
+.vai-typing span:nth-child(2){
+    animation-delay:.15s;
+}
+
+.vai-typing span:nth-child(3){
+    animation-delay:.3s;
+}
+
+@keyframes typing{
+    0%,60%,100%{
+        opacity:.25;
+        transform:translateY(0);
+    }
+
+    30%{
+        opacity:1;
+        transform:translateY(-3px);
+    }
+}
+
+
+/* MOBILE */
+@media(max-width:600px){
+
+    #vidhaan-ai-button{
+        width:60px;
+        height:60px;
+        right:18px;
+        bottom:18px;
+    }
+
+    #vidhaan-ai-panel{
+        right:10px;
+        bottom:90px;
+        width:calc(100vw - 20px);
+        height:calc(100vh - 120px);
+        max-height:none;
+        border-radius:18px;
+    }
+}
+</style>
+
+
+<!-- AI FLOATING BUTTON -->
+
+<button
+    id="vidhaan-ai-button"
+    aria-label="Open Vidhaan AI"
+    title="Ask Vidhaan AI"
+>
+    <span class="vai-icon">AI</span>
+</button>
+
+
+<!-- AI CHAT PANEL -->
+
+<div id="vidhaan-ai-panel">
+
+    <div class="vai-header">
+
+        <div class="vai-brand">
+
+            <div class="vai-mini-orb">
+                AI
+            </div>
+
+            <div>
+                <div class="vai-title">
+                    Vidhaan AI
+                </div>
+
+                <div class="vai-status">
+                    ● SYSTEM ONLINE
+                </div>
+            </div>
+
+        </div>
+
+        <button
+            class="vai-close"
+            id="vai-close"
+            aria-label="Close"
+        >
+            ×
+        </button>
+
+    </div>
+
+
+    <div id="vai-messages">
+
+        <div class="vai-welcome">
+
+            <h3>
+                Ask me anything.
+            </h3>
+
+            <p>
+                I'm Vidhaan's portfolio AI assistant.
+                I can tell you about his projects,
+                skills, experience and work.
+            </p>
+
+        </div>
+
+
+        <div class="vai-suggestions">
+
+            <button class="vai-suggestion">
+                What AI projects has Vidhaan built?
+            </button>
+
+            <button class="vai-suggestion">
+                Tell me about CloudNest AI
+            </button>
+
+            <button class="vai-suggestion">
+                What did Vidhaan learn at IIT Jammu?
+            </button>
+
+            <button class="vai-suggestion">
+                What are Vidhaan's skills?
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="vai-input-area">
+
+        <form id="vai-form">
+
+            <input
+                id="vai-input"
+                type="text"
+                autocomplete="off"
+                placeholder="Ask Vidhaan AI..."
+            >
+
+            <button
+                id="vai-send"
+                type="submit"
+            >
+                ↑
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script>
+/* =========================
+   VIDHAAN AI
+========================= */
+
+const vaiButton =
+    document.getElementById("vidhaan-ai-button");
+
+const vaiPanel =
+    document.getElementById("vidhaan-ai-panel");
+
+const vaiClose =
+    document.getElementById("vai-close");
+
+const vaiForm =
+    document.getElementById("vai-form");
+
+const vaiInput =
+    document.getElementById("vai-input");
+
+const vaiMessages =
+    document.getElementById("vai-messages");
+
+
+/* OPEN */
+
+vaiButton.addEventListener("click", () => {
+
+    vaiPanel.classList.add("open");
+
+    setTimeout(() => {
+        vaiInput.focus();
+    }, 300);
+
+});
+
+
+/* CLOSE */
+
+vaiClose.addEventListener("click", () => {
+
+    vaiPanel.classList.remove("open");
+
+});
+
+
+/* ADD MESSAGE */
+
+function vaiAddMessage(text, type){
+
+    const message =
+        document.createElement("div");
+
+    message.className =
+        "vai-message " +
+        (type === "user"
+            ? "vai-user"
+            : "vai-ai");
+
+    message.textContent = text;
+
+    vaiMessages.appendChild(message);
+
+    vaiMessages.scrollTop =
+        vaiMessages.scrollHeight;
+
+}
+
+
+/* TYPING */
+
+function vaiTyping(){
+
+    const typing =
+        document.createElement("div");
+
+    typing.className =
+        "vai-message vai-ai";
+
+    typing.id =
+        "vai-typing";
+
+    typing.innerHTML = `
+        <div class="vai-typing">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    `;
+
+    vaiMessages.appendChild(typing);
+
+    vaiMessages.scrollTop =
+        vaiMessages.scrollHeight;
+}
+
+
+/* ASK BACKEND */
+
+async function askVidhaanAI(question){
+
+    try{
+
+        const response =
+            await fetch("/api/chat", {
+
+                method:"POST",
+
+                headers:{
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body:JSON.stringify({
+                    message:question
+                })
+
+            });
+
+
+        const data =
+            await response.json();
+
+
+        if(!response.ok){
+
+            throw new Error(
+                data.error ||
+                "AI request failed"
+            );
+
+        }
+
+
+        return data.answer;
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Vidhaan AI:",
+            error
+        );
+
+        return "I'm having trouble connecting to my AI system right now. Please try again in a moment.";
+
+    }
+
+}
+
+
+/* SEND MESSAGE */
+
+async function vaiAsk(question){
+
+    if(!question.trim()) return;
+
+
+    vaiAddMessage(
+        question,
+        "user"
+    );
+
+
+    vaiInput.value = "";
+
+
+    vaiTyping();
+
+
+    const answer =
+        await askVidhaanAI(question);
+
+
+    const typing =
+        document.getElementById(
+            "vai-typing"
+        );
+
+
+    if(typing){
+
+        typing.remove();
+
+    }
+
+
+    vaiAddMessage(
+        answer,
+        "ai"
+    );
+
+}
+
+
+/* FORM */
+
+vaiForm.addEventListener(
+    "submit",
+    async event => {
+
+        event.preventDefault();
+
+        await vaiAsk(
+            vaiInput.value
+        );
+
+    }
+);
+
+
+/* SUGGESTIONS */
+
+document
+    .querySelectorAll(".vai-suggestion")
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            async () => {
+
+                await vaiAsk(
+                    button.textContent.trim()
+                );
+
+            }
+        );
+
+    });
+
+
+/* ESCAPE TO CLOSE */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if(
+            event.key === "Escape"
+        ){
+
+            vaiPanel.classList.remove(
+                "open"
+            );
+
+        }
+
+    }
+);
+
+</script>
 </body>
 </html>
