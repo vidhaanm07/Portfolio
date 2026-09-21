@@ -14,11 +14,11 @@ export default async function handler(req, res) {
       });
     }
 
-    const apiKey = process.env.AI_GATEWAY_API_KEY;
+    const apiKey = process.env.GROQ_API_KEY;
 
     if (!apiKey) {
       return res.status(500).json({
-        error: "AI API key is not configured"
+        error: "Groq API key is not configured"
       });
     }
 
@@ -143,7 +143,7 @@ Vidhaan's portfolio. Do not pretend to be Vidhaan.
 `;
 
     const response = await fetch(
-      "https://ai-gateway.vercel.sh/v1/chat/completions",
+      "https://api.groq.com/openai/v1/chat/completions",
       {
         method: "POST",
 
@@ -153,7 +153,7 @@ Vidhaan's portfolio. Do not pretend to be Vidhaan.
         },
 
         body: JSON.stringify({
-          model: "openai/gpt-4o-mini",
+          model: "openai/gpt-oss-120b",
 
           messages: [
             {
@@ -178,7 +178,7 @@ Vidhaan's portfolio. Do not pretend to be Vidhaan.
       console.error(data);
 
       return res.status(response.status).json({
-        error: "AI request failed"
+        error: "Groq AI request failed"
       });
     }
 
