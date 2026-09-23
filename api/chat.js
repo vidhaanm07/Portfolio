@@ -14,6 +14,10 @@ export default async function handler(req, res) {
       return res.status(200).json({ answer: "Vidhaan Mathur is 19 years old. He was born on 7 September 2007 in Delhi, India." });
     }
 
+    if (question.includes("iit jammu") || question.includes("iit-jammu")) {
+      return res.status(200).json({ answer: "During his AI internship at IIT Jammu, Vidhaan worked with Generative AI, LLMs and AI agents. He gained practical exposure to n8n, NLP, Vapi, Clay AI, OpenAI SDK, Transformers, Hugging Face pipelines, Gradio, Telegram and WhatsApp bots, along with RAG, MCP, LangChain and Anthropic tools." });
+    }
+
     if ((question.includes("project") || question.includes("projects")) && !["cloudnest", "devflow", "multimodal", "bots", "arduino", "aqi", "mediquick", "link", "url", "repository", "repo"].some(x => question.includes(x))) {
       return res.status(200).json({ answer: "Vidhaan Mathur has developed projects in AI, automation, machine learning, multimodal processing, IoT and software development. Key projects include CloudNest AI, DevFlow AI, Multimodal AI Pipelines, Bots & Interfaces, AQI Prediction, Arduino Fog Detection Car and MediQuick AI." });
     }
@@ -58,6 +62,9 @@ Career Goal: Software Engineer
 Education: BTech at Thapar Institute of Engineering and Technology
 Branch: Electronics Engineering (Instrumentation and Control)
 Expected Graduation: 2029
+
+IIT JAMMU AI INTERNSHIP
+Vidhaan completed an AI internship at IIT Jammu. His documented learning and practical exposure included Generative AI, LLMs, AI agents, n8n, NLP, Vapi, Clay AI, OpenAI SDK, Transformers, Hugging Face pipelines, Gradio, Telegram and WhatsApp bots, RAG, MCP, LangChain, Anthropic tools, and Google Vertex AI.
 
 PROJECTS
 CloudNest AI: AI-powered customer-support automation using n8n, LLMs and AI-agent workflows. GitHub: https://github.com/vidhaanm07/AI-Customer-Support-System
