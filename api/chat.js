@@ -14,8 +14,8 @@ export default async function handler(req, res) {
       return res.status(200).json({ answer: "Vidhaan Mathur is 19 years old. He was born on 7 September 2007 in Delhi, India." });
     }
 
-    if ((question.includes("project") || question.includes("projects")) && !["cloudnest", "devflow", "multimodal", "bots", "arduino", "aqi", "link", "url", "repository", "repo"].some(x => question.includes(x))) {
-      return res.status(200).json({ answer: "Vidhaan Mathur's documented projects:\n1. CloudNest AI\n2. DevFlow AI\n3. Multimodal AI Pipelines\n4. Bots & Interfaces\n5. AQI Prediction\n6. Arduino Fog Detection Car\n7. MediQuick AI" });
+    if ((question.includes("project") || question.includes("projects")) && !["cloudnest", "devflow", "multimodal", "bots", "arduino", "aqi", "mediquick", "link", "url", "repository", "repo"].some(x => question.includes(x))) {
+      return res.status(200).json({ answer: "Vidhaan Mathur has developed projects in AI, automation, machine learning, multimodal processing, IoT and software development. Key projects include CloudNest AI, DevFlow AI, Multimodal AI Pipelines, Bots & Interfaces, AQI Prediction, Arduino Fog Detection Car and MediQuick AI." });
     }
 
     if ((question.includes("arduino") || question.includes("fog detection")) && (question.includes("link") || question.includes("url") || question.includes("drive") || question.includes("files"))) {
@@ -38,7 +38,8 @@ export default async function handler(req, res) {
       { keywords: ["cloudnest", "customer support", "support automation"], url: "https://github.com/vidhaanm07/AI-Customer-Support-System", name: "CloudNest AI" },
       { keywords: ["devflow", "developer workflow"], url: "https://github.com/vidhaanm07/DevFlow-AI-", name: "DevFlow AI" },
       { keywords: ["multimodal", "hugging face pipelines"], url: "https://github.com/vidhaanm07/Hugging-Face-Multimodal-Pipelines", name: "Multimodal AI Pipelines" },
-      { keywords: ["bots", "interfaces", "telegram bot", "gradio"], url: "https://github.com/vidhaanm07/Bots-Interfaces", name: "Bots & Interfaces" }
+      { keywords: ["bots", "interfaces", "telegram bot", "gradio"], url: "https://github.com/vidhaanm07/Bots-Interfaces", name: "Bots & Interfaces" },
+      { keywords: ["mediquick", "medi quick"], url: "https://github.com/vidhaanm07/MediQuick-AI", name: "MediQuick AI" }
     ];
 
     if (["link", "url", "repository", "repo", "github"].some(x => question.includes(x))) {
@@ -46,9 +47,9 @@ export default async function handler(req, res) {
       if (project) return res.status(200).json({ answer: `${project.name} GitHub Repository: ${project.url}` });
     }
 
-    const systemPrompt = `You are Vidhaan's AI, the professional assistant for Vidhaan Mathur's portfolio.
+    const systemPrompt = `You are Vidhaan's AI, the professional portfolio assistant for Vidhaan Mathur.
 
-PERSONAL PROFILE
+PROFILE
 Name: Vidhaan Mathur
 Age: 19
 Date of Birth: 7 September 2007
@@ -58,32 +59,33 @@ Education: BTech at Thapar Institute of Engineering and Technology
 Branch: Electronics Engineering (Instrumentation and Control)
 Expected Graduation: 2029
 
-PROFESSIONAL INFORMATION
-Projects: CloudNest AI, DevFlow AI, Multimodal AI Pipelines, Bots & Interfaces, AQI Prediction, Arduino Fog Detection Car, and MediQuick AI.
-Technical skills: Python, C, C++, MySQL, Generative AI, LLMs, AI Agents, n8n, NLP, Hugging Face, Transformers, Gradio, RAG, MCP, LangChain, OpenAI SDK, Arduino and IoT.
+PROJECTS
+CloudNest AI: AI-powered customer-support automation using n8n, LLMs and AI-agent workflows. GitHub: https://github.com/vidhaanm07/AI-Customer-Support-System
+DevFlow AI: AI-focused developer workflow and automation platform. GitHub: https://github.com/vidhaanm07/DevFlow-AI-
+Multimodal AI Pipelines: Text, image, audio and video processing using Hugging Face models. GitHub: https://github.com/vidhaanm07/Hugging-Face-Multimodal-Pipelines
+Bots & Interfaces: AI interfaces and bot applications using Gradio and Telegram. GitHub: https://github.com/vidhaanm07/Bots-Interfaces
+AQI Prediction: Machine-learning project focused on air-quality prediction.
+Arduino Fog Detection Car: Arduino and IoT project using ultrasonic sensing. Files: https://drive.google.com/drive/u/2/folders/1H1hs-P02TtiHvbW2Lw_91Td5Q39Spo4y
+MediQuick AI: AI-powered troubleshooting project. GitHub: https://github.com/vidhaanm07/MediQuick-AI
+
+SKILLS
+Python, C, C++, MySQL, Generative AI, LLMs, AI Agents, n8n, NLP, Hugging Face, Transformers, Gradio, RAG, MCP, LangChain, OpenAI SDK, Arduino and IoT.
+
+OTHER LINKS
 LinkedIn: https://www.linkedin.com/in/vidhaan-mathur-a2b54337a/
 GitHub: https://github.com/vidhaanm07
 Resume: https://vidhaanmportfolio.vercel.app/resume.html
 
-STYLE
-Use formal, concise and professional English.
-Answer directly and briefly.
-Simple questions: 1 to 3 sentences.
-Detailed questions: short paragraphs or concise numbered lists, normally under 120 words.
-Do not use emojis, slang, jokes, casual filler, decorative symbols, markdown decoration, excessive punctuation or unnecessary dashes.
-Do not use phrases such as Sure, Absolutely, Awesome, Great, No worries, or Let's go.
-Do not repeat the question.
+RESPONSE STYLE
+Be informative, concise and professional. Give enough context to answer the question clearly, but avoid unnecessary detail.
+For simple questions, answer in 1 to 3 sentences. For broader questions, use a short paragraph or concise numbered list, normally under 100 words.
+Use plain text with normal punctuation. Do not use emojis, slang, casual filler, decorative symbols, excessive headings or unnecessary formatting.
+Do not use phrases such as Sure, Absolutely, Awesome, Great, No worries or Let's go.
+Answer the question directly without repeating it.
 For links, provide the complete direct URL.
-Do not invent or speculate. If information is not documented, state that it is not currently documented.
-
-PROJECT LINKS
-CloudNest AI: https://github.com/vidhaanm07/AI-Customer-Support-System
-DevFlow AI: https://github.com/vidhaanm07/DevFlow-AI-
-Multimodal AI Pipelines: https://github.com/vidhaanm07/Hugging-Face-Multimodal-Pipelines
-Bots & Interfaces: https://github.com/vidhaanm07/Bots-Interfaces
-Arduino Fog Detection Car: https://drive.google.com/drive/u/2/folders/1H1hs-P02TtiHvbW2Lw_91Td5Q39Spo4y
-
-Share only the personal information explicitly included above. Do not provide more precise location or sensitive personal information than documented.`;
+Use only documented information. Never invent facts, links, achievements, technologies or dates.
+If information is unavailable, state that it is not currently documented.
+Share only the personal information explicitly documented in this profile.`;
 
     const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
@@ -92,7 +94,7 @@ Share only the personal information explicitly included above. Do not provide mo
         model: "openai/gpt-oss-120b",
         messages: [{ role: "system", content: systemPrompt }, { role: "user", content: message }],
         temperature: 0,
-        max_tokens: 350
+        max_tokens: 300
       })
     });
 
