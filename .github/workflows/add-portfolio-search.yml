@@ -1,0 +1,260 @@
+name: Add Portfolio Search
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  add-search:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Add search to index.html
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          path = Path('index.html')
+          text = path.read_text(encoding='utf-8')
+
+          if '<!-- PORTFOLIO SEARCH FEATURE -->' in text:
+              print('Search feature already installed.')
+              raise SystemExit(0)
+
+          css = r'''
+          /* =========================
+             PORTFOLIO SEARCH
+          ========================= */
+          .portfolio-search-btn{
+              border:1px solid rgba(103,232,249,.25);
+              background:rgba(255,255,255,.02);
+              color:#b9eff7;
+              padding:8px 12px;
+              border-radius:9px;
+              font:11px "DM Mono";
+              cursor:pointer;
+              transition:.2s;
+              margin-left:8px;
+          }
+          .portfolio-search-btn:hover{
+              color:#fff;
+              border-color:rgba(103,232,249,.55);
+              background:rgba(103,232,249,.06);
+          }
+          #portfolio-search-overlay{
+              position:fixed;
+              inset:0;
+              z-index:10000;
+              display:none;
+              align-items:flex-start;
+              justify-content:center;
+              padding:110px 20px 40px;
+              background:rgba(3,5,10,.76);
+              backdrop-filter:blur(18px);
+          }
+          #portfolio-search-overlay.open{display:flex;}
+          .portfolio-search-box{
+              width:min(720px,100%);
+              max-height:72vh;
+              overflow:auto;
+              background:rgba(8,12,20,.96);
+              border:1px solid var(--line);
+              border-radius:18px;
+              box-shadow:0 25px 80px rgba(0,0,0,.45);
+          }
+          .portfolio-search-top{
+              display:flex;
+              gap:10px;
+              align-items:center;
+              padding:16px;
+              border-bottom:1px solid var(--line);
+          }
+          #portfolio-search-input{
+              flex:1;
+              min-width:0;
+              background:transparent;
+              border:0;
+              outline:0;
+              color:#fff;
+              font:15px Inter,sans-serif;
+          }
+          #portfolio-search-input::placeholder{color:#718096;}
+          .portfolio-search-close{
+              border:1px solid var(--line);
+              background:transparent;
+              color:#9aa8bb;
+              width:32px;
+              height:32px;
+              border-radius:8px;
+              cursor:pointer;
+          }
+          .portfolio-search-results{padding:8px;}
+          .portfolio-search-result{
+              display:block;
+              padding:14px;
+              border-radius:11px;
+              color:inherit;
+              border:1px solid transparent;
+              transition:.2s;
+          }
+          .portfolio-search-result:hover{
+              background:rgba(255,255,255,.04);
+              border-color:var(--line);
+          }
+          .portfolio-search-result-title{
+              font:600 15px "Space Grotesk";
+              color:#fff;
+          }
+          .portfolio-search-result-meta{
+              margin-top:3px;
+              font:10px "DM Mono";
+              color:#70b7ff;
+              text-transform:uppercase;
+              letter-spacing:.08em;
+          }
+          .portfolio-search-result-text{
+              margin-top:5px;
+              color:#8793a7;
+              font-size:12px;
+          }
+          .portfolio-search-empty{
+              padding:28px 16px;
+              text-align:center;
+              color:#8793a7;
+              font-size:13px;
+          }
+          @media(max-width:600px){
+              .portfolio-search-btn{padding:8px 10px;margin-left:4px;}
+              #portfolio-search-overlay{padding:85px 10px 20px;}
+              .portfolio-search-box{max-height:80vh;}
+          }
+          '''
+
+          marker = '<!-- PORTFOLIO SEARCH FEATURE -->'
+          css_block = marker + '\n<style>\n' + css + '\n</style>\n'
+          if '</head>' in text:
+              text = text.replace('</head>', css_block + '</head>', 1)
+          else:
+              text = css_block + text
+
+          search_button = '''\n<button class="portfolio-search-btn" id="portfolio-search-open" type="button" aria-label="Search portfolio">Search</button>\n'''
+          if 'id="portfolio-search-open"' not in text:
+              resume_match = re.search(r'(class="nav-resume"[\s\S]*?</a>)', text)
+              if resume_match:
+                  end = resume_match.end()
+                  text = text[:end] + search_button + text[end:]
+              else:
+                  cta_match = re.search(r'(class="nav-cta"[\s\S]*?</a>)', text)
+                  if cta_match:
+                      end = cta_match.end()
+                      text = text[:end] + search_button + text[end:]
+
+          overlay = r'''
+          <!-- PORTFOLIO SEARCH UI -->
+          <div id="portfolio-search-overlay" aria-hidden="true">
+              <div class="portfolio-search-box" role="dialog" aria-modal="true" aria-label="Search portfolio">
+                  <div class="portfolio-search-top">
+                      <input id="portfolio-search-input" type="search" autocomplete="off" placeholder="Search projects, skills, experience, education...">
+                      <button class="portfolio-search-close" id="portfolio-search-close" type="button" aria-label="Close search">×</button>
+                  </div>
+                  <div class="portfolio-search-results" id="portfolio-search-results"></div>
+              </div>
+          </div>
+          '''
+          if 'id="portfolio-search-overlay"' not in text:
+              text = text.replace('</body>', overlay + '\n</body>', 1)
+
+          script = r'''
+          <script>
+          /* Portfolio Search */
+          (() => {
+              const openBtn = document.getElementById('portfolio-search-open');
+              const overlay = document.getElementById('portfolio-search-overlay');
+              const closeBtn = document.getElementById('portfolio-search-close');
+              const input = document.getElementById('portfolio-search-input');
+              const results = document.getElementById('portfolio-search-results');
+              if (!openBtn || !overlay || !closeBtn || !input || !results) return;
+
+              const items = [...document.querySelectorAll('section, .project, .skill, .event, footer')]
+                  .map((el, i) => {
+                      const heading = el.querySelector('h1,h2,h3,h4,.section-title,.eyebrow');
+                      const title = heading ? heading.textContent.trim() : `Portfolio section ${i + 1}`;
+                      const text = el.innerText.trim().replace(/\s+/g, ' ').slice(0, 240);
+                      const id = el.id || (el.closest('section')?.id || '');
+                      return { el, title, text, id };
+                  })
+                  .filter(item => item.text.length > 20);
+
+              function openSearch(){
+                  overlay.classList.add('open');
+                  overlay.setAttribute('aria-hidden','false');
+                  input.value = '';
+                  render('');
+                  setTimeout(() => input.focus(), 30);
+              }
+
+              function closeSearch(){
+                  overlay.classList.remove('open');
+                  overlay.setAttribute('aria-hidden','true');
+              }
+
+              function render(query){
+                  const q = query.trim().toLowerCase();
+                  const matches = items.filter(item => !q || `${item.title} ${item.text}`.toLowerCase().includes(q)).slice(0, 12);
+                  if (!matches.length){
+                      results.innerHTML = '<div class="portfolio-search-empty">No matching portfolio content found.</div>';
+                      return;
+                  }
+                  results.innerHTML = matches.map((item, i) => `
+                      <a href="${item.id ? '#' + item.id : '#'}" class="portfolio-search-result" data-index="${i}">
+                          <div class="portfolio-search-result-title">${item.title.replace(/[<>]/g,'')}</div>
+                          <div class="portfolio-search-result-meta">${item.id ? item.id : 'Portfolio'}</div>
+                          <div class="portfolio-search-result-text">${item.text.replace(/[<>]/g,'')}</div>
+                      </a>
+                  `).join('');
+
+                  results.querySelectorAll('.portfolio-search-result').forEach((link, i) => {
+                      link.addEventListener('click', e => {
+                          e.preventDefault();
+                          closeSearch();
+                          matches[i].el.scrollIntoView({behavior:'smooth', block:'start'});
+                      });
+                  });
+              }
+
+              openBtn.addEventListener('click', openSearch);
+              closeBtn.addEventListener('click', closeSearch);
+              input.addEventListener('input', () => render(input.value));
+              overlay.addEventListener('click', e => { if (e.target === overlay) closeSearch(); });
+              document.addEventListener('keydown', e => {
+                  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+                      e.preventDefault();
+                      openSearch();
+                  }
+                  if (e.key === 'Escape' && overlay.classList.contains('open')) closeSearch();
+              });
+          })();
+          </script>
+          '''
+          if '/* Portfolio Search */' not in text:
+              text = text.replace('</body>', script + '\n</body>', 1)
+
+          path.write_text(text, encoding='utf-8')
+          print('Portfolio search added.')
+          PY
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html .github/workflows/add-portfolio-search.yml
+          git diff --cached --quiet && exit 0
+          git commit -m "Add professional portfolio search"
+          git push
