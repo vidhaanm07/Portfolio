@@ -1,0 +1,3249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Vidhaan Mathur | Software × AI × Electronics</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================
+   GLOBAL
+========================= */
+
+:root{
+    --bg:#03050a;
+    --panel:#080c14;
+    --text:#f7f9ff;
+    --muted:#8793a7;
+    --line:rgba(255,255,255,.11);
+
+    --blue:#5aa7ff;
+    --cyan:#67e8f9;
+    --violet:#a78bfa;
+    --green:#6ee7b7;
+
+    --max:1240px;
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:Inter,sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+.container{
+    width:min(var(--max),92%);
+    margin:auto;
+}
+
+/* GRID BACKGROUND */
+
+body:before{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:-3;
+
+    background-image:
+        linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+
+    background-size:52px 52px;
+
+    mask-image:linear-gradient(
+        to bottom,
+        #000,
+        transparent 80%
+    );
+}
+
+/* AMBIENT GLOW */
+
+body:after{
+    content:"";
+    position:fixed;
+    z-index:-2;
+
+    width:520px;
+    height:520px;
+
+    border-radius:50%;
+
+    top:-240px;
+    right:-160px;
+
+    background:rgba(57,133,255,.12);
+
+    filter:blur(100px);
+}
+
+/* CURSOR */
+
+.cursor{
+    position:fixed;
+
+    width:260px;
+    height:260px;
+
+    border-radius:50%;
+
+    pointer-events:none;
+
+    z-index:100;
+
+    transform:translate(-50%,-50%);
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(90,167,255,.11),
+            transparent 68%
+        );
+
+    mix-blend-mode:screen;
+}
+
+/* PROGRESS BAR */
+
+.progress{
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    height:2px;
+    width:0;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--cyan),
+            var(--blue),
+            var(--violet)
+        );
+
+    z-index:200;
+}
+
+/* =========================
+   NAVIGATION
+========================= */
+
+nav{
+    position:fixed;
+
+    top:18px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:min(1050px,92%);
+
+    z-index:80;
+
+    border:1px solid var(--line);
+
+    background:rgba(5,8,15,.72);
+
+    backdrop-filter:blur(20px);
+
+    border-radius:16px;
+}
+
+.navin{
+    height:60px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:0 14px 0 20px;
+}
+
+.brand{
+    font-family:"Space Grotesk";
+    font-weight:700;
+    font-size:1.05rem;
+}
+
+.brand span{
+    color:var(--blue);
+}
+
+.links{
+    display:flex;
+    gap:6px;
+}
+
+.links a{
+    padding:8px 11px;
+
+    border-radius:9px;
+
+    color:#8995a8;
+
+    font-size:.78rem;
+
+    transition:.2s;
+}
+
+.links a:hover,
+.links a.active{
+    background:rgba(255,255,255,.06);
+    color:#fff;
+}
+
+.nav-cta{
+    border:1px solid rgba(103,232,249,.25);
+
+    padding:8px 13px;
+
+    border-radius:9px;
+
+    font-size:.77rem;
+
+    color:#b9eff7;
+}
+
+.menu{
+    display:none;
+
+    background:none;
+
+    color:#fff;
+
+    border:1px solid var(--line);
+
+    padding:7px 10px;
+
+    border-radius:8px;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+
+    min-height:100vh;
+
+    display:grid;
+
+    place-items:center;
+
+    position:relative;
+
+    padding:130px 0 70px;
+}
+
+.hero-grid{
+
+    display:grid;
+
+    grid-template-columns:1.1fr .9fr;
+
+    gap:60px;
+
+    align-items:center;
+}
+
+.tag{
+
+    font-family:"DM Mono";
+
+    font-size:.72rem;
+
+    color:#8bbdff;
+
+    letter-spacing:.12em;
+
+    text-transform:uppercase;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin-bottom:22px;
+}
+
+.tag:before{
+
+    content:"";
+
+    width:34px;
+
+    height:1px;
+
+    background:var(--blue);
+}
+
+.hero h1{
+
+    font-family:"Space Grotesk";
+
+    font-size:clamp(4.5rem,10vw,9.2rem);
+
+    line-height:.78;
+
+    letter-spacing:-.075em;
+}
+
+.hero h1 span{
+
+    display:block;
+}
+
+.outline{
+
+    -webkit-text-stroke:
+        1px rgba(255,255,255,.38);
+
+    color:transparent;
+}
+
+.hero p{
+
+    max-width:670px;
+
+    color:var(--muted);
+
+    font-size:1rem;
+
+    margin-top:29px;
+}
+
+.hero-actions{
+
+    display:flex;
+
+    gap:10px;
+
+    flex-wrap:wrap;
+
+    margin-top:30px;
+}
+
+.btn{
+
+    padding:12px 16px;
+
+    border:1px solid var(--line);
+
+    border-radius:10px;
+
+    font-weight:700;
+
+    font-size:.8rem;
+
+    transition:.25s;
+}
+
+.btn.main{
+
+    background:#fff;
+
+    color:#05070b;
+}
+
+.btn:hover{
+
+    transform:translateY(-3px);
+
+    border-color:
+        rgba(255,255,255,.4);
+}
+
+/* =========================
+   ORBITAL AI GRAPHIC
+========================= */
+
+.orbit{
+
+    height:450px;
+
+    display:grid;
+
+    place-items:center;
+
+    position:relative;
+}
+
+.orb{
+
+    width:205px;
+
+    height:205px;
+
+    border-radius:50%;
+
+    display:grid;
+
+    place-items:center;
+
+    background:
+        radial-gradient(
+            circle at 32% 28%,
+            rgba(103,232,249,.55),
+            rgba(90,167,255,.14) 34%,
+            rgba(167,139,250,.04) 67%
+        );
+
+    box-shadow:
+        0 0 80px rgba(90,167,255,.18),
+        inset 0 0 70px rgba(103,232,249,.08);
+
+    border:
+        1px solid rgba(147,197,253,.25);
+
+    z-index:2;
+}
+
+.orb strong{
+
+    font-family:"Space Grotesk";
+
+    font-size:3rem;
+}
+
+.orb small{
+
+    display:block;
+
+    text-align:center;
+
+    font-family:"DM Mono";
+
+    font-size:.55rem;
+
+    color:#9ab6d8;
+
+    letter-spacing:.13em;
+}
+
+.ring{
+
+    position:absolute;
+
+    border:
+        1px solid rgba(103,232,249,.17);
+
+    border-radius:50%;
+
+    width:310px;
+    height:160px;
+
+    transform:rotate(25deg);
+
+    animation:spin 13s linear infinite;
+}
+
+.ring.r2{
+
+    width:380px;
+    height:190px;
+
+    transform:rotate(-35deg);
+
+    animation-duration:17s;
+
+    border-color:
+        rgba(167,139,250,.15);
+}
+
+.ring.r3{
+
+    width:450px;
+    height:225px;
+
+    transform:rotate(65deg);
+
+    animation-duration:23s;
+
+    border-color:
+        rgba(90,167,255,.11);
+}
+
+.node{
+
+    position:absolute;
+
+    padding:7px 10px;
+
+    border:1px solid var(--line);
+
+    background:rgba(8,12,20,.8);
+
+    border-radius:8px;
+
+    font:10px "DM Mono";
+
+    color:#aebbd0;
+
+    backdrop-filter:blur(8px);
+}
+
+.n1{
+    top:25px;
+    right:30px;
+}
+
+.n2{
+    bottom:45px;
+    left:15px;
+}
+
+.n3{
+    top:115px;
+    left:0;
+}
+
+@keyframes spin{
+
+    to{
+        transform:rotate(385deg);
+    }
+
+}
+
+/* =========================
+   SECTIONS
+========================= */
+
+section{
+    padding:120px 0;
+}
+
+.eyebrow{
+
+    font:10px "DM Mono";
+
+    color:#6fb5ff;
+
+    letter-spacing:.18em;
+
+    text-transform:uppercase;
+}
+
+.section-title{
+
+    font-family:"Space Grotesk";
+
+    font-size:
+        clamp(2.4rem,5vw,4.5rem);
+
+    letter-spacing:-.055em;
+
+    line-height:.98;
+
+    margin-top:9px;
+}
+
+.section-copy{
+
+    color:var(--muted);
+
+    max-width:670px;
+
+    margin-top:15px;
+}
+
+/* ANIMATION */
+
+.reveal{
+
+    opacity:0;
+
+    transform:translateY(25px);
+
+    transition:.7s ease;
+}
+
+.reveal.show{
+
+    opacity:1;
+
+    transform:none;
+}
+
+/* =========================
+   ABOUT
+========================= */
+
+.about-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        1.3fr .7fr;
+
+    gap:18px;
+
+    margin-top:42px;
+}
+
+.panel{
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.045),
+            rgba(255,255,255,.012)
+        );
+
+    border:1px solid var(--line);
+
+    border-radius:20px;
+
+    padding:30px;
+}
+
+.panel p{
+    color:var(--muted);
+}
+
+.stats{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:10px;
+}
+
+.stat{
+
+    background:#070b13;
+
+    border:1px solid var(--line);
+
+    border-radius:14px;
+
+    padding:20px;
+}
+
+.stat b{
+
+    font:
+        700 1.7rem "Space Grotesk";
+
+    display:block;
+}
+
+.stat span{
+
+    font-size:.72rem;
+
+    color:#78869b;
+}
+
+/* =========================
+   SKILLS
+========================= */
+
+.skill-wrap{
+
+    margin-top:42px;
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:14px;
+}
+
+.skill{
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+.skill:after{
+
+    content:"";
+
+    position:absolute;
+
+    width:140px;
+    height:140px;
+
+    border-radius:50%;
+
+    background:
+        rgba(90,167,255,.07);
+
+    right:-70px;
+    bottom:-70px;
+}
+
+.skill h3{
+
+    font-family:"Space Grotesk";
+
+    font-size:1.15rem;
+
+    margin-bottom:14px;
+}
+
+.chips{
+
+    display:flex;
+
+    gap:7px;
+
+    flex-wrap:wrap;
+}
+
+.chip{
+
+    font:10px "DM Mono";
+
+    color:#b7c5d9;
+
+    padding:8px 10px;
+
+    border:1px solid var(--line);
+
+    border-radius:7px;
+
+    background:rgba(255,255,255,.02);
+}
+
+/* =========================
+   PROJECTS
+========================= */
+
+.projects{
+
+    margin-top:42px;
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:15px;
+}
+
+.project{
+
+    min-height:340px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:space-between;
+
+    position:relative;
+
+    overflow:hidden;
+
+    transition:.3s;
+}
+
+.project:before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+        radial-gradient(
+            circle at var(--mx,50%)
+            var(--my,50%),
+            rgba(90,167,255,.13),
+            transparent 30%
+        );
+
+    opacity:0;
+
+    transition:.25s;
+}
+
+.project:hover:before{
+    opacity:1;
+}
+
+.project:hover{
+
+    transform:translateY(-7px);
+
+    border-color:
+        rgba(90,167,255,.3);
+}
+
+.p-top{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    font:10px "DM Mono";
+
+    color:#71839b;
+}
+
+.project h3{
+
+    font:
+        600 1.7rem "Space Grotesk";
+
+    margin:20px 0 8px;
+}
+
+.project p{
+
+    color:var(--muted);
+
+    font-size:.88rem;
+
+    max-width:560px;
+}
+
+.project .chips{
+
+    margin-top:20px;
+}
+
+.p-bottom{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-top:25px;
+}
+
+.arrow{
+    font-size:1.2rem;
+}
+
+.project-number{
+
+    font:10px "DM Mono";
+
+    color:#51627a;
+}
+
+/* =========================
+   EXPERIENCE
+========================= */
+
+.timeline{
+
+    margin-top:45px;
+
+    border-left:
+        1px solid rgba(90,167,255,.3);
+
+    margin-left:9px;
+
+    padding-left:30px;
+}
+
+.event{
+
+    position:relative;
+
+    margin-bottom:42px;
+}
+
+.event:before{
+
+    content:"";
+
+    position:absolute;
+
+    left:-36px;
+
+    top:7px;
+
+    width:9px;
+
+    height:9px;
+
+    border-radius:50%;
+
+    background:var(--bg);
+
+    border:2px solid var(--blue);
+
+    box-shadow:
+        0 0 14px rgba(90,167,255,.5);
+}
+
+.event h3{
+
+    font:
+        600 1.4rem "Space Grotesk";
+}
+
+.event .meta{
+
+    font:10px "DM Mono";
+
+    color:#70b7ff;
+
+    margin:5px 0 10px;
+}
+
+.event p{
+
+    color:var(--muted);
+
+    max-width:800px;
+
+    font-size:.9rem;
+}
+
+/* =========================
+   LAB
+========================= */
+
+.lab{
+
+    margin-top:42px;
+
+    min-height:420px;
+
+    display:grid;
+
+    place-items:center;
+
+    position:relative;
+
+    border:1px solid var(--line);
+
+    border-radius:22px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(90,167,255,.06),
+            transparent 55%
+        ),
+        #070b13;
+
+    overflow:hidden;
+}
+
+.lab-core{
+
+    width:135px;
+    height:135px;
+
+    border-radius:50%;
+
+    border:
+        1px solid rgba(103,232,249,.35);
+
+    display:grid;
+
+    place-items:center;
+
+    background:rgba(103,232,249,.04);
+
+    box-shadow:
+        0 0 70px rgba(103,232,249,.12);
+
+    z-index:3;
+}
+
+.lab-core b{
+
+    font:
+        1.5rem "Space Grotesk";
+}
+
+.lab-line{
+
+    position:absolute;
+
+    width:250px;
+
+    height:1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(103,232,249,.45),
+            transparent
+        );
+
+    transform-origin:center;
+}
+
+.ll1{
+    transform:rotate(0deg);
+}
+
+.ll2{
+    transform:rotate(60deg);
+}
+
+.ll3{
+    transform:rotate(120deg);
+}
+
+.lab-node{
+
+    position:absolute;
+
+    padding:12px 15px;
+
+    border:1px solid var(--line);
+
+    border-radius:11px;
+
+    background:rgba(4,7,12,.86);
+
+    font:11px "DM Mono";
+
+    color:#a9bad0;
+}
+
+.ln1{
+    top:65px;
+}
+
+.ln2{
+    right:12%;
+    top:45%;
+}
+
+.ln3{
+    right:16%;
+    bottom:65px;
+}
+
+.ln4{
+    left:16%;
+    bottom:65px;
+}
+
+.ln5{
+    left:12%;
+    top:45%;
+}
+
+/* =========================
+   CERTIFICATIONS
+========================= */
+
+.certs{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:14px;
+
+    margin-top:42px;
+}
+
+.cert{
+
+    min-height:170px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:space-between;
+}
+
+.cert h3{
+
+    font:
+        600 1.05rem "Space Grotesk";
+}
+
+.cert p{
+
+    font-size:.78rem;
+
+    color:var(--muted);
+}
+
+.cert small{
+
+    font:9px "DM Mono";
+
+    color:#6684a7;
+}
+
+/* =========================
+   CONTACT
+========================= */
+
+.contact-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        1.2fr .8fr;
+
+    gap:15px;
+
+    margin-top:42px;
+}
+
+.contact-main{
+
+    padding:40px;
+
+    border-radius:22px;
+
+    border:
+        1px solid rgba(90,167,255,.22);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(90,167,255,.11),
+            rgba(167,139,250,.05)
+        );
+}
+
+.contact-main h2{
+
+    font:
+        600 clamp(2.5rem,5vw,4.5rem)
+        "Space Grotesk";
+
+    line-height:.95;
+
+    letter-spacing:-.05em;
+}
+
+.contact-main p{
+
+    color:var(--muted);
+
+    margin-top:15px;
+}
+
+.contact-list{
+
+    display:grid;
+
+    gap:10px;
+}
+
+.contact-link{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:18px;
+
+    background:#070b13;
+
+    border:1px solid var(--line);
+
+    border-radius:12px;
+
+    font-size:.84rem;
+
+    transition:.2s;
+}
+
+.contact-link:hover{
+
+    border-color:
+        rgba(90,167,255,.4);
+
+    transform:translateX(4px);
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+
+    padding:30px 0;
+
+    border-top:1px solid var(--line);
+
+    color:#5f6c80;
+
+    font:10px "DM Mono";
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:850px){
+
+    nav{
+        top:10px;
+    }
+
+    .links{
+        display:none;
+    }
+
+    .links.open{
+
+        display:flex;
+
+        position:absolute;
+
+        top:61px;
+
+        left:0;
+        right:0;
+
+        flex-direction:column;
+
+        padding:10px;
+
+        background:#070a12;
+
+        border:1px solid var(--line);
+
+        border-radius:12px;
+    }
+
+    .nav-cta{
+        display:none;
+    }
+
+    .menu{
+        display:block;
+    }
+
+    .hero{
+        padding-top:125px;
+    }
+
+    .hero-grid,
+    .about-grid,
+    .contact-grid{
+
+        grid-template-columns:1fr;
+    }
+
+    .hero-art{
+        height:330px;
+    }
+
+    .hero h1{
+
+        font-size:
+            clamp(4rem,18vw,7rem);
+    }
+
+    .projects,
+    .skill-wrap{
+
+        grid-template-columns:1fr;
+    }
+
+    .certs{
+
+        grid-template-columns:1fr;
+    }
+
+    .orbit{
+
+        height:330px;
+    }
+
+    .ring.r3{
+        width:360px;
+    }
+
+    .cursor{
+        display:none;
+    }
+
+    .lab{
+
+        min-height:520px;
+    }
+
+    .lab-node{
+
+        font-size:9px;
+    }
+
+    .ln1{
+        top:50px;
+    }
+
+    .ln2{
+        right:5%;
+        top:37%;
+    }
+
+    .ln3{
+        right:8%;
+        bottom:45px;
+    }
+
+    .ln4{
+        left:8%;
+        bottom:45px;
+    }
+
+    .ln5{
+        left:5%;
+        top:37%;
+    }
+}
+
+
+
+/* CLICKABLE PROJECT CARDS */
+.project{
+    display:flex;
+    color:inherit;
+    text-decoration:none;
+    cursor:pointer;
+}
+.project:hover{
+    text-decoration:none;
+}
+.project .arrow{
+    transition:transform .2s ease;
+}
+.project:hover .arrow{
+    transform:translateX(6px);
+}
+
+.project-link{font:10px "DM Mono",monospace;color:#7fb9ff;border:1px solid rgba(127,185,255,.22);padding:6px 8px;border-radius:6px;margin-left:auto;cursor:pointer;transition:.2s ease;position:relative;z-index:3}.project-link:hover{color:#fff;border-color:rgba(127,185,255,.7);background:rgba(127,185,255,.08)}
+</style>
+<style>.nav-resume{color:#9bb0c9;font:11px "DM Mono";text-decoration:none;border:1px solid rgba(255,255,255,.11);padding:8px 11px;border-radius:8px;margin-left:10px;transition:.2s}.nav-resume:hover{color:#fff;border-color:#5aa7ff}</style>
+</head>
+
+<body>
+
+<!-- CURSOR + PROGRESS -->
+
+<div class="cursor" id="cursor"></div>
+
+<div class="progress" id="progress"></div>
+
+
+<!-- =========================
+     NAV
+========================= -->
+
+<nav>
+
+<div class="navin">
+
+<a class="brand" href="#home">
+VIDHAAN<span>.</span>
+</a>
+
+<div class="links" id="links">
+
+<a href="#about">About</a>
+
+<a href="#skills">Skills</a>
+
+<a href="#projects">Work</a>
+
+<a href="#experience">Experience</a>
+
+<a href="#lab">Lab</a>
+
+<a href="#contact">Contact</a>
+
+</div>
+
+<a
+class="nav-cta"
+href="https://mail.google.com/mail/?view=cm&fs=1&to=vidhaanm07@gmail.com"
+target="_blank"
+>
+Let's talk ↗
+</a>
+
+<button
+class="menu"
+onclick="toggleMenu()"
+>
+☰
+</button>
+
+<a class="nav-resume" href="resume.html">Resume ↗</a>
+
+</div>
+
+</nav>
+
+
+<main>
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section
+class="hero"
+id="home"
+>
+
+<div class="container hero-grid">
+
+<div class="reveal">
+
+<div class="tag">
+Software × AI × Electronics
+</div>
+
+<h1>
+
+<span>VIDHAAN</span>
+
+<span class="outline">
+MATHUR
+</span>
+
+</h1>
+
+<p>
+
+Electronics Engineering
+(Instrumentation & Control)
+student at Thapar University,
+building toward software engineering
+through AI, GenAI, LLMs, AI agents,
+automation and practical technology.
+
+</p>
+
+<div class="hero-actions">
+
+<a
+class="btn main"
+href="#projects"
+>
+Explore work ↓
+</a>
+
+<a
+class="btn"
+href="https://in.linkedin.com/in/vidhaan-mathur-a2b54337a"
+target="_blank"
+>
+LinkedIn ↗
+</a>
+
+<a
+class="btn"
+href="https://github.com/vidhaanm07"
+target="_blank"
+>
+GitHub ↗
+</a>
+
+</div>
+
+</div>
+
+
+<!-- AI ORBIT -->
+
+<div class="orbit reveal">
+
+<div class="orb">
+
+<div>
+
+<strong>AI</strong>
+
+<small>
+CODE × AGENTS × IoT
+</small>
+
+</div>
+
+</div>
+
+<div class="ring"></div>
+
+<div class="ring r2"></div>
+
+<div class="ring r3"></div>
+
+<div class="node n1">
+LLMs
+</div>
+
+<div class="node n2">
+n8n
+</div>
+
+<div class="node n3">
+IoT
+</div>
+
+</div>
+
+</div>
+
+
+<div class="scroll">
+SCROLL TO EXPLORE
+</div>
+
+</section>
+
+
+<!-- =========================
+     ABOUT
+========================= -->
+
+<section id="about">
+
+<div class="container">
+
+<div class="reveal">
+
+<div class="eyebrow">
+01 / About
+</div>
+
+<h2 class="section-title">
+
+Curious by default.<br>
+
+Building by doing.
+
+</h2>
+
+<p class="section-copy">
+
+I like the space where software,
+AI and electronics meet — taking an idea,
+turning it into a prototype,
+and learning from what happens next.
+
+</p>
+
+</div>
+
+
+<div class="about-grid">
+
+
+<div class="panel reveal">
+
+<p>
+
+My current focus is software engineering
+and applied AI.
+
+I'm developing hands-on experience
+with Python, C/C++, SQL, LLM tooling,
+automation, NLP, retrieval and AI-agent
+workflows while continuing my electronics
+engineering foundation.
+
+</p>
+
+<p style="margin-top:17px">
+
+From support automation to multimodal
+pipelines and Arduino experiments,
+my projects are centered around practical
+systems that can be demonstrated,
+tested and improved.
+
+</p>
+
+</div>
+
+
+<div class="stats reveal">
+
+<div class="stat">
+
+<b>AI</b>
+
+<span>
+GenAI · LLMs · Agents
+</span>
+
+</div>
+
+
+<div class="stat">
+
+<b>CODE</b>
+
+<span>
+Python · C · C++ · SQL
+</span>
+
+</div>
+
+
+<div class="stat">
+
+<b>BUILD</b>
+
+<span>
+Automation · IoT
+</span>
+
+</div>
+
+
+<div class="stat">
+
+<b>LEARN</b>
+
+<span>
+Always experimenting
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     SKILLS
+========================= -->
+
+<section id="skills">
+
+<div class="container">
+
+<div class="reveal">
+
+<div class="eyebrow">
+02 / Skills
+</div>
+
+<h2 class="section-title">
+The toolkit.
+</h2>
+
+<p class="section-copy">
+
+Technologies and concepts
+I'm actively learning and applying.
+
+</p>
+
+</div>
+
+
+<div class="skill-wrap">
+
+
+<div class="panel skill reveal">
+
+<h3>
+Programming & Data
+</h3>
+
+<div class="chips">
+
+<span class="chip">Python</span>
+
+<span class="chip">C</span>
+
+<span class="chip">C++</span>
+
+<span class="chip">MySQL</span>
+
+</div>
+
+</div>
+
+
+<div class="panel skill reveal">
+
+<h3>
+AI & Machine Learning
+</h3>
+
+<div class="chips">
+
+<span class="chip">Generative AI</span>
+
+<span class="chip">LLMs</span>
+
+<span class="chip">NLP</span>
+
+<span class="chip">Transformers</span>
+
+<span class="chip">Hugging Face</span>
+
+<span class="chip">RAG</span>
+
+</div>
+
+</div>
+
+
+<div class="panel skill reveal">
+
+<h3>
+Agents & Automation
+</h3>
+
+<div class="chips">
+
+<span class="chip">AI Agents</span>
+
+<span class="chip">n8n</span>
+
+<span class="chip">MCP</span>
+
+<span class="chip">LangChain</span>
+
+<span class="chip">OpenAI SDK</span>
+
+<span class="chip">Vapi</span>
+
+<span class="chip">Clay AI</span>
+
+</div>
+
+</div>
+
+
+<div class="panel skill reveal">
+
+<h3>
+Electronics & Tools
+</h3>
+
+<div class="chips">
+
+<span class="chip">Arduino</span>
+
+<span class="chip">IoT</span>
+
+<span class="chip">Gradio</span>
+
+<span class="chip">GitHub</span>
+
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     PROJECTS
+========================= -->
+
+<section id="projects">
+
+<div class="container">
+
+<div class="reveal">
+
+<div class="eyebrow">
+03 / Selected Work
+</div>
+
+<h2 class="section-title">
+Projects with a purpose.
+</h2>
+
+<p class="section-copy">
+
+A growing collection of AI,
+automation, data and embedded experiments.
+
+</p>
+
+</div>
+
+
+<div class="projects" id="projects-grid"></div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     EXPERIENCE
+========================= -->
+
+<section id="experience">
+
+<div class="container">
+
+<div class="reveal">
+
+<div class="eyebrow">
+04 / Experience
+</div>
+
+<h2 class="section-title">
+Learning through life.
+</h2>
+
+</div>
+
+
+<div class="timeline">
+
+
+<div class="event reveal">
+
+<h3>
+AI Internship — IIT Jammu
+</h3>
+
+<div class="meta">
+AI · GenAI · LLMs · AI Agents
+</div>
+
+<p>
+
+Completed an internship focused
+on practical AI concepts and tools
+including n8n, NLP, Vapi, Clay AI,
+OpenAI SDK, Transformers,
+Hugging Face pipelines, Gradio,
+messaging bots, MCP, RAG and LangChain.
+
+</p>
+
+</div>
+
+
+<div class="event reveal">
+
+<h3>
+Electronics Engineering —
+Thapar University
+</h3>
+
+<div class="meta">
+INSTRUMENTATION & CONTROL · ONGOING
+</div>
+
+<p>
+
+Building foundations across
+electronics, signals and systems,
+analog devices and circuits,
+digital logic, embedded systems
+and programming.
+
+</p>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     LAB
+========================= -->
+
+<section id="lab">
+
+<div class="container">
+
+<div class="reveal">
+
+<div class="eyebrow">
+05 / The Lab
+</div>
+
+<h2 class="section-title">
+Where the interests connect.
+</h2>
+
+<p class="section-copy">
+
+An interactive map of the areas
+I'm exploring.
+
+</p>
+
+</div>
+
+
+<div class="lab reveal">
+
+
+<div class="lab-core">
+
+<b>
+VM
+</b>
+
+</div>
+
+
+<div class="lab-line ll1"></div>
+
+<div class="lab-line ll2"></div>
+
+<div class="lab-line ll3"></div>
+
+
+<div class="lab-node ln1">
+AI AGENTS
+</div>
+
+<div class="lab-node ln2">
+LLMs
+</div>
+
+<div class="lab-node ln3">
+AUTOMATION
+</div>
+
+<div class="lab-node ln4">
+IoT
+</div>
+
+<div class="lab-node ln5">
+ELECTRONICS
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     CERTIFICATIONS
+========================= -->
+
+<section id="certifications">
+
+<div class="container">
+
+<div class="reveal">
+
+<div class="eyebrow">
+06 / Certifications
+</div>
+
+<h2 class="section-title">
+Learning beyond class.
+</h2>
+
+</div>
+
+
+<div class="certs">
+
+
+<div class="panel cert reveal">
+
+<div>
+
+<h3>
+n8n Academy — n8n102
+</h3>
+
+<p>
+Integrations:
+API and Connected Workflows
+</p>
+
+</div>
+
+<small>
+AI AUTOMATION
+</small>
+
+</div>
+
+
+<div class="panel cert reveal">
+
+<div>
+
+<h3>
+Anthropic
+</h3>
+
+<p>
+Claude with Google Vertex AI
+· MCP Advanced
+</p>
+
+</div>
+
+<small>
+AI / MCP
+</small>
+
+</div>
+
+
+<div class="panel cert reveal">
+
+<div>
+
+<h3>
+Google Cloud
+</h3>
+
+<p>
+Arcade Facilitator Program 2026
+</p>
+
+</div>
+
+<small>
+CLOUD
+</small>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     CONTACT
+========================= -->
+
+<section id="contact">
+
+<div class="container">
+
+<div class="reveal">
+
+<div class="eyebrow">
+07 / Contact
+</div>
+
+</div>
+
+
+<div class="contact-grid">
+
+
+<div class="contact-main reveal">
+
+<h2>
+
+Let's make<br>
+
+something useful.
+
+</h2>
+
+<p>
+
+Have an idea, project or opportunity?
+
+Open a conversation.
+
+</p>
+
+<div class="hero-actions">
+
+<a
+class="btn main"
+href="https://mail.google.com/mail/?view=cm&fs=1&to=vidhaanm07@gmail.com"
+target="_blank"
+>
+Email me ↗
+</a>
+
+</div>
+
+</div>
+
+
+<div class="contact-list reveal">
+
+
+<a
+class="contact-link"
+href="https://in.linkedin.com/in/vidhaan-mathur-a2b54337a"
+target="_blank"
+>
+
+<span>
+LinkedIn
+</span>
+
+<span>
+↗
+</span>
+
+</a>
+
+
+<a
+class="contact-link"
+href="https://github.com/vidhaanm07"
+target="_blank"
+>
+
+<span>
+GitHub
+</span>
+
+<span>
+↗
+</span>
+
+</a>
+
+
+<a
+class="contact-link"
+href="mailto:vidhaanm07@gmail.com"
+>
+
+<span>
+Email Me
+</span>
+
+<span>
+↗
+</span>
+
+</a>
+
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+<div class="container">
+
+© 2026 VIDHAAN MATHUR
+· SOFTWARE × AI × ELECTRONICS
+
+</div>
+
+</footer>
+
+
+<script>
+
+/* MOBILE MENU */
+
+function toggleMenu(){
+
+    document
+        .getElementById("links")
+        .classList
+        .toggle("open");
+
+}
+
+
+/* YEAR */
+
+document
+    .getElementById("year");
+
+
+
+/* PROJECT DATA — EDIT THIS LIST TO ADD OR UPDATE PROJECTS */
+const projects = [
+    {
+        name: "CloudNest AI",
+        category: "AI / AUTOMATION",
+        description: "AI-powered support-ticket automation for classification, priority, sentiment, routing, summaries and human escalation.",
+        technologies: ["n8n", "LLMs", "AI Agents", "Automation"],
+        page: "cloudnest.html",
+        linkLabel: "GitHub ↗",
+        link: "https://github.com/vidhaanm07/AI-Customer-Support-System"
+    },
+    {
+        name: "AQI Prediction",
+        category: "DATA / ML",
+        description: "Machine-learning work focused on predicting air quality from environmental data.",
+        technologies: ["Python", "ML", "Data"],
+        page: "aqi.html"
+    },
+    {
+        name: "Multimodal AI Pipelines",
+        category: "MULTIMODAL AI",
+        description: "Experiments across text, image, audio and video using lightweight Hugging Face models.",
+        technologies: ["Transformers", "Hugging Face", "NLP"],
+        page: "multimodal.html",
+        linkLabel: "GitHub ↗",
+        link: "https://github.com/vidhaanm07/Hugging-Face-Multimodal-Pipelines"
+    },
+    {
+        name: "DevFlow AI",
+        category: "AI / DEVELOPER TOOLS",
+        description: "AI-focused developer workflow project exploring practical automation and intelligent development tooling.",
+        technologies: ["AI", "Automation", "Developer Tools"],
+        page: "devflow.html",
+        linkLabel: "GitHub ↗",
+        link: "https://github.com/vidhaanm07/DevFlow-AI-"
+    },
+    {
+        name: "Bots & Interfaces",
+        category: "BOTS / INTERFACES",
+        description: "Gradio and Telegram bot experiments connecting AI pipelines with interactive user interfaces.",
+        technologies: ["Gradio", "Telegram", "AI"],
+        page: "bots.html",
+        linkLabel: "GitHub ↗",
+        link: "https://github.com/vidhaanm07/Bots-Interfaces"
+    },
+    {
+        name: "Arduino Fog Detection Car",
+        category: "EMBEDDED / IoT",
+        description: "Embedded prototype exploring obstacle detection using Arduino, ultrasonic sensing and motor control.",
+        technologies: ["Arduino", "Ultrasonic", "Embedded"],
+        page: "arduino.html",
+        linkLabel: "Drive ↗",
+        link: "https://drive.google.com/drive/u/2/folders/1H1hs-P02TtiHvbW2Lw_91Td5Q39Spo4y"
+    }
+];
+
+const projectsGrid = document.getElementById("projects-grid");
+
+projectsGrid.innerHTML = projects.map((project, index) => `
+    <a href="${project.page}" class="panel project reveal">
+        <div>
+            <div class="p-top">
+                <span>PROJECT_${String(index + 1).padStart(2, "0")}</span>
+                <span>${project.category}</span>
+            </div>
+            <h3>${project.name}</h3>
+            <p>${project.description}</p>
+            <div class="chips">
+                ${project.technologies.map(tech => `<span class="chip">${tech}</span>`).join("")}
+            </div>
+        </div>
+        <div class="p-bottom">
+            <span class="project-number">${String(index + 1).padStart(2, "0")} / ${String(projects.length).padStart(2, "0")}</span>
+            ${project.link ? `<span class="project-link" data-url="${project.link}">${project.linkLabel}</span>` : ""}
+            <span class="arrow">↗</span>
+        </div>
+    </a>
+`).join("");
+
+/* REVEAL ANIMATIONS */
+
+const observer =
+new IntersectionObserver(
+
+    entries => {
+
+        entries.forEach(entry => {
+
+            if(entry.isIntersecting){
+
+                entry.target
+                    .classList
+                    .add("show");
+
+            }
+
+        });
+
+    },
+
+    {
+        threshold:.12
+    }
+
+);
+
+
+document
+    .querySelectorAll(".reveal")
+    .forEach(el =>
+        observer.observe(el)
+    );
+
+
+/* CURSOR */
+
+const cursor =
+document.getElementById("cursor");
+
+document.addEventListener(
+    "mousemove",
+    e => {
+
+        cursor.style.left =
+            e.clientX + "px";
+
+        cursor.style.top =
+            e.clientY + "px";
+
+    }
+);
+
+
+/* PROJECT SPOTLIGHT */
+
+document
+    .querySelectorAll(".project")
+    .forEach(project => {
+
+        project.addEventListener(
+            "mousemove",
+            e => {
+
+                const rect =
+                    project.getBoundingClientRect();
+
+                const x =
+                    ((e.clientX - rect.left)
+                    / rect.width) * 100;
+
+                const y =
+                    ((e.clientY - rect.top)
+                    / rect.height) * 100;
+
+                project.style
+                    .setProperty(
+                        "--mx",
+                        x + "%"
+                    );
+
+                project.style
+                    .setProperty(
+                        "--my",
+                        y + "%"
+                    );
+
+            }
+        );
+
+    });
+
+
+/* SCROLL PROGRESS */
+
+window.addEventListener(
+    "scroll",
+    () => {
+
+        const doc =
+            document.documentElement;
+
+        const scroll =
+            doc.scrollTop;
+
+        const height =
+            doc.scrollHeight -
+            doc.clientHeight;
+
+        const percentage =
+            (scroll / height) * 100;
+
+        document
+            .getElementById("progress")
+            .style.width =
+            percentage + "%";
+
+    }
+);
+
+
+/* ACTIVE NAV */
+
+const sections =
+[
+    ...document
+        .querySelectorAll(
+            "main section[id]"
+        )
+];
+
+const navLinks =
+[
+    ...document
+        .querySelectorAll(
+            ".links a"
+        )
+];
+
+window.addEventListener(
+    "scroll",
+    () => {
+
+        let current =
+            "home";
+
+        sections.forEach(section => {
+
+            if(
+                scrollY >=
+                section.offsetTop - 180
+            ){
+
+                current =
+                    section.id;
+
+            }
+
+        });
+
+        navLinks.forEach(link => {
+
+            link.classList.toggle(
+
+                "active",
+
+                link.getAttribute(
+                    "href"
+                ) === "#" + current
+
+            );
+
+        });
+
+    }
+);
+
+
+/* CLOSE MOBILE MENU */
+
+navLinks.forEach(link => {
+
+    link.addEventListener(
+        "click",
+        () => {
+
+            document
+                .getElementById("links")
+                .classList
+                .remove("open");
+
+        }
+    );
+
+});
+
+</script>
+
+<script>document.querySelectorAll(".project-link").forEach(link=>link.addEventListener("click",e=>{e.preventDefault();e.stopPropagation();window.open(link.dataset.url,"_blank","noopener,noreferrer");}));</script>
+<!-- =========================
+     VIDHAAN AI ASSISTANT
+========================= -->
+
+<style>
+/* AI BUTTON */
+#vidhaan-ai-button{
+    position:fixed;
+    right:28px;
+    bottom:28px;
+    width:68px;
+    height:68px;
+    border-radius:50%;
+    border:1px solid rgba(117,246,255,.55);
+    background:
+        radial-gradient(circle at 35% 30%,
+        rgba(117,246,255,.45),
+        rgba(90,167,255,.16) 45%,
+        rgba(8,12,20,.95) 75%);
+    color:#fff;
+    display:grid;
+    place-items:center;
+    cursor:pointer;
+    z-index:10050;
+    box-shadow:
+        0 0 25px rgba(101,183,255,.3),
+        inset 0 0 20px rgba(117,246,255,.08);
+    transition:.3s ease;
+}
+
+#vidhaan-ai-button:hover{
+    transform:scale(1.1);
+    box-shadow:
+        0 0 45px rgba(101,183,255,.5),
+        0 0 90px rgba(117,246,255,.12);
+}
+
+#vidhaan-ai-button::before,
+#vidhaan-ai-button::after{
+    content:"";
+    position:absolute;
+    inset:-8px;
+    border:1px solid rgba(117,246,255,.18);
+    border-radius:50%;
+    animation:aiPulse 2.5s infinite;
+}
+
+#vidhaan-ai-button::after{
+    inset:-16px;
+    animation-delay:1.2s;
+    opacity:.5;
+}
+
+@keyframes aiPulse{
+    0%{
+        transform:scale(.85);
+        opacity:0;
+    }
+    35%{
+        opacity:1;
+    }
+    100%{
+        transform:scale(1.25);
+        opacity:0;
+    }
+}
+
+.vai-icon{
+    font-family:"Space Grotesk";
+    font-weight:700;
+    font-size:17px;
+    letter-spacing:-1px;
+    position:relative;
+    z-index:2;
+}
+
+
+/* CHAT WINDOW */
+#vidhaan-ai-panel{
+    position:fixed;
+    right:28px;
+    bottom:110px;
+    width:390px;
+    max-width:calc(100vw - 32px);
+    height:570px;
+    max-height:calc(100vh - 140px);
+    background:
+        linear-gradient(
+            145deg,
+            rgba(10,16,27,.97),
+            rgba(3,7,14,.98)
+        );
+    border:1px solid rgba(117,246,255,.2);
+    border-radius:22px;
+    backdrop-filter:blur(25px);
+    box-shadow:
+        0 30px 100px rgba(0,0,0,.65),
+        0 0 50px rgba(90,167,255,.08);
+    z-index:10040;
+    overflow:hidden;
+
+    opacity:0;
+    visibility:hidden;
+    transform:translateY(20px) scale(.96);
+    transition:
+        opacity .3s ease,
+        transform .3s ease,
+        visibility .3s;
+}
+
+#vidhaan-ai-panel.open{
+    opacity:1;
+    visibility:visible;
+    transform:translateY(0) scale(1);
+}
+
+
+/* HEADER */
+.vai-header{
+    height:72px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 18px;
+    border-bottom:1px solid rgba(255,255,255,.08);
+    background:rgba(255,255,255,.025);
+}
+
+.vai-brand{
+    display:flex;
+    align-items:center;
+    gap:11px;
+}
+
+.vai-mini-orb{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    background:
+        radial-gradient(
+            circle,
+            rgba(117,246,255,.45),
+            rgba(90,167,255,.12) 55%,
+            transparent 70%
+        );
+    border:1px solid rgba(117,246,255,.35);
+    box-shadow:0 0 20px rgba(117,246,255,.18);
+    font:700 11px "DM Mono";
+}
+
+.vai-title{
+    font:600 14px "Space Grotesk";
+}
+
+.vai-status{
+    font:9px "DM Mono";
+    color:#75f6ff;
+    margin-top:2px;
+    letter-spacing:.08em;
+}
+
+.vai-close{
+    width:32px;
+    height:32px;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:8px;
+    background:transparent;
+    color:#9aa8bc;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.vai-close:hover{
+    color:#fff;
+    border-color:rgba(117,246,255,.35);
+}
+
+
+/* MESSAGES */
+#vai-messages{
+    height:calc(100% - 138px);
+    overflow-y:auto;
+    padding:18px;
+    scroll-behavior:smooth;
+}
+
+#vai-messages::-webkit-scrollbar{
+    width:4px;
+}
+
+#vai-messages::-webkit-scrollbar-thumb{
+    background:rgba(117,246,255,.2);
+    border-radius:10px;
+}
+
+.vai-message{
+    max-width:88%;
+    padding:11px 13px;
+    margin-bottom:11px;
+    border-radius:13px;
+    font-size:13px;
+    line-height:1.55;
+    animation:vaiMessage .3s ease;
+}
+
+@keyframes vaiMessage{
+    from{
+        opacity:0;
+        transform:translateY(8px);
+    }
+    to{
+        opacity:1;
+        transform:none;
+    }
+}
+
+.vai-ai{
+    background:rgba(255,255,255,.045);
+    border:1px solid rgba(255,255,255,.08);
+    color:#c8d3e3;
+}
+
+.vai-user{
+    margin-left:auto;
+    background:rgba(90,167,255,.13);
+    border:1px solid rgba(90,167,255,.2);
+    color:#e9f4ff;
+}
+
+.vai-welcome{
+    padding:5px 0 18px;
+}
+
+.vai-welcome h3{
+    font:600 20px "Space Grotesk";
+    margin-bottom:7px;
+}
+
+.vai-welcome p{
+    color:#7f8da2;
+    font-size:12px;
+}
+
+
+/* SUGGESTIONS */
+.vai-suggestions{
+    display:flex;
+    gap:7px;
+    flex-wrap:wrap;
+    margin-bottom:18px;
+}
+
+.vai-suggestion{
+    border:1px solid rgba(255,255,255,.1);
+    background:rgba(255,255,255,.025);
+    color:#9eacc0;
+    padding:7px 9px;
+    border-radius:8px;
+    font:9px "DM Mono";
+    cursor:pointer;
+    transition:.2s;
+}
+
+.vai-suggestion:hover{
+    color:#fff;
+    border-color:rgba(117,246,255,.35);
+    background:rgba(117,246,255,.05);
+}
+
+
+/* INPUT */
+.vai-input-area{
+    position:absolute;
+    bottom:0;
+    left:0;
+    right:0;
+    padding:13px;
+    border-top:1px solid rgba(255,255,255,.08);
+    background:rgba(4,8,15,.94);
+}
+
+#vai-form{
+    display:flex;
+    gap:8px;
+}
+
+#vai-input{
+    flex:1;
+    min-width:0;
+    border:1px solid rgba(255,255,255,.1);
+    background:rgba(255,255,255,.035);
+    color:#fff;
+    outline:none;
+    padding:11px 12px;
+    border-radius:10px;
+    font:12px Inter,sans-serif;
+}
+
+#vai-input::placeholder{
+    color:#66748a;
+}
+
+#vai-input:focus{
+    border-color:rgba(117,246,255,.35);
+}
+
+#vai-send{
+    width:44px;
+    border:none;
+    border-radius:10px;
+    background:#fff;
+    color:#05070b;
+    font-weight:700;
+    cursor:pointer;
+    transition:.2s;
+}
+
+#vai-send:hover{
+    transform:translateY(-2px);
+}
+
+
+/* TYPING */
+.vai-typing{
+    display:flex;
+    gap:4px;
+    padding:5px 2px;
+}
+
+.vai-typing span{
+    width:5px;
+    height:5px;
+    border-radius:50%;
+    background:#75f6ff;
+    animation:typing 1s infinite;
+}
+
+.vai-typing span:nth-child(2){
+    animation-delay:.15s;
+}
+
+.vai-typing span:nth-child(3){
+    animation-delay:.3s;
+}
+
+@keyframes typing{
+    0%,60%,100%{
+        opacity:.25;
+        transform:translateY(0);
+    }
+
+    30%{
+        opacity:1;
+        transform:translateY(-3px);
+    }
+}
+
+
+/* MOBILE */
+@media(max-width:600px){
+
+    #vidhaan-ai-button{
+        width:60px;
+        height:60px;
+        right:18px;
+        bottom:18px;
+    }
+
+    #vidhaan-ai-panel{
+        right:10px;
+        bottom:90px;
+        width:calc(100vw - 20px);
+        height:calc(100vh - 120px);
+        max-height:none;
+        border-radius:18px;
+    }
+}
+</style>
+
+
+<!-- AI FLOATING BUTTON -->
+
+<button
+    id="vidhaan-ai-button"
+    aria-label="Open Vidhaan's AI"
+    title="Ask Vidhaan's AI"
+>
+    <span class="vai-icon">AI</span>
+</button>
+
+
+<!-- AI CHAT PANEL -->
+
+<div id="vidhaan-ai-panel">
+
+    <div class="vai-header">
+
+        <div class="vai-brand">
+
+            <div class="vai-mini-orb">
+                AI
+            </div>
+
+            <div>
+                <div class="vai-title">
+                    Vidhaan's AI
+                </div>
+
+                <div class="vai-status">
+                    ● SYSTEM ONLINE
+                </div>
+            </div>
+
+        </div>
+
+        <button
+            class="vai-close"
+            id="vai-close"
+            aria-label="Close"
+        >
+            ×
+        </button>
+
+    </div>
+
+
+    <div id="vai-messages">
+
+        <div class="vai-welcome">
+
+            <h3>
+                Ask me anything.
+            </h3>
+
+            <p>
+                I'm Vidhaan's portfolio AI assistant.
+                I can tell you about his projects,
+                skills, experience and work.
+            </p>
+
+        </div>
+
+
+        <div class="vai-suggestions">
+
+            <button class="vai-suggestion">
+                What AI projects has Vidhaan built?
+            </button>
+
+            <button class="vai-suggestion">
+                Tell me about CloudNest AI
+            </button>
+
+            <button class="vai-suggestion">
+                What did Vidhaan learn at IIT Jammu?
+            </button>
+
+            <button class="vai-suggestion">
+                What are Vidhaan's skills?
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="vai-input-area">
+
+        <form id="vai-form">
+
+            <input
+                id="vai-input"
+                type="text"
+                autocomplete="off"
+                placeholder="Ask Vidhaan's AI..."
+            >
+
+            <button
+                id="vai-send"
+                type="submit"
+            >
+                ↑
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script>
+/* =========================
+   VIDHAAN AI
+========================= */
+
+const vaiButton =
+    document.getElementById("vidhaan-ai-button");
+
+const vaiPanel =
+    document.getElementById("vidhaan-ai-panel");
+
+const vaiClose =
+    document.getElementById("vai-close");
+
+const vaiForm =
+    document.getElementById("vai-form");
+
+const vaiInput =
+    document.getElementById("vai-input");
+
+const vaiMessages =
+    document.getElementById("vai-messages");
+
+
+/* OPEN */
+
+vaiButton.addEventListener("click", () => {
+
+    vaiPanel.classList.add("open");
+
+    setTimeout(() => {
+        vaiInput.focus();
+    }, 300);
+
+});
+
+
+/* CLOSE */
+
+vaiClose.addEventListener("click", () => {
+
+    vaiPanel.classList.remove("open");
+
+});
+
+
+/* ADD MESSAGE */
+
+function vaiAddMessage(text, type){
+
+    const message =
+        document.createElement("div");
+
+    message.className =
+        "vai-message " +
+        (type === "user"
+            ? "vai-user"
+            : "vai-ai");
+
+    message.textContent = text;
+
+    vaiMessages.appendChild(message);
+
+    vaiMessages.scrollTop =
+        vaiMessages.scrollHeight;
+
+}
+
+
+/* TYPING */
+
+function vaiTyping(){
+
+    const typing =
+        document.createElement("div");
+
+    typing.className =
+        "vai-message vai-ai";
+
+    typing.id =
+        "vai-typing";
+
+    typing.innerHTML = `
+        <div class="vai-typing">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    `;
+
+    vaiMessages.appendChild(typing);
+
+    vaiMessages.scrollTop =
+        vaiMessages.scrollHeight;
+}
+
+
+/* ASK BACKEND */
+
+async function askVidhaanAI(question){
+
+    try{
+
+        const response =
+            await fetch("/api/chat", {
+
+                method:"POST",
+
+                headers:{
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body:JSON.stringify({
+                    message:question
+                })
+
+            });
+
+
+        const data =
+            await response.json();
+
+
+        if(!response.ok){
+
+            throw new Error(
+                data.error ||
+                "AI request failed"
+            );
+
+        }
+
+
+        return data.answer;
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Vidhaan AI:",
+            error
+        );
+
+        return "I'm having trouble connecting to my AI system right now. Please try again in a moment.";
+
+    }
+
+}
+
+
+/* SEND MESSAGE */
+
+async function vaiAsk(question){
+
+    if(!question.trim()) return;
+
+
+    vaiAddMessage(
+        question,
+        "user"
+    );
+
+
+    vaiInput.value = "";
+
+
+    vaiTyping();
+
+
+    const answer =
+        await askVidhaanAI(question);
+
+
+    const typing =
+        document.getElementById(
+            "vai-typing"
+        );
+
+
+    if(typing){
+
+        typing.remove();
+
+    }
+
+
+    vaiAddMessage(
+        answer,
+        "ai"
+    );
+
+}
+
+
+/* FORM */
+
+vaiForm.addEventListener(
+    "submit",
+    async event => {
+
+        event.preventDefault();
+
+        await vaiAsk(
+            vaiInput.value
+        );
+
+    }
+);
+
+
+/* SUGGESTIONS */
+
+document
+    .querySelectorAll(".vai-suggestion")
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            async () => {
+
+                await vaiAsk(
+                    button.textContent.trim()
+                );
+
+            }
+        );
+
+    });
+
+
+/* ESCAPE TO CLOSE */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if(
+            event.key === "Escape"
+        ){
+
+            vaiPanel.classList.remove(
+                "open"
+            );
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
