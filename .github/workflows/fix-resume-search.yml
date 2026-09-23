@@ -1,0 +1,75 @@
+name: Fix Resume Search
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  fix-resume-search:
+    if: "!contains(github.event.head_commit.message, '[resume-search-fix]')"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Add Resume to portfolio search
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+
+          if "const resumeItem = {" in s:
+              print('Resume search is already configured.')
+              raise SystemExit(0)
+
+          old = """    const items = [...document.querySelectorAll('section, .project, .skill, .event, footer')]
+                  .map((el, i) => {"""
+          new = """    const resumeItem = {
+                  el: document.querySelector('a.nav-resume') || document.body,
+                  title: 'Resume',
+                  text: 'Vidhaan Mathur — Resume, Software Engineering, Artificial Intelligence and Electronics Engineering',
+                  id: 'resume-link',
+                  href: 'resume.html'
+              };
+
+              const items = [resumeItem, ...[...document.querySelectorAll('section, .project, .skill, .event, footer')]
+                  .map((el, i) => {"""
+
+          if old not in s:
+              raise SystemExit('Could not find portfolio search index.')
+          s = s.replace(old, new, 1)
+
+          old_filter = """        .filter(item => item.text.length > 20);"""
+          new_filter = """        .filter(item => item.text.length > 20)];"""
+          if old_filter not in s:
+              raise SystemExit('Could not find portfolio search filter.')
+          s = s.replace(old_filter, new_filter, 1)
+
+          old_render = """            <a href=\"${item.id ? '#' + item.id : '#'}\" class=\"portfolio-search-result\" data-index=\"${i}\">\n                <div class=\"portfolio-search-result-title\">${item.title.replace(/[<>]/g,'')}</div>\n                <div class=\"portfolio-search-result-meta\">${item.id ? item.id : 'Portfolio'}</div>\n                <div class=\"portfolio-search-result-text\">${item.text.replace(/[<>]/g,'')}</div>\n            </a>"""
+          new_render = """            <a href=\"${item.href || (item.id ? '#' + item.id : '#')}\" ${item.href ? 'target=\"_self\"' : ''} class=\"portfolio-search-result\" data-index=\"${i}\">\n                <div class=\"portfolio-search-result-title\">${item.title.replace(/[<>]/g,'')}</div>\n                <div class=\"portfolio-search-result-meta\">${item.href ? 'Resume' : (item.id ? item.id : 'Portfolio')}</div>\n                <div class=\"portfolio-search-result-text\">${item.text.replace(/[<>]/g,'')}</div>\n            </a>"""
+          if old_render not in s:
+              raise SystemExit('Could not find portfolio search result template.')
+          s = s.replace(old_render, new_render, 1)
+
+          old_click = """                e.preventDefault();\n                closeSearch();\n                matches[i].el.scrollIntoView({behavior:'smooth', block:'start'});"""
+          new_click = """                if (!matches[i].href) {\n                    e.preventDefault();\n                    closeSearch();\n                    matches[i].el.scrollIntoView({behavior:'smooth', block:'start'});\n                } else {\n                    closeSearch();\n                }"""
+          if old_click not in s:
+              raise SystemExit('Could not find search click handler.')
+          s = s.replace(old_click, new_click, 1)
+
+          p.write_text(s, encoding='utf-8')
+          print('Resume search added.')
+          PY
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html .github/workflows/fix-resume-search.yml
+          git commit -m "Fix portfolio Resume search [resume-search-fix]"
+          git push
