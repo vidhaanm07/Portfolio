@@ -3430,7 +3430,15 @@ window.addEventListener("load", () => {
     const results = document.getElementById('portfolio-search-results');
     if (!openBtn || !overlay || !closeBtn || !input || !results) return;
 
-    const items = [...document.querySelectorAll('section, .project, .skill, .event, footer')]
+    const resumeItem = {
+        el: document.querySelector('a.nav-resume') || document.body,
+        title: 'Resume',
+        text: 'Vidhaan Mathur — Resume, Software Engineering, Artificial Intelligence and Electronics Engineering',
+        id: 'resume-link',
+        href: 'resume.html'
+    };
+
+    const items = [resumeItem, ...[...document.querySelectorAll('section, .project, .skill, .event, footer')]
         .map((el, i) => {
             const heading = el.querySelector('h1,h2,h3,h4,.section-title,.eyebrow');
             const title = heading ? heading.textContent.trim() : `Portfolio section ${i + 1}`;
@@ -3438,7 +3446,7 @@ window.addEventListener("load", () => {
             const id = el.id || (el.closest('section')?.id || '');
             return { el, title, text, id };
         })
-        .filter(item => item.text.length > 20);
+        .filter(item => item.text.length > 20)];
 
     function openSearch(){
         overlay.classList.add('open');
@@ -3461,18 +3469,22 @@ window.addEventListener("load", () => {
             return;
         }
         results.innerHTML = matches.map((item, i) => `
-            <a href="${item.id ? '#' + item.id : '#'}" class="portfolio-search-result" data-index="${i}">
+            <a href="${item.href || (item.id ? '#' + item.id : '#')}" ${item.href ? 'target="_self"' : ''} class="portfolio-search-result" data-index="${i}">
                 <div class="portfolio-search-result-title">${item.title.replace(/[<>]/g,'')}</div>
-                <div class="portfolio-search-result-meta">${item.id ? item.id : 'Portfolio'}</div>
+                <div class="portfolio-search-result-meta">${item.href ? 'Resume' : (item.id ? item.id : 'Portfolio')}</div>
                 <div class="portfolio-search-result-text">${item.text.replace(/[<>]/g,'')}</div>
             </a>
         `).join('');
 
         results.querySelectorAll('.portfolio-search-result').forEach((link, i) => {
             link.addEventListener('click', e => {
-                e.preventDefault();
-                closeSearch();
-                matches[i].el.scrollIntoView({behavior:'smooth', block:'start'});
+                if (!matches[i].href) {
+                    e.preventDefault();
+                    closeSearch();
+                    matches[i].el.scrollIntoView({behavior:'smooth', block:'start'});
+                } else {
+                    closeSearch();
+                }
             });
         });
     }
