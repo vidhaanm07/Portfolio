@@ -1,0 +1,60 @@
+name: Fix Portfolio Intro
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  fix-intro:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Remove duplicate intro and add reliable close script
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+
+          marker = '<!-- DUPLICATE INTRO FIX APPLIED -->'
+          if marker not in s:
+              # The live page currently contains two elements with the same
+              # id="portfolio-intro". The second one is the old intro and
+              # remains visible after the first intro hides. Remove that old
+              # duplicate block using the stable surrounding marker.
+              pattern = r'\n\s*<div id=["\\\']portfolio-intro["\\\']>.*?</div>\s*<!-- CURSOR \\+ PROGRESS -->'
+              matches = list(re.finditer(pattern, s, flags=re.S))
+
+              # Keep the first intro and remove any later duplicate intro.
+              if len(matches) > 1:
+                  for m in reversed(matches[1:]):
+                      s = s[:m.start()] + '\n<!-- CURSOR + PROGRESS -->' + s[m.end():]
+
+              # Add a final safety script. It removes any duplicate intro
+              # elements and guarantees the remaining intro closes.
+              safety = r'''\n<script>\n(function(){\n  const intros=document.querySelectorAll('#portfolio-intro');\n  intros.forEach((el,i)=>{if(i>0)el.remove();});\n  const intro=document.querySelector('#portfolio-intro');\n  if(!intro)return;\n  const close=()=>intro.classList.add('hide');\n  setTimeout(close,4200);\n  const enter=intro.querySelector('.intro-enter');\n  if(enter)enter.addEventListener('click',close);\n})();\n</script>\n'''
+              idx = s.rfind('</body>')
+              if idx != -1:
+                  s = s[:idx] + safety + marker + '\n' + s[idx:]
+
+              p.write_text(s, encoding='utf-8')
+          PY
+
+      - name: Commit fix if changed
+        run: |
+          if git diff --quiet; then
+            echo "No intro fix required."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add index.html
+            git commit -m "fix: remove duplicate intro overlay"
+            git push
+          fi
