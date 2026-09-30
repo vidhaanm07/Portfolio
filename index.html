@@ -1465,6 +1465,28 @@ footer{
 }
 
 </style>
+
+<style>
+/* LIVE GITHUB INTEGRATION */
+.github-section{padding:110px 0 90px}
+.github-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:28px}
+.github-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
+.github-stat{padding:18px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.025);border-radius:12px}
+.github-stat b{display:block;font-size:25px;color:#fff}
+.github-stat span{display:block;margin-top:5px;font:10px "DM Mono",monospace;color:#7fb9ff;text-transform:uppercase;letter-spacing:.08em}
+.github-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.github-card{display:flex;flex-direction:column;min-height:180px;padding:20px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.025);border-radius:12px;transition:.25s ease}
+.github-card:hover{transform:translateY(-3px);border-color:rgba(117,246,255,.35);background:rgba(117,246,255,.035)}
+.github-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.github-card h3{margin:0;color:#fff;font-size:17px}
+.github-card p{margin:10px 0 14px;color:#8793a7;font-size:12px;line-height:1.7}
+.github-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:auto;font:10px "DM Mono",monospace;color:#7fb9ff;text-transform:uppercase;letter-spacing:.04em}
+.github-link{display:inline-flex;align-items:center;gap:5px;margin-top:16px;color:#fff;text-decoration:none;font:10px "DM Mono",monospace;text-transform:uppercase;letter-spacing:.08em}
+.github-link:hover{color:#75f6ff}
+.github-status{font:10px "DM Mono",monospace;color:#8793a7;text-transform:uppercase;letter-spacing:.08em}
+@media(max-width:700px){.github-head{display:block}.github-stats,.github-grid{grid-template-columns:1fr}.github-stats{margin-top:20px}}
+</style>
+
 </head>
 
 <body>
@@ -1940,6 +1962,27 @@ automation, data and embedded experiments.
 
 </section>
 
+
+
+<!-- LIVE GITHUB -->
+<section id="github-live" class="github-section">
+<div class="container">
+<div class="github-head reveal">
+<div>
+<div class="eyebrow">05 / GitHub</div>
+<h2 class="section-title">Built in public.</h2>
+<p class="section-copy">Live repository data from GitHub, updated automatically.</p>
+</div>
+<div class="github-status" id="github-status">Loading GitHub data...</div>
+</div>
+<div class="github-stats">
+<div class="github-stat"><b id="github-repos">—</b><span>Public repositories</span></div>
+<div class="github-stat"><b id="github-followers">—</b><span>Followers</span></div>
+<div class="github-stat"><b id="github-stars">—</b><span>Total stars</span></div>
+</div>
+<div class="github-grid" id="github-grid"></div>
+</div>
+</section>
 
 <!-- =========================
      EXPERIENCE
@@ -3500,6 +3543,38 @@ window.addEventListener("load", () => {
         }
         if (e.key === 'Escape' && overlay.classList.contains('open')) closeSearch();
     });
+})();
+</script>
+
+
+<script>
+/* LIVE GITHUB INTEGRATION */
+(async function(){
+    const user='vidhaanm07';
+    const grid=document.getElementById('github-grid');
+    const status=document.getElementById('github-status');
+    const reposEl=document.getElementById('github-repos');
+    const followersEl=document.getElementById('github-followers');
+    const starsEl=document.getElementById('github-stars');
+    if(!grid||!status)return;
+    const esc=v=>String(v||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const date=v=>new Date(v).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
+    try{
+        const [pr,rr]=await Promise.all([fetch(`https://api.github.com/users/${user}`),fetch(`https://api.github.com/users/${user}/repos?per_page=100&sort=updated`)]);
+        if(!pr.ok||!rr.ok)throw new Error('GitHub API unavailable');
+        const profile=await pr.json();
+        const repos=(await rr.json()).filter(r=>!r.fork);
+        reposEl.textContent=profile.public_repos??repos.length;
+        followersEl.textContent=profile.followers??0;
+        starsEl.textContent=repos.reduce((n,r)=>n+(r.stargazers_count||0),0);
+        status.textContent=`GitHub / ${profile.login}`;
+        const preferred=['AI-Customer-Support-System','DevFlow-AI-','Hugging-Face-Multimodal-Pipelines'];
+        repos.sort((a,b)=>{const ai=preferred.indexOf(a.name),bi=preferred.indexOf(b.name);if(ai!==-1||bi!==-1)return(ai===-1?999:ai)-(bi===-1?999:bi);return new Date(b.updated_at)-new Date(a.updated_at)});
+        grid.innerHTML=repos.slice(0,6).map(r=>`<article class="github-card"><div class="github-card-top"><h3>${esc(r.name)}</h3><span class="github-status">${esc(r.language||'Repository')}</span></div><p>${esc(r.description||'Public GitHub repository by Vidhaan Mathur.')}</p><div class="github-meta"><span>★ ${r.stargazers_count||0}</span><span>Forks ${r.forks_count||0}</span><span>Updated ${date(r.updated_at)}</span></div><a class="github-link" href="${esc(r.html_url)}" target="_blank" rel="noopener noreferrer">View repository ↗</a></article>`).join('');
+    }catch(e){
+        status.textContent='GitHub / unavailable';
+        grid.innerHTML='<div class="github-card"><h3>GitHub data unavailable</h3><p>Please visit the GitHub profile directly for the latest repository information.</p><a class="github-link" href="https://github.com/vidhaanm07" target="_blank" rel="noopener noreferrer">Open GitHub ↗</a></div>';
+    }
 })();
 </script>
 
