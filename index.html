@@ -2565,6 +2565,34 @@ nav{width:calc(100% - 12px)!important;left:6px!important;right:6px!important}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initMobileMore);else initMobileMore();
 })();
 </script>
+<style id="nav-final-cleanup">
+/* Uniform desktop navigation */
+@media (min-width:851px){
+  .navin{display:flex!important;align-items:center!important}
+  .brand{margin-right:54px!important}
+  .links{display:flex!important;align-items:center!important;gap:30px!important}
+  .links a{white-space:nowrap!important}
+  .nav-actions{margin-left:auto!important;display:flex!important;align-items:center!important;gap:10px!important}
+  .recruiter-nav-slot{margin:0!important;padding:0!important;border:0!important}
+  .recruiter-trigger{height:38px!important;min-height:38px!important;padding:0 13px!important;font:11px "DM Mono",monospace!important;border:1px solid rgba(103,232,249,.25)!important;border-radius:8px!important;background:rgba(255,255,255,.02)!important}
+  .recruiter-trigger:before{display:none!important}
+}
+/* Clean mobile: brand + hamburger only; all other actions live in hamburger menu */
+@media(max-width:850px){
+  nav{top:8px!important}
+  .navin{display:flex!important;align-items:center!important;justify-content:space-between!important;padding:8px 10px!important;min-height:58px!important}
+  .brand{margin:0!important;padding:0!important;font-size:1.05rem!important}
+  .links{display:none!important}
+  .nav-actions{display:flex!important;align-items:center!important;margin:0!important;padding:0!important;gap:0!important}
+  .nav-actions>.menu{display:flex!important;align-items:center!important;justify-content:center!important;width:42px!important;height:42px!important;margin:0!important;padding:0!important;border:1px solid rgba(103,232,249,.25)!important;border-radius:8px!important;background:rgba(255,255,255,.02)!important;color:#b9eff7!important;font:15px "DM Mono",monospace!important}
+  .nav-actions>.nav-cta,.nav-actions>.nav-resume,.nav-actions>.portfolio-search-btn,.nav-actions>.recruiter-nav-slot{display:none!important}
+  .mobile-nav-panel{display:none!important}
+  .links.open{display:flex!important;position:absolute!important;top:66px!important;left:0!important;right:0!important;flex-direction:column!important;gap:0!important;padding:10px!important;z-index:999!important}
+  .links.open a{display:block!important;padding:14px 12px!important}
+  .recruiter-trigger{height:40px!important;min-height:40px!important;padding:0 12px!important;font:10px "DM Mono",monospace!important;border:1px solid rgba(103,232,249,.18)!important;border-radius:8px!important;background:rgba(255,255,255,.02)!important;color:#b9eff7!important}
+  .recruiter-trigger:before{display:none!important}
+}
+</style>
 </head>
 
 <body>
@@ -2605,47 +2633,26 @@ nav{width:calc(100% - 12px)!important;left:6px!important;right:6px!important}
 ========================= -->
 
 <nav>
-
 <div class="navin">
-
-<a class="brand" href="#home">
-VIDHAAN<span>.</span>
-</a>
-
+<a class="brand" href="#home">VIDHAAN<span>.</span></a>
 <div class="links" id="links">
-
 <a href="#about">About</a>
-
 <a href="#skills">Skills</a>
-
 <a href="#projects">Work</a>
-
 <a href="#experience">Experience</a>
-
 <a href="#lab">Lab</a>
-
 <a href="#contact">Contact</a>
-
 </div>
-
 <div class="nav-actions">
-<button class="menu" onclick="toggleMenu()">☰</button>
-<button class="mobile-more" id="mobile-more" type="button" aria-label="More navigation options">⋯</button>
-<div class="mobile-more-menu" id="mobile-more-menu">
+<button class="menu" onclick="toggleMenu()" aria-label="Open navigation">☰</button>
 <a class="nav-cta" href="https://mail.google.com/mail/?view=cm&fs=1&to=vidhaanm07@gmail.com" target="_blank">Let's talk ↗</a>
 <a class="nav-resume" href="resume.html">Resume ↗</a>
 <button class="portfolio-search-btn" id="portfolio-search-open" type="button" aria-label="Search portfolio">Search</button>
-<div class="recruiter-nav-slot"><button class="recruiter-trigger" id="recruiter-trigger" type="button">RECRUITER MODE ↗</button></div>
+<div class="recruiter-nav-slot">
+<button class="recruiter-trigger" id="recruiter-trigger" type="button">RECRUITER MODE ↗</button>
 </div>
 </div>
-<a class="nav-cta" href="https://mail.google.com/mail/?view=cm&fs=1&to=vidhaanm07@gmail.com" target="_blank">Let's talk ↗</a>
 </div>
-
-</div>
-
-
-</div>
-
 </nav>
 
 
