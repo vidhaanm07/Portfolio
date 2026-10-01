@@ -2627,18 +2627,18 @@ footer{
   .navin{
     height:58px!important;
     min-height:58px!important;
-    padding:0 10px!important;
+    padding:0 12px!important;
     display:flex!important;
     flex-wrap:nowrap!important;
     align-items:center!important;
     justify-content:flex-start!important;
-    gap:8px!important;
+    gap:10px!important;
     overflow:visible!important;
   }
 
   .brand{
     flex:0 0 auto!important;
-    font-size:.9rem!important;
+    font-size:1.05rem!important;
     white-space:nowrap!important;
   }
 
@@ -2649,7 +2649,7 @@ footer{
     min-width:0!important;
     order:0!important;
     overflow:hidden!important;
-    gap:1px!important;
+    gap:3px!important;
     padding:0!important;
     margin:0!important;
     position:static!important;
@@ -2661,9 +2661,9 @@ footer{
   .links a{
     flex:1 1 0!important;
     min-width:0!important;
-    padding:7px 2px!important;
+    padding:9px 3px!important;
     text-align:center!important;
-    font-size:7px!important;
+    font-size:8.5px!important;
     line-height:1!important;
     white-space:nowrap!important;
     border-radius:5px!important;
@@ -2683,15 +2683,15 @@ footer{
 
   .nav-actions > .menu{
     display:flex!important;
-    width:34px!important;
-    height:34px!important;
-    min-width:34px!important;
-    min-height:34px!important;
+    width:38px!important;
+    height:38px!important;
+    min-width:38px!important;
+    min-height:38px!important;
     align-items:center!important;
     justify-content:center!important;
     padding:0!important;
     margin:0!important;
-    font-size:17px!important;
+    font-size:19px!important;
     line-height:1!important;
     border:1px solid rgba(103,232,249,.3)!important;
     border-radius:8px!important;
@@ -2739,10 +2739,10 @@ footer{
     z-index:100!important;
   }
 
-  body.menu-open .nav-actions > .nav-cta{top:42px!important;}
-  body.menu-open .nav-actions > .portfolio-search-btn{top:84px!important;}
-  body.menu-open .nav-actions > .nav-resume{top:126px!important;}
-  body.menu-open .nav-actions > .recruiter-nav-slot{top:168px!important;}
+  body.menu-open .nav-actions > .nav-cta{top:46px!important;}
+  body.menu-open .nav-actions > .portfolio-search-btn{top:88px!important;}
+  body.menu-open .nav-actions > .nav-resume{top:130px!important;}
+  body.menu-open .nav-actions > .recruiter-nav-slot{top:172px!important;}
 
   body.menu-open .nav-actions > .recruiter-nav-slot{
     padding:0!important;
@@ -4959,13 +4959,12 @@ document.addEventListener(
 <script>
 /* MOBILE NAV STATE */
 (() => {
-  const menu = document.querySelector('.menu');
-  const links = document.querySelector('.links');
-  if (!menu || !links) return;
-  const sync = () => document.body.classList.toggle('menu-open', links.classList.contains('open'));
-  const observer = new MutationObserver(sync);
-  observer.observe(links, {attributes:true, attributeFilter:['class']});
-  sync();
+  const menu=document.querySelector('.menu');
+  if(!menu)return;
+  menu.setAttribute('aria-expanded','false');
+  menu.addEventListener('click',()=>{
+    menu.setAttribute('aria-expanded',String(document.body.classList.contains('menu-open')));
+  });
 })();
 </script>
 </body>
