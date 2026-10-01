@@ -4548,7 +4548,80 @@ navLinks.forEach(link => {
 @media(prefers-reduced-motion:reduce){#portfolio-intro *{animation:none!important}}
 
 </style>
+<style id="mobile-final-layout-fix">
+@media(max-width:850px){
+  /* Smaller VIDHAAN. hamburger */
+  .nav-actions>.menu{
+    width:32px!important;
+    height:32px!important;
+    flex:0 0 32px!important;
+    padding:0!important;
+    border-radius:9px!important;
+    font-size:12px!important;
+    line-height:1!important;
+  }
 
+  .navin{
+    min-height:62px!important;
+    height:62px!important;
+    padding:10px 14px 10px 16px!important;
+  }
+
+  /* Clear separation between Experience and Lab */
+  #experience{
+    padding-bottom:100px!important;
+    margin-bottom:0!important;
+  }
+
+  #lab{
+    padding-top:100px!important;
+    margin-top:0!important;
+  }
+
+  /* Scroll indicator directly below orbit, centered */
+  .hero > .scroll{
+    display:block!important;
+    width:100%!important;
+    margin:14px auto 0!important;
+    padding:0!important;
+    text-align:center!important;
+    position:static!important;
+    left:auto!important;
+    right:auto!important;
+    transform:none!important;
+    font:10px "DM Mono",monospace!important;
+    letter-spacing:.18em!important;
+    color:#71839b!important;
+  }
+
+  .hero-grid + .scroll{
+    text-align:center!important;
+  }
+}
+@media(max-width:430px){
+  .navin{
+    min-height:58px!important;
+    height:58px!important;
+    padding:9px 13px 9px 15px!important;
+  }
+
+  .nav-actions>.menu{
+    width:30px!important;
+    height:30px!important;
+    flex-basis:30px!important;
+    font-size:11px!important;
+    border-radius:8px!important;
+  }
+
+  #experience{padding-bottom:110px!important}
+  #lab{padding-top:110px!important}
+
+  .hero > .scroll{
+    margin-top:12px!important;
+    font-size:9px!important;
+  }
+}
+</style>
 
 <!-- AI FLOATING BUTTON -->
 
