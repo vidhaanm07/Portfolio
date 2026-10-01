@@ -2500,6 +2500,120 @@ footer{
   }
 }
 </style>
+
+<style id="mobile-nav-final-fix">
+@media (max-width:850px){
+  nav{
+    width:94%!important;
+    top:10px!important;
+    border-radius:14px!important;
+  }
+
+  .navin{
+    height:auto!important;
+    min-height:60px!important;
+    padding:10px 12px!important;
+    display:flex!important;
+    flex-wrap:wrap!important;
+    align-items:center!important;
+    justify-content:space-between!important;
+    gap:0!important;
+  }
+
+  .brand{
+    flex:0 0 auto!important;
+  }
+
+  .menu{
+    display:none!important;
+  }
+
+  .links{
+    display:flex!important;
+    order:2!important;
+    flex:0 0 100%!important;
+    width:100%!important;
+    overflow-x:auto!important;
+    scrollbar-width:none!important;
+    gap:2px!important;
+    padding:7px 0!important;
+    margin:0!important;
+    position:static!important;
+    flex-direction:row!important;
+    background:transparent!important;
+    border:0!important;
+  }
+
+  .links::-webkit-scrollbar{display:none!important;}
+
+  .links a{
+    flex:0 0 auto!important;
+    padding:7px 9px!important;
+    font-size:10px!important;
+    line-height:1.2!important;
+    white-space:nowrap!important;
+    border-radius:7px!important;
+  }
+
+  .nav-actions{
+    order:3!important;
+    flex:0 0 100%!important;
+    width:100%!important;
+    display:grid!important;
+    grid-template-columns:repeat(4,minmax(0,1fr))!important;
+    gap:6px!important;
+    margin:0!important;
+    padding:7px 0 1px!important;
+    align-items:stretch!important;
+  }
+
+  .nav-actions > .nav-cta,
+  .nav-actions > .portfolio-search-btn,
+  .nav-actions > .nav-resume,
+  .nav-actions > .recruiter-nav-slot{
+    display:flex!important;
+    width:100%!important;
+    min-width:0!important;
+    height:38px!important;
+    min-height:38px!important;
+    margin:0!important;
+    padding:0 3px!important;
+    align-items:center!important;
+    justify-content:center!important;
+    border:1px solid rgba(103,232,249,.25)!important;
+    border-radius:8px!important;
+    font:8px "DM Mono",monospace!important;
+    line-height:1!important;
+    white-space:nowrap!important;
+    box-sizing:border-box!important;
+  }
+
+  .nav-actions > .recruiter-nav-slot{
+    border:1px solid rgba(103,232,249,.25)!important;
+    padding:0!important;
+  }
+
+  .nav-actions > .recruiter-nav-slot .recruiter-trigger{
+    width:100%!important;
+    min-width:0!important;
+    height:36px!important;
+    min-height:36px!important;
+    padding:0 2px!important;
+    border:0!important;
+    background:transparent!important;
+    font:8px "DM Mono",monospace!important;
+    line-height:1!important;
+  }
+
+  .nav-actions > .recruiter-nav-slot .recruiter-trigger:before{
+    width:3px!important;
+    height:3px!important;
+    margin-right:3px!important;
+    flex:0 0 auto!important;
+  }
+}
+</style>
+
 </head>
 
 <body>
