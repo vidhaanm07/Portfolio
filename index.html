@@ -1583,68 +1583,123 @@ footer{
 .recruiter-nav-slot{display:flex;align-items:center;margin-left:6px}.recruiter-nav-slot .recruiter-trigger{white-space:nowrap}.navin{gap:8px}@media(max-width:850px){.recruiter-nav-slot{margin-left:auto;margin-right:6px}.recruiter-nav-slot .recruiter-trigger{font-size:9px;padding:7px 9px}}
 
 /* =========================
-   MOBILE NAV FIX V2
+   MOBILE NAV V3 — UNIFORM CONTROLS
 ========================= */
 @media (max-width:850px){
   nav{
-    width:calc(100% - 24px);
-    top:10px;
+    width:calc(100% - 16px);
+    top:8px;
     border-radius:14px;
   }
 
   .navin{
-    height:56px;
-    padding:0 10px 0 16px;
-    gap:8px;
+    height:auto;
+    min-height:104px;
+    display:grid;
+    grid-template-columns:1fr;
+    grid-template-rows:48px 44px;
+    gap:4px;
+    padding:6px 8px 6px;
   }
 
   .brand{
-    font-size:1rem;
-    flex-shrink:0;
+    align-self:center;
+    justify-self:start;
+    font-size:1.02rem;
+    padding-left:7px;
   }
 
   .nav-actions{
-    margin-left:auto;
-    gap:7px;
-    min-width:0;
+    width:100%;
+    margin:0;
+    display:grid;
+    grid-template-columns:repeat(5,minmax(0,1fr));
+    gap:5px;
+    align-items:stretch;
   }
 
-  /* Keep the mobile header clean: hamburger is the primary control. */
   .nav-actions > .nav-cta,
+  .nav-actions > .menu,
   .nav-actions > .nav-resume,
   .nav-actions > .portfolio-search-btn,
   .nav-actions > .recruiter-nav-slot{
-    display:none !important;
+    display:flex !important;
+    align-items:center;
+    justify-content:center;
+    width:100%;
+    min-width:0;
+    height:40px;
+    margin:0 !important;
+    padding:0 4px;
+    border:1px solid rgba(103,232,249,.22);
+    border-radius:8px;
+    background:rgba(255,255,255,.02);
+    color:#b9eff7;
+    font-family:"DM Mono",monospace;
+    font-size:8px;
+    font-weight:400;
+    line-height:1;
+    letter-spacing:.03em;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    box-sizing:border-box;
+  }
+
+  .nav-actions > .nav-cta:hover,
+  .nav-actions > .nav-resume:hover,
+  .nav-actions > .portfolio-search-btn:hover,
+  .nav-actions > .recruiter-nav-slot:hover,
+  .nav-actions > .menu:hover{
+    color:#fff;
+    border-color:rgba(103,232,249,.55);
+    background:rgba(103,232,249,.06);
+  }
+
+  .nav-actions > .recruiter-nav-slot{
+    display:flex !important;
+    align-items:center;
+    justify-content:center;
+    min-width:0;
+  }
+
+  .recruiter-nav-slot .recruiter-trigger{
+    width:100%;
+    min-width:0;
+    height:100%;
+    padding:0 3px;
+    border:0;
+    background:transparent;
+    color:inherit;
+    font:inherit;
+    letter-spacing:inherit;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
   }
 
   .menu{
-    display:inline-flex !important;
-    align-items:center;
-    justify-content:center;
-    width:42px;
-    height:40px;
-    padding:0;
-    flex:0 0 42px;
-    font-size:17px;
+    cursor:pointer;
+    font-size:16px !important;
     line-height:1;
   }
 
   .links.open{
     display:flex;
     position:absolute;
-    top:64px;
+    top:112px;
     left:0;
     right:0;
     width:100%;
     flex-direction:column;
-    gap:2px;
+    gap:3px;
     padding:8px;
-    background:rgba(5,8,15,.96);
+    background:rgba(5,8,15,.97);
     border:1px solid rgba(255,255,255,.11);
     border-radius:14px;
-    box-shadow:0 18px 45px rgba(0,0,0,.45);
+    box-shadow:0 18px 45px rgba(0,0,0,.5);
     backdrop-filter:blur(20px);
-    max-height:calc(100vh - 88px);
+    max-height:calc(100vh - 125px);
     overflow-y:auto;
     z-index:90;
   }
@@ -1652,54 +1707,60 @@ footer{
   .links.open a{
     display:flex;
     align-items:center;
-    min-height:44px;
-    height:44px;
+    min-height:42px;
+    height:42px;
     padding:0 14px;
     border-radius:9px;
+    font-family:"Inter",sans-serif;
     font-size:.84rem;
+    font-weight:500;
   }
 
-  .links.open a:hover,
-  .links.open a.active{
-    background:rgba(103,232,249,.07);
-  }
-
-  /* Prevent the open menu from covering the hero content too aggressively. */
   body.menu-open{
     overflow:hidden;
   }
 }
 
-/* Small phones */
 @media (max-width:430px){
   nav{
-    width:calc(100% - 16px);
-    top:8px;
+    width:calc(100% - 12px);
+    top:6px;
   }
 
   .navin{
-    height:54px;
-    padding-left:13px;
+    min-height:100px;
+    grid-template-rows:44px 42px;
+    padding:5px 6px;
   }
 
-  .menu{
-    width:40px;
+  .brand{
+    font-size:1rem;
+    padding-left:6px;
+  }
+
+  .nav-actions{
+    gap:4px;
+  }
+
+  .nav-actions > .nav-cta,
+  .nav-actions > .nav-resume,
+  .nav-actions > .portfolio-search-btn,
+  .nav-actions > .recruiter-nav-slot{
     height:38px;
-    flex-basis:40px;
+    font-size:7.5px;
+    letter-spacing:.02em;
+  }
+
+  .nav-actions > .menu{
+    height:38px;
+    font-size:15px !important;
   }
 
   .links.open{
-    top:62px;
-    max-height:calc(100vh - 78px);
-  }
-
-  .links.open a{
-    min-height:42px;
-    height:42px;
-    font-size:.82rem;
+    top:108px;
+    max-height:calc(100vh - 118px);
   }
 }
-
 </style>
 <style>.nav-resume{
     color:#b9eff7;
