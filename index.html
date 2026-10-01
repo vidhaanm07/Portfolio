@@ -2259,116 +2259,30 @@ footer{
 }
 </style>
 <style id="mobile-spacing-final">
-/* MOBILE ONLY — desktop/tablet layout is untouched */
 @media (max-width:850px){
-  nav{
-    width:calc(100% - 14px)!important;
-    left:7px!important;
-    right:7px!important;
-    top:8px!important;
-    transform:none!important;
-    border-radius:16px!important;
-  }
-
-  .navin{
-    min-height:0!important;
-    height:auto!important;
-    padding:9px 10px 10px!important;
-    display:grid!important;
-    grid-template-columns:1fr!important;
-    gap:7px!important;
-  }
-
-  .brand{
-    display:block!important;
-    padding:1px 3px 3px!important;
-    font-size:1rem!important;
-  }
-
-  /* Same PC navigation items, kept inside the same glass panel */
-  .links{
-    display:flex!important;
-    position:static!important;
-    width:100%!important;
-    flex-direction:row!important;
-    gap:3px!important;
-    padding:0!important;
-    border:0!important;
-    background:transparent!important;
-    overflow-x:auto!important;
-    overflow-y:hidden!important;
-    scrollbar-width:none!important;
-    -webkit-overflow-scrolling:touch!important;
-  }
-
-  .links::-webkit-scrollbar,
-  .nav-actions::-webkit-scrollbar{display:none!important}
-
-  .links a{
-    flex:0 0 auto!important;
-    padding:7px 8px!important;
-    font-size:10px!important;
-    line-height:1!important;
-    white-space:nowrap!important;
-  }
-
-  .nav-actions{
-    display:flex!important;
-    align-items:center!important;
-    width:100%!important;
-    margin:0!important;
-    padding:1px 0 0!important;
-    gap:5px!important;
-    overflow-x:auto!important;
-    overflow-y:hidden!important;
-    scrollbar-width:none!important;
-    justify-content:flex-start!important;
-    -webkit-overflow-scrolling:touch!important;
-  }
-
-  .nav-actions > .menu{display:none!important}
-
-  .nav-actions > .nav-cta,
-  .nav-actions > .nav-resume,
-  .nav-actions > .portfolio-search-btn,
-  .nav-actions > .recruiter-nav-slot .recruiter-trigger{
-    display:inline-flex!important;
-    flex:0 0 auto!important;
-    align-items:center!important;
-    justify-content:center!important;
-    height:36px!important;
-    min-height:36px!important;
-    padding:0 10px!important;
-    margin:0!important;
-    font:10px "DM Mono",monospace!important;
-    line-height:1!important;
-    white-space:nowrap!important;
-  }
-
-  .nav-actions > .nav-cta{display:inline-flex!important}
-
-  .nav-actions > .recruiter-nav-slot{
-    display:flex!important;
-    flex:0 0 auto!important;
-    align-items:center!important;
-    height:36px!important;
-    margin:0!important;
-    padding-left:5px!important;
-    border-left:1px solid rgba(103,232,249,.16)!important;
-  }
-
-  .nav-actions > .recruiter-nav-slot .recruiter-trigger{
-    display:inline-flex!important;
-  }
-
+  /* PHONE = DESKTOP RHYTHM, SINGLE-COLUMN COMPOSITION */
   .container{
     width:92%!important;
     max-width:var(--max)!important;
   }
 
+  nav{
+    width:92%!important;
+    top:18px!important;
+    left:50%!important;
+    right:auto!important;
+    transform:translateX(-50%)!important;
+  }
+
+  .navin{
+    min-height:60px!important;
+    height:60px!important;
+    padding:0 14px 0 20px!important;
+  }
+
   .hero{
     min-height:auto!important;
-    padding:145px 0 70px!important;
+    padding:130px 0 70px!important;
     display:block!important;
   }
 
@@ -2386,7 +2300,9 @@ footer{
     letter-spacing:.12em!important;
   }
 
-  .tag:before{width:34px!important}
+  .tag:before{
+    width:34px!important;
+  }
 
   .hero h1{
     font-size:clamp(4.5rem,18vw,7rem)!important;
@@ -2421,130 +2337,68 @@ footer{
     transform:none!important;
   }
 
-  section{padding:120px 0!important}
+  section{
+    padding:120px 0!important;
+  }
 
-  .about-grid,.skill-wrap,.projects,.certs,.contact-grid{
+  .about-grid,
+  .skill-wrap,
+  .projects,
+  .certs,
+  .contact-grid{
     gap:15px!important;
     margin-top:42px!important;
   }
 
-  .panel{padding:30px!important}
-  .section-title{margin-top:9px!important}
+  .panel{
+    padding:30px!important;
+  }
+
+  .section-title{
+    margin-top:9px!important;
+  }
 }
 
 @media (max-width:430px){
-  nav{
-    width:calc(100% - 10px)!important;
-    left:5px!important;
-    right:5px!important;
+  .navin{
+    padding:0 10px!important;
   }
 
-  .navin{padding:8px 8px 9px!important}
-
-  .links a{
-    padding:7px 8px!important;
-    font-size:9px!important;
+  .hero{
+    padding:130px 0 70px!important;
   }
 
-  .nav-actions > .nav-cta,
-  .nav-actions > .nav-resume,
-  .nav-actions > .portfolio-search-btn,
-  .nav-actions > .recruiter-nav-slot .recruiter-trigger{
-    height:35px!important;
-    min-height:35px!important;
-    padding:0 9px!important;
-    font-size:9px!important;
+  .hero-grid{
+    gap:60px!important;
   }
 
-  .hero{padding-top:145px!important;padding-bottom:70px!important}
-  .hero-grid{gap:60px!important}
-  .hero h1{font-size:clamp(4.15rem,18vw,6.5rem)!important}
-  .hero p{font-size:1rem!important;line-height:1.6!important;margin-top:29px!important}
-  .hero-actions{gap:10px!important;margin-top:30px!important}
-  .hero-actions .btn{padding:12px 14px!important;font-size:.78rem!important}
-  .orbit{height:300px!important}
-  section{padding:120px 0!important}
-}
-</style>
-<style id="mobile-nav-layout-final">
-@media (max-width:850px){
-nav{width:calc(100% - 16px)!important;left:8px!important;right:8px!important;top:8px!important}
-.navin{display:grid!important;grid-template-columns:1fr!important;grid-template-rows:42px 44px!important;gap:8px!important;height:104px!important;min-height:104px!important;padding:5px 7px!important}
-.brand{height:42px!important;display:flex!important;align-items:center!important;padding-left:6px!important}
-.nav-actions{display:grid!important;grid-template-columns:40px repeat(3,minmax(0,1fr)) minmax(0,1fr)!important;gap:5px!important;width:100%!important;height:44px!important;margin:0!important;padding:0!important}
-.nav-actions>.menu,.nav-actions>.nav-resume,.nav-actions>.portfolio-search-btn,.nav-actions>.nav-cta,.nav-actions>.recruiter-nav-slot{display:flex!important;width:100%!important;min-width:0!important;height:44px!important;margin:0!important;padding:0 2px!important;align-items:center!important;justify-content:center!important;box-sizing:border-box!important;border:1px solid rgba(103,232,249,.25)!important;border-radius:8px!important;background:rgba(255,255,255,.02)!important;color:#b9eff7!important;font-family:"DM Mono",monospace!important;font-size:7px!important;font-weight:400!important;line-height:1!important;letter-spacing:0!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:clip!important}
-.nav-actions>.menu{font-size:15px!important}
-.nav-actions>.recruiter-nav-slot{padding:0!important;border:0!important;background:transparent!important}
-.nav-actions>.recruiter-nav-slot .recruiter-trigger{display:flex!important;width:100%!important;height:44px!important;margin:0!important;padding:0!important;align-items:center!important;justify-content:center!important;box-sizing:border-box!important;border:1px solid rgba(103,232,249,.25)!important;border-radius:8px!important;background:rgba(255,255,255,.02)!important;color:#b9eff7!important;font-family:"DM Mono",monospace!important;font-size:7px!important;font-weight:400!important;line-height:1!important;letter-spacing:0!important;white-space:nowrap!important;overflow:hidden!important}
-.links.open{top:112px!important}
-}
-@media(max-width:430px){
-nav{width:calc(100% - 12px)!important;left:6px!important;right:6px!important}
-.navin{grid-template-rows:40px 42px!important;gap:6px!important;height:94px!important;min-height:94px!important;padding:4px 6px!important}
-.brand{height:40px!important}
-.nav-actions{grid-template-columns:38px repeat(3,minmax(0,1fr)) minmax(0,1fr)!important;gap:3px!important;height:42px!important}
-.nav-actions>.menu,.nav-actions>.nav-resume,.nav-actions>.portfolio-search-btn,.nav-actions>.nav-cta,.nav-actions>.recruiter-nav-slot,.nav-actions>.recruiter-nav-slot .recruiter-trigger{height:42px!important}
-.nav-actions>.menu{font-size:14px!important}
-.nav-actions>.nav-resume,.nav-actions>.portfolio-search-btn,.nav-actions>.nav-cta,.nav-actions>.recruiter-nav-slot .recruiter-trigger{font-size:6.5px!important}
-.links.open{top:104px!important}
-}
-</style>
-<style id="mobile-three-dot-nav-final">
-@media (max-width:850px){
-  .nav-actions{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:6px!important;width:auto!important;height:42px!important;margin:0!important;padding:0!important}
-  .nav-actions>.menu,.nav-actions>.mobile-more{display:flex!important;align-items:center!important;justify-content:center!important;width:42px!important;height:42px!important;flex:0 0 42px!important;margin:0!important;padding:0!important;border:1px solid rgba(103,232,249,.25)!important;border-radius:8px!important;background:rgba(255,255,255,.02)!important;color:#b9eff7!important;font-family:"DM Mono",monospace!important}
-  .nav-actions>.menu{font-size:15px!important}
-  .mobile-more{font-size:22px!important;line-height:1!important;cursor:pointer!important}
-  .mobile-more-menu{display:none!important;position:absolute!important;top:50px!important;right:0!important;width:180px!important;z-index:999!important;flex-direction:column!important;gap:5px!important;padding:8px!important;border:1px solid rgba(103,232,249,.22)!important;border-radius:12px!important;background:rgba(5,8,15,.98)!important;box-shadow:0 18px 45px rgba(0,0,0,.55)!important;backdrop-filter:blur(18px)!important}
-  .mobile-more-menu.open{display:flex!important}
-  .mobile-more-menu>a,.mobile-more-menu .recruiter-trigger,.mobile-more-menu .portfolio-search-btn{display:flex!important;align-items:center!important;justify-content:flex-start!important;width:100%!important;height:40px!important;min-height:40px!important;margin:0!important;padding:0 12px!important;box-sizing:border-box!important;border:1px solid rgba(103,232,249,.18)!important;border-radius:8px!important;background:rgba(255,255,255,.02)!important;color:#b9eff7!important;font-family:"DM Mono",monospace!important;font-size:10px!important;font-weight:400!important;text-decoration:none!important;white-space:nowrap!important}
-  .mobile-more-menu .recruiter-nav-slot{display:block!important;width:100%!important;height:40px!important}
-  .mobile-more-menu .recruiter-trigger{cursor:pointer!important}
-}
-@media(max-width:430px){
-  .nav-actions{gap:4px!important}
-  .nav-actions>.menu,.nav-actions>.mobile-more{width:40px!important;height:40px!important;flex-basis:40px!important}
-  .mobile-more-menu{top:48px!important;right:0!important;width:175px!important}
-}
-</style>
-<script>
-(function(){
-  function initMobileMore(){
-    const b=document.getElementById('mobile-more'),m=document.getElementById('mobile-more-menu');
-    if(!b||!m||b.dataset.bound)return;
-    b.dataset.bound='1';
-    b.addEventListener('click',function(e){e.stopPropagation();m.classList.toggle('open');});
-    document.addEventListener('click',function(e){if(!m.contains(e.target)&&e.target!==b)m.classList.remove('open');});
+  .hero h1{
+    font-size:clamp(4.15rem,18vw,6.5rem)!important;
   }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initMobileMore);else initMobileMore();
-})();
-</script>
-<style id="nav-final-cleanup">
-/* Uniform desktop navigation */
-@media (min-width:851px){
-  .navin{display:flex!important;align-items:center!important}
-  .brand{margin-right:54px!important}
-  .links{display:flex!important;align-items:center!important;gap:30px!important}
-  .links a{white-space:nowrap!important}
-  .nav-actions{margin-left:auto!important;display:flex!important;align-items:center!important;gap:10px!important}
-  .recruiter-nav-slot{margin:0!important;padding:0!important;border:0!important}
-  .recruiter-trigger{height:38px!important;min-height:38px!important;padding:0 13px!important;font:11px "DM Mono",monospace!important;border:1px solid rgba(103,232,249,.25)!important;border-radius:8px!important;background:rgba(255,255,255,.02)!important}
-  .recruiter-trigger:before{display:none!important}
-}
-/* Clean mobile: brand + hamburger only; all other actions live in hamburger menu */
-@media(max-width:850px){
-  nav{top:8px!important}
-  .navin{display:flex!important;align-items:center!important;justify-content:space-between!important;padding:8px 10px!important;min-height:58px!important}
-  .brand{margin:0!important;padding:0!important;font-size:1.05rem!important}
-  .links{display:none!important}
-  .nav-actions{display:flex!important;align-items:center!important;margin:0!important;padding:0!important;gap:0!important}
-  .nav-actions>.menu{display:flex!important;align-items:center!important;justify-content:center!important;width:42px!important;height:42px!important;margin:0!important;padding:0!important;border:1px solid rgba(103,232,249,.25)!important;border-radius:8px!important;background:rgba(255,255,255,.02)!important;color:#b9eff7!important;font:15px "DM Mono",monospace!important}
-  .nav-actions>.nav-cta,.nav-actions>.nav-resume,.nav-actions>.portfolio-search-btn,.nav-actions>.recruiter-nav-slot{display:none!important}
-  .mobile-nav-panel{display:none!important}
-  .links.open{display:flex!important;position:absolute!important;top:66px!important;left:0!important;right:0!important;flex-direction:column!important;gap:0!important;padding:10px!important;z-index:999!important}
-  .links.open a{display:block!important;padding:14px 12px!important}
-  .recruiter-trigger{height:40px!important;min-height:40px!important;padding:0 12px!important;font:10px "DM Mono",monospace!important;border:1px solid rgba(103,232,249,.18)!important;border-radius:8px!important;background:rgba(255,255,255,.02)!important;color:#b9eff7!important}
-  .recruiter-trigger:before{display:none!important}
+
+  .hero p{
+    font-size:1rem!important;
+    line-height:1.6!important;
+    margin-top:29px!important;
+  }
+
+  .hero-actions{
+    gap:10px!important;
+    margin-top:30px!important;
+  }
+
+  .hero-actions .btn{
+    padding:12px 14px!important;
+    font-size:.78rem!important;
+  }
+
+  .orbit{
+    height:300px!important;
+  }
+
+  section{
+    padding:120px 0!important;
+  }
 }
 </style>
 </head>
@@ -2587,26 +2441,59 @@ nav{width:calc(100% - 12px)!important;left:6px!important;right:6px!important}
 ========================= -->
 
 <nav>
+
 <div class="navin">
-<a class="brand" href="#home">VIDHAAN<span>.</span></a>
+
+<a class="brand" href="#home">
+VIDHAAN<span>.</span>
+</a>
+
 <div class="links" id="links">
+
 <a href="#about">About</a>
+
 <a href="#skills">Skills</a>
+
 <a href="#projects">Work</a>
+
 <a href="#experience">Experience</a>
+
 <a href="#lab">Lab</a>
+
 <a href="#contact">Contact</a>
+
 </div>
+
 <div class="nav-actions">
-<button class="menu" onclick="toggleMenu()" aria-label="Open navigation">☰</button>
-<a class="nav-cta" href="https://mail.google.com/mail/?view=cm&fs=1&to=vidhaanm07@gmail.com" target="_blank">Let's talk ↗</a>
-<a class="nav-resume" href="resume.html">Resume ↗</a>
+
+<button
+class="menu"
+onclick="toggleMenu()"
+>
+☰
+</button>
+
+<a
+class="nav-cta"
+href="https://mail.google.com/mail/?view=cm&fs=1&to=vidhaanm07@gmail.com"
+target="_blank"
+>
+Let's talk ↗
+</a>
+
 <button class="portfolio-search-btn" id="portfolio-search-open" type="button" aria-label="Search portfolio">Search</button>
+
+<a class="nav-resume" href="resume.html">Resume ↗</a>
+
 <div class="recruiter-nav-slot">
-<button class="recruiter-trigger" id="recruiter-trigger" type="button">RECRUITER MODE ↗</button>
+<button class="recruiter-trigger" id="recruiter-trigger" type="button">Recruiter Mode ↗</button>
 </div>
+
 </div>
+
+
 </div>
+
 </nav>
 
 
