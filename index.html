@@ -2866,6 +2866,71 @@ footer{
   }
 }
 </style>
+<style id="mobile-spacing-final">
+@media(max-width:850px){
+  /* Move the mobile hero/AI panel down by 14px */
+  .hero .orbit{
+    transform:translateY(14px)!important;
+  }
+
+  /* Give Experience → Lab more breathing room */
+  #experience{
+    margin-bottom:28px!important;
+  }
+  #lab{
+    padding-top:28px!important;
+  }
+
+  /* Smaller 3-dot control = more room for readable menu text */
+  .mobile-more{
+    width:34px!important;
+    height:34px!important;
+    flex:0 0 34px!important;
+    border-radius:10px!important;
+    font-size:19px!important;
+  }
+
+  /* Keep mobile navigation buttons readable */
+  .mobile-more-menu{
+    width:190px!important;
+  }
+  .mobile-more-menu>a,
+  .mobile-more-menu .recruiter-trigger,
+  .mobile-more-menu .portfolio-search-btn{
+    height:42px!important;
+    min-height:42px!important;
+    padding:0 12px!important;
+    font-size:11px!important;
+  }
+}
+
+@media(max-width:430px){
+  .hero .orbit{
+    transform:translateY(14px)!important;
+  }
+  #experience{
+    margin-bottom:30px!important;
+  }
+  #lab{
+    padding-top:30px!important;
+  }
+  .mobile-more{
+    width:32px!important;
+    height:32px!important;
+    flex-basis:32px!important;
+    border-radius:9px!important;
+    font-size:18px!important;
+  }
+  .mobile-more-menu{
+    width:188px!important;
+  }
+  .mobile-more-menu>a,
+  .mobile-more-menu .recruiter-trigger,
+  .mobile-more-menu .portfolio-search-btn{
+    font-size:11px!important;
+  }
+}
+</style>
 </head>
 
 <body>
