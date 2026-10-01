@@ -2749,7 +2749,8 @@ footer{
 </style>
 <style id="mobile-nav-lower-final">
 @media (max-width:850px){
-  nav{top:14px!important;}
+  /* Move the VIDHAAN. mobile navigation panel down 14px */
+  nav{top:28px!important;}
 }
 </style>
 <style id="recruiter-spacing-final">
@@ -2851,11 +2852,12 @@ footer{
     margin:0!important;
   }
   .nav-actions>.menu{
-    width:42px!important;
-    height:42px!important;
-    flex:0 0 42px!important;
-    border-radius:12px!important;
-    font-size:14px!important;
+    width:38px!important;
+    height:38px!important;
+    flex:0 0 38px!important;
+    border-radius:11px!important;
+    font-size:13px!important;
+    padding:0!important;
   }
 }
 @media(max-width:360px){
@@ -2868,17 +2870,12 @@ footer{
 </style>
 <style id="mobile-spacing-final">
 @media(max-width:850px){
-  /* Move the mobile hero/AI panel down by 14px */
-  .hero .orbit{
-    transform:translateY(14px)!important;
-  }
-
-  /* Give Experience → Lab more breathing room */
+  /* Keep the AI orbit unchanged. Increase only the Experience → Lab gap. */
   #experience{
-    margin-bottom:28px!important;
+    margin-bottom:56px!important;
   }
   #lab{
-    padding-top:28px!important;
+    padding-top:56px!important;
   }
 
   /* Smaller 3-dot control = more room for readable menu text */
