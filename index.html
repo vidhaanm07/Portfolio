@@ -2822,6 +2822,50 @@ footer{
   }
 }
 </style>
+<style id="mobile-button-balance-final">
+@media(max-width:850px){
+  .hero-actions{
+    display:grid!important;
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    width:100%!important;
+    gap:8px!important;
+    align-items:stretch!important;
+  }
+  .hero-actions .btn{
+    width:100%!important;
+    min-width:0!important;
+    min-height:48px!important;
+    height:48px!important;
+    padding:0 7px!important;
+    margin:0!important;
+    box-sizing:border-box!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    text-align:center!important;
+    font-size:13px!important;
+    line-height:1.1!important;
+    white-space:nowrap!important;
+  }
+  .hero-actions .btn.main{
+    margin:0!important;
+  }
+  .nav-actions>.menu{
+    width:42px!important;
+    height:42px!important;
+    flex:0 0 42px!important;
+    border-radius:12px!important;
+    font-size:14px!important;
+  }
+}
+@media(max-width:360px){
+  .hero-actions{gap:6px!important}
+  .hero-actions .btn{
+    font-size:12px!important;
+    padding:0 5px!important;
+  }
+}
+</style>
 </head>
 
 <body>
