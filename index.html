@@ -1412,6 +1412,31 @@ footer{
 @media(max-width:700px){.vi-status{display:none}.vi-topbar{left:18px;right:18px}.vi-name{margin-top:-9vh}.vi-first{letter-spacing:.1em;margin-left:.1em}.vi-last{letter-spacing:.28em;margin-left:.28em}.vi-role{letter-spacing:.12em}.vi-orbit{min-width:280px}.vi-enter{bottom:52px}}
 @media(prefers-reduced-motion:reduce){#vidhaan-intro *{animation:none!important;transition:none!important}.vi-name,.vi-status,.vi-topbar,.vi-enter,.vi-core,.vi-orbit,.vi-grid{opacity:1}}
 /* VIDHAAN INTRO V3 CSS END */
+
+/* RECRUITER MODE */
+.recruiter-trigger{position:fixed;top:24px;right:28px;z-index:9000;padding:9px 13px;border:1px solid rgba(103,232,249,.22);border-radius:7px;background:rgba(3,7,12,.62);backdrop-filter:blur(10px);color:#cfeef4;font:9px "DM Mono",monospace;letter-spacing:.13em;cursor:pointer;transition:.25s}
+.recruiter-trigger:hover{border-color:rgba(103,232,249,.65);background:rgba(103,232,249,.07);box-shadow:0 0 24px rgba(103,232,249,.1)}
+#recruiter-view{position:fixed;inset:0;z-index:100000;background:rgba(2,4,10,.97);color:#eef8fb;overflow:auto;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .35s ease,visibility .35s ease;font-family:Inter,sans-serif}
+#recruiter-view.active{opacity:1;visibility:visible;pointer-events:auto}
+.rv-shell{max-width:1050px;margin:0 auto;padding:54px 32px 70px}
+.rv-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:48px}
+.rv-label{font:9px "DM Mono",monospace;letter-spacing:.18em;color:#67e8f9}
+.rv-close{border:1px solid rgba(103,232,249,.22);background:transparent;color:#b9d6dc;border-radius:6px;padding:8px 11px;cursor:pointer;font:9px "DM Mono",monospace}
+.rv-hero{border-bottom:1px solid rgba(103,232,249,.12);padding-bottom:34px}
+.rv-name{font:600 clamp(42px,7vw,82px)/.9 "Space Grotesk",sans-serif;letter-spacing:.06em}
+.rv-role{margin-top:15px;color:#75dce8;font:11px "DM Mono",monospace;letter-spacing:.12em}
+.rv-summary{max-width:720px;margin-top:22px;color:#91a3b8;font-size:14px;line-height:1.75}
+.rv-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:30px}
+.rv-card{border:1px solid rgba(103,232,249,.11);border-radius:10px;padding:22px;background:rgba(103,232,249,.025)}
+.rv-card h3{margin:0 0 15px;font:10px "DM Mono",monospace;letter-spacing:.16em;color:#67e8f9}
+.rv-card p,.rv-card li{color:#a8b7c8;font-size:12px;line-height:1.7}
+.rv-card ul{padding-left:17px;margin:0}
+.rv-links{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px}
+.rv-links a{color:#dffcff;text-decoration:none;border:1px solid rgba(103,232,249,.18);padding:8px 10px;border-radius:6px;font:9px "DM Mono",monospace}
+.rv-links a:hover{border-color:#67e8f9}
+.rv-footer{margin-top:30px;color:#52677f;font:8px "DM Mono",monospace;letter-spacing:.12em}
+@media(max-width:700px){.recruiter-trigger{top:15px;right:15px}.rv-shell{padding:35px 18px 55px}.rv-grid{grid-template-columns:1fr}.rv-top{margin-bottom:32px}}
+
 </style>
 <style>.nav-resume{color:#9bb0c9;font:11px "DM Mono";text-decoration:none;border:1px solid rgba(255,255,255,.11);padding:8px 11px;border-radius:8px;margin-left:10px;transition:.2s}.nav-resume:hover{color:#fff;border-color:#5aa7ff}</style>
 <!-- PORTFOLIO SEARCH FEATURE -->
@@ -3681,6 +3706,45 @@ document.addEventListener(
   window.setTimeout(close, 7600);
 })();
 // VIDHAAN INTRO V3 JS END
+</script>
+
+<button class="recruiter-trigger" id="recruiter-trigger" type="button">RECRUITER VIEW ↗</button>
+<div id="recruiter-view" aria-hidden="true">
+  <div class="rv-shell">
+    <div class="rv-top"><div class="rv-label">VIDHAAN / RECRUITER MODE</div><button class="rv-close" id="recruiter-close" type="button">CLOSE ×</button></div>
+    <section class="rv-hero">
+      <div class="rv-name">VIDHAAN MATHUR</div>
+      <div class="rv-role">SOFTWARE ENGINEERING · AI · ELECTRONICS</div>
+      <div class="rv-summary">B.Tech student at Thapar Institute of Engineering and Technology with interests and project experience across software engineering, AI/GenAI, automation, IoT and electronics. Focused on building practical systems using Python, C/C++, SQL, LLMs, AI-agent workflows and modern AI tooling.</div>
+      <div class="rv-links">
+        <a href="resume.html">RESUME ↗</a>
+        <a href="https://github.com/vidhaanm07" target="_blank" rel="noopener">GITHUB ↗</a>
+        <a href="https://www.linkedin.com/in/vidhaan-mathur-a2b54337a/" target="_blank" rel="noopener">LINKEDIN ↗</a>
+      </div>
+    </section>
+    <div class="rv-grid">
+      <article class="rv-card"><h3>EDUCATION</h3><p><strong>Thapar Institute of Engineering and Technology</strong><br>Electronics Engineering (Instrumentation and Control)<br>B.Tech · Expected 2029</p></article>
+      <article class="rv-card"><h3>EXPERIENCE</h3><p><strong>IIT Jammu — AI Internship</strong><br>AI, Generative AI, LLMs and AI-agent workflows. Worked with automation, NLP, Vapi, OpenAI SDK, Transformers, Hugging Face, Gradio and related AI tooling.</p></article>
+      <article class="rv-card"><h3>CORE SKILLS</h3><ul><li>Python, C, C++, MySQL</li><li>LLMs, Generative AI, AI Agents, NLP</li><li>n8n, APIs, automation workflows</li><li>Hugging Face, Transformers, Gradio</li><li>IoT, electronics and digital systems</li></ul></article>
+      <article class="rv-card"><h3>SELECTED PROJECTS</h3><ul><li>CloudNest AI — AI-powered customer-support automation</li><li>DevFlow AI — developer workflow and automation platform</li><li>Multimodal AI Pipelines — text, image, audio and video processing</li></ul><div class="rv-links"><a href="#projects">VIEW PROJECTS ↓</a></div></article>
+      <article class="rv-card"><h3>CERTIFICATIONS & LEARNING</h3><p>n8n Academy integrations; Anthropic Claude with Vertex AI and MCP Advanced; MCP and RAG learning; Google Cloud Arcade Facilitator Program 2026; LangChain and related AI tooling.</p></article>
+      <article class="rv-card"><h3>PROFILES</h3><p>GitHub and LinkedIn provide project repositories, professional information and current work.</p><div class="rv-links"><a href="https://github.com/vidhaanm07" target="_blank" rel="noopener">GITHUB ↗</a><a href="https://www.linkedin.com/in/vidhaan-mathur-a2b54337a/" target="_blank" rel="noopener">LINKEDIN ↗</a></div></article>
+    </div>
+    <div class="rv-footer">RECRUITER MODE · CONCISE PROFILE · RETURN TO PORTFOLIO TO EXPLORE THE FULL EXPERIENCE</div>
+  </div>
+</div>
+<script>
+(function(){
+  const trigger=document.getElementById('recruiter-trigger');
+  const view=document.getElementById('recruiter-view');
+  const close=document.getElementById('recruiter-close');
+  if(!trigger||!view||!close)return;
+  const open=()=>{view.classList.add('active');view.setAttribute('aria-hidden','false');document.body.style.overflow='hidden'};
+  const shut=()=>{view.classList.remove('active');view.setAttribute('aria-hidden','true');document.body.style.overflow=''};
+  trigger.addEventListener('click',open); close.addEventListener('click',shut);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&view.classList.contains('active'))shut()});
+  view.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',shut));
+})();
 </script>
 </body>
 </html>
