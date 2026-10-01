@@ -2260,29 +2260,118 @@ footer{
 </style>
 <style id="mobile-spacing-final">
 @media (max-width:850px){
-  /* PHONE = DESKTOP RHYTHM, SINGLE-COLUMN COMPOSITION */
+  /* MOBILE NAV — SAME CONTENT/PANEL AS DESKTOP */
+  nav{
+    width:calc(100% - 20px)!important;
+    max-width:none!important;
+    top:10px!important;
+    left:10px!important;
+    right:10px!important;
+    transform:none!important;
+    border-radius:16px!important;
+  }
+
+  .navin{
+    height:auto!important;
+    min-height:0!important;
+    padding:10px 12px 12px!important;
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:8px!important;
+    align-items:center!important;
+  }
+
+  .brand{
+    display:block!important;
+    padding:2px 4px 5px!important;
+    font-size:1.05rem!important;
+  }
+
+  /* Show the same About / Skills / Work / Experience / Lab / Contact navigation */
+  .links{
+    display:flex!important;
+    position:static!important;
+    flex-direction:row!important;
+    width:100%!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    gap:4px!important;
+    padding:0!important;
+    border:0!important;
+    background:transparent!important;
+    scrollbar-width:none!important;
+  }
+
+  .links::-webkit-scrollbar{
+    display:none!important;
+  }
+
+  .links a{
+    flex:0 0 auto!important;
+    padding:8px 9px!important;
+    font-size:.72rem!important;
+    white-space:nowrap!important;
+  }
+
+  /* Same desktop actions: Let's talk / Search / Resume / Recruiter Mode */
+  .nav-actions{
+    display:flex!important;
+    width:100%!important;
+    margin-left:0!important;
+    gap:5px!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    scrollbar-width:none!important;
+    justify-content:flex-start!important;
+    padding-top:2px!important;
+  }
+
+  .nav-actions::-webkit-scrollbar{
+    display:none!important;
+  }
+
+  .nav-actions > .menu{
+    display:none!important;
+  }
+
+  .nav-actions > .nav-cta,
+  .nav-actions > .nav-resume,
+  .nav-actions > .portfolio-search-btn,
+  .nav-actions > .recruiter-nav-slot .recruiter-trigger{
+    display:inline-flex!important;
+    flex:0 0 auto!important;
+    height:38px!important;
+    min-height:38px!important;
+    padding:0 11px!important;
+    font-size:10px!important;
+  }
+
+  .nav-actions > .nav-cta{
+    display:inline-flex!important;
+  }
+
+  .nav-actions > .recruiter-nav-slot{
+    display:flex!important;
+    flex:0 0 auto!important;
+    height:38px!important;
+    margin:0!important;
+    padding-left:5px!important;
+    border-left:1px solid rgba(103,232,249,.16)!important;
+  }
+
+  .nav-actions > .recruiter-nav-slot .recruiter-trigger{
+    display:inline-flex!important;
+  }
+
+  /* Keep the desktop-like hero/section rhythm */
   .container{
     width:92%!important;
     max-width:var(--max)!important;
   }
 
-  nav{
-    width:92%!important;
-    top:18px!important;
-    left:50%!important;
-    right:auto!important;
-    transform:translateX(-50%)!important;
-  }
-
-  .navin{
-    min-height:60px!important;
-    height:60px!important;
-    padding:0 14px 0 20px!important;
-  }
-
   .hero{
     min-height:auto!important;
-    padding:130px 0 70px!important;
+    padding:145px 0 70px!important;
     display:block!important;
   }
 
@@ -2360,12 +2449,34 @@ footer{
 }
 
 @media (max-width:430px){
+  nav{
+    width:calc(100% - 14px)!important;
+    left:7px!important;
+    right:7px!important;
+  }
+
   .navin{
-    padding:0 10px!important;
+    padding:9px 9px 11px!important;
+  }
+
+  .links a{
+    padding:7px 8px!important;
+    font-size:.68rem!important;
+  }
+
+  .nav-actions > .nav-cta,
+  .nav-actions > .nav-resume,
+  .nav-actions > .portfolio-search-btn,
+  .nav-actions > .recruiter-nav-slot .recruiter-trigger{
+    height:36px!important;
+    min-height:36px!important;
+    padding:0 9px!important;
+    font-size:9px!important;
   }
 
   .hero{
-    padding:130px 0 70px!important;
+    padding-top:145px!important;
+    padding-bottom:70px!important;
   }
 
   .hero-grid{
