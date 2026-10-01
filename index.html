@@ -1875,67 +1875,1737 @@ footer{
 
 <style>
 /* LIVE GITHUB INTEGRATION */
-(async function(){
-    const user='vidhaanm07';
-    const grid=document.getElementById('github-grid');
-    const status=document.getElementById('github-status');
-    const reposEl=document.getElementById('github-repos');
-    const followersEl=document.getElementById('github-followers');
-    const starsEl=document.getElementById('github-stars');
-    if(!grid||!status)return;
+.github-section{padding:110px 0 90px}
+.github-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:28px}
+.github-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
+.github-stat{padding:18px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.025);border-radius:12px}
+.github-stat b{display:block;font-size:25px;color:#fff}
+.github-stat span{display:block;margin-top:5px;font:10px "DM Mono",monospace;color:#7fb9ff;text-transform:uppercase;letter-spacing:.08em}
+.github-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.github-card{display:flex;flex-direction:column;min-height:180px;padding:20px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.025);border-radius:12px;transition:.25s ease}
+.github-card:hover{transform:translateY(-3px);border-color:rgba(117,246,255,.35);background:rgba(117,246,255,.035)}
+.github-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.github-card h3{margin:0;color:#fff;font-size:17px}
+.github-card p{margin:10px 0 14px;color:#8793a7;font-size:12px;line-height:1.7}
+.github-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:auto;font:10px "DM Mono",monospace;color:#7fb9ff;text-transform:uppercase;letter-spacing:.04em}
+.github-link{display:inline-flex;align-items:center;gap:5px;margin-top:16px;color:#fff;text-decoration:none;font:10px "DM Mono",monospace;text-transform:uppercase;letter-spacing:.08em}
+.github-link:hover{color:#75f6ff}
+.github-status{font:10px "DM Mono",monospace;color:#8793a7;text-transform:uppercase;letter-spacing:.08em}
+@media(max-width:700px){.github-head{display:block}.github-stats,.github-grid{grid-template-columns:1fr}.github-stats{margin-top:20px}}
+</style>
 
-    const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-    const date=v=>new Date(v).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
-    const preferred=['AI-Customer-Support-System','DevFlow-AI-','Hugging-Face-Multimodal-Pipelines'];
+<style id="mobile-nav-final-fix">
+@media (max-width:850px){
+  nav{
+    width:calc(100% - 16px) !important;
+    max-width:none !important;
+    left:8px !important;
+    right:8px !important;
+    transform:none !important;
+    top:8px !important;
+  }
 
-    const renderRepos=(repos)=>{
-        repos=[...repos].filter(r=>!r.fork);
-        repos.sort((a,b)=>{
-            const ai=preferred.indexOf(a.name), bi=preferred.indexOf(b.name);
-            if(ai!==-1||bi!==-1)return(ai===-1?999:ai)-(bi===-1?999:bi);
-            return new Date(b.updated_at)-new Date(a.updated_at);
-        });
-        grid.innerHTML=repos.slice(0,6).map(r=>`<article class="github-card">
-          <div class="github-card-top"><h3>${esc(r.name)}</h3><span class="github-status">${esc(r.language||'Repository')}</span></div>
-          <p>${esc(r.description||'Public GitHub repository by Vidhaan Mathur.')}</p>
-          <div class="github-meta"><span>★ ${r.stargazers_count||0}</span><span>Forks ${r.forks_count||0}</span><span>Updated ${date(r.updated_at)}</span></div>
-          <a class="github-link" href="${esc(r.html_url)}" target="_blank" rel="noopener noreferrer">View repository ↗</a>
-        </article>`).join('') || '<div class="github-card"><h3>No public repositories found</h3><p>GitHub did not return any public repositories for this profile.</p></div>';
-    };
+  .navin{
+    width:100% !important;
+    min-height:100px !important;
+    height:auto !important;
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    grid-template-rows:42px 42px !important;
+    gap:5px !important;
+    padding:5px 7px !important;
+  }
 
-    try{
-        status.textContent='GitHub / connecting…';
-        const [pr,rr]=await Promise.all([
-            fetch(`https://api.github.com/users/${user}`,{headers:{Accept:'application/vnd.github+json'}}),
-            fetch(`https://api.github.com/users/${user}/repos?per_page=100&sort=updated`,{headers:{Accept:'application/vnd.github+json'}})
-        ]);
-        if(!pr.ok||!rr.ok) throw new Error(`GitHub API ${pr.status}/${rr.status}`);
-        const profile=await pr.json();
-        const repos=await rr.json();
+  .brand{
+    display:flex !important;
+    align-items:center !important;
+    height:42px !important;
+    font-family:"Space Grotesk",sans-serif !important;
+    font-size:1rem !important;
+  }
 
-        reposEl.textContent=profile.public_repos ?? repos.filter(r=>!r.fork).length;
-        followersEl.textContent=profile.followers ?? 0;
-        starsEl.textContent=repos.filter(r=>!r.fork).reduce((n,r)=>n+(r.stargazers_count||0),0);
-        status.textContent=`GitHub / ${profile.login||user}`;
-        renderRepos(repos);
+  .nav-actions{
+    display:grid !important;
+    grid-template-columns:repeat(5,minmax(0,1fr)) !important;
+    width:100% !important;
+    height:42px !important;
+    gap:4px !important;
+    margin:0 !important;
+    padding:0 !important;
+    align-items:stretch !important;
+  }
 
-        sessionStorage.setItem('vidhaan-github-cache',JSON.stringify({profile,repos,time:Date.now()}));
-    }catch(e){
-        try{
-            const cached=JSON.parse(sessionStorage.getItem('vidhaan-github-cache')||'null');
-            if(cached?.profile&&Array.isArray(cached.repos)){
-                reposEl.textContent=cached.profile.public_repos ?? cached.repos.filter(r=>!r.fork).length;
-                followersEl.textContent=cached.profile.followers ?? 0;
-                starsEl.textContent=cached.repos.filter(r=>!r.fork).reduce((n,r)=>n+(r.stargazers_count||0),0);
-                status.textContent='GitHub / cached';
-                renderRepos(cached.repos);
-                return;
-            }
-        }catch(_){}
-        status.textContent='GitHub / unavailable';
-        grid.innerHTML='<div class="github-card"><h3>GitHub data temporarily unavailable</h3><p>The live GitHub API could not be reached right now. Your repositories are still available on GitHub.</p><a class="github-link" href="https://github.com/vidhaanm07" target="_blank" rel="noopener noreferrer">Open GitHub ↗</a></div>';
+  .nav-actions > .nav-cta,
+  .nav-actions > .menu,
+  .nav-actions > .nav-resume,
+  .nav-actions > .portfolio-search-btn,
+  .nav-actions > .recruiter-nav-slot{
+    display:flex !important;
+    position:relative !important;
+    width:100% !important;
+    min-width:0 !important;
+    max-width:none !important;
+    height:42px !important;
+    margin:0 !important;
+    padding:0 2px !important;
+    align-items:center !important;
+    justify-content:center !important;
+    box-sizing:border-box !important;
+    border:1px solid rgba(103,232,249,.25) !important;
+    border-radius:8px !important;
+    background:rgba(255,255,255,.02) !important;
+    color:#b9eff7 !important;
+    font-family:"DM Mono",monospace !important;
+    font-size:7px !important;
+    font-weight:400 !important;
+    line-height:1 !important;
+    letter-spacing:0 !important;
+    text-align:center !important;
+    white-space:nowrap !important;
+    overflow:hidden !important;
+  }
+
+  .nav-actions > .nav-cta,
+  .nav-actions > .nav-resume,
+  .nav-actions > .portfolio-search-btn{
+    text-decoration:none !important;
+  }
+
+  .nav-actions > .menu{
+    cursor:pointer !important;
+    font-size:15px !important;
+  }
+
+  .nav-actions > .recruiter-nav-slot{
+    padding:0 !important;
+  }
+
+  .recruiter-nav-slot .recruiter-trigger{
+    width:100% !important;
+    height:100% !important;
+    min-width:0 !important;
+    padding:0 1px !important;
+    margin:0 !important;
+    border:0 !important;
+    border-radius:0 !important;
+    background:transparent !important;
+    color:inherit !important;
+    font:inherit !important;
+    letter-spacing:inherit !important;
+    white-space:nowrap !important;
+    overflow:hidden !important;
+    text-overflow:clip !important;
+  }
+
+  .recruiter-nav-slot .recruiter-trigger:before{
+    display:none !important;
+  }
+
+  .links.open{
+    top:104px !important;
+    left:0 !important;
+    right:0 !important;
+    width:100% !important;
+  }
+}
+
+@media (max-width:430px){
+  .navin{
+    grid-template-rows:40px 40px !important;
+    gap:4px !important;
+    padding:4px 6px !important;
+  }
+  .brand{height:40px !important;font-size:.98rem !important}
+  .nav-actions{height:40px !important;gap:3px !important}
+  .nav-actions > .nav-cta,
+  .nav-actions > .menu,
+  .nav-actions > .nav-resume,
+  .nav-actions > .portfolio-search-btn,
+  .nav-actions > .recruiter-nav-slot{
+    height:40px !important;
+    font-size:6.5px !important;
+  }
+  .nav-actions > .menu{font-size:14px !important}
+  .links.open{top:100px !important}
+}
+</style>
+<style id="mobile-nav-clean-final">
+@media (max-width:850px){
+  nav{width:calc(100% - 16px)!important;left:8px!important;right:8px!important;transform:none!important;top:8px!important}
+  .navin{display:grid!important;grid-template-columns:1fr!important;grid-template-rows:42px 42px!important;gap:5px!important;height:100px!important;min-height:100px!important;padding:5px 7px!important}
+  .brand{display:flex!important;align-items:center!important;height:42px!important;padding-left:6px!important;font-family:"Space Grotesk",sans-serif!important;font-size:1rem!important}
+  .nav-actions{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:4px!important;width:100%!important;height:42px!important;margin:0!important;padding:0!important;align-items:stretch!important}
+  .nav-actions>.nav-cta,
+  .nav-actions>.menu,
+  .nav-actions>.nav-resume,
+  .nav-actions>.portfolio-search-btn{
+    display:flex!important;align-items:center!important;justify-content:center!important;width:100%!important;min-width:0!important;height:42px!important;margin:0!important;padding:0 2px!important;box-sizing:border-box!important;border:1px solid rgba(103,232,249,.25)!important;border-radius:8px!important;background:rgba(255,255,255,.02)!important;color:#b9eff7!important;font-family:"DM Mono",monospace!important;font-size:7px!important;font-weight:400!important;line-height:1!important;letter-spacing:0!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:clip!important;text-decoration:none!important}
+  .nav-actions>.menu{font-size:15px!important;cursor:pointer!important}
+  .nav-actions>.recruiter-nav-slot{
+    display:flex!important;align-items:stretch!important;justify-content:stretch!important;width:100%!important;min-width:0!important;height:42px!important;margin:0!important;padding:0!important;border:0!important;background:transparent!important;box-sizing:border-box!important;overflow:hidden!important}
+  .nav-actions>.recruiter-nav-slot .recruiter-trigger{
+    display:flex!important;align-items:center!important;justify-content:center!important;width:100%!important;min-width:0!important;height:42px!important;margin:0!important;padding:0!important;box-sizing:border-box!important;border:1px solid rgba(103,232,249,.25)!important;border-radius:8px!important;background:rgba(255,255,255,.02)!important;color:#b9eff7!important;font-family:"DM Mono",monospace!important;font-size:0!important;font-weight:400!important;line-height:1!important;letter-spacing:0!important;white-space:nowrap!important;overflow:hidden!important}
+  .nav-actions>.recruiter-nav-slot .recruiter-trigger:before{content:"RECRUITER";font:400 7px/1 "DM Mono",monospace!important;color:#b9eff7!important;letter-spacing:0!important}
+  .nav-actions>.nav-cta:hover,.nav-actions>.nav-resume:hover,.nav-actions>.portfolio-search-btn:hover,.nav-actions>.menu:hover,.nav-actions>.recruiter-nav-slot .recruiter-trigger:hover{border-color:rgba(103,232,249,.55)!important;background:rgba(103,232,249,.06)!important;color:#fff!important}
+  .links.open{top:104px!important;left:0!important;right:0!important;width:100%!important}
+}
+@media(max-width:430px){
+  nav{width:calc(100% - 12px)!important;left:6px!important;right:6px!important}
+  .navin{grid-template-rows:40px 40px!important;height:96px!important;min-height:96px!important;padding:4px 6px!important}
+  .brand{height:40px!important;font-size:.98rem!important}
+  .nav-actions{height:40px!important;gap:3px!important}
+  .nav-actions>.nav-cta,.nav-actions>.nav-resume,.nav-actions>.portfolio-search-btn,.nav-actions>.menu,.nav-actions>.recruiter-nav-slot,.nav-actions>.recruiter-nav-slot .recruiter-trigger{height:40px!important}
+  .nav-actions>.nav-cta,.nav-actions>.nav-resume,.nav-actions>.portfolio-search-btn,.nav-actions>.recruiter-nav-slot .recruiter-trigger{font-size:6.5px!important}
+  .nav-actions>.recruiter-nav-slot .recruiter-trigger:before{font-size:6.5px!important}
+  .nav-actions>.menu{font-size:14px!important}
+  .links.open{top:100px!important}
+}
+</style>
+<style id="desktop-nav-uniform-final">
+@media (min-width:851px){
+  .nav-actions > .nav-cta,
+  .nav-actions > .nav-resume,
+  .nav-actions > .portfolio-search-btn,
+  .nav-actions > .recruiter-nav-slot .recruiter-trigger{
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    box-sizing:border-box !important;
+    height:40px !important;
+    min-height:40px !important;
+    padding:0 13px !important;
+    margin:0 !important;
+    border-radius:9px !important;
+    white-space:nowrap !important;
+    font-family:"DM Mono",monospace !important;
+    font-size:11px !important;
+    font-weight:400 !important;
+    line-height:1 !important;
+    letter-spacing:0 !important;
+    text-transform:none !important;
+    vertical-align:middle !important;
+  }
+
+  .nav-actions > .nav-cta,
+  .nav-actions > .nav-resume,
+  .nav-actions > .portfolio-search-btn,
+  .nav-actions > .recruiter-nav-slot .recruiter-trigger{
+    color:#b9eff7 !important;
+    border:1px solid rgba(103,232,249,.25) !important;
+    background:rgba(255,255,255,.02) !important;
+  }
+
+  .nav-actions > .recruiter-nav-slot{
+    display:flex !important;
+    align-items:center !important;
+    height:40px !important;
+    margin:0 !important;
+    padding-left:14px !important;
+    border-left:1px solid rgba(103,232,249,.16) !important;
+  }
+
+  .nav-actions > .recruiter-nav-slot .recruiter-trigger{
+    cursor:pointer !important;
+  }
+
+  .nav-actions > .nav-cta:hover,
+  .nav-actions > .nav-resume:hover,
+  .nav-actions > .portfolio-search-btn:hover,
+  .nav-actions > .recruiter-nav-slot .recruiter-trigger:hover{
+    color:#fff !important;
+    border-color:rgba(103,232,249,.55) !important;
+    background:rgba(103,232,249,.06) !important;
+  }
+}
+</style>
+<style id="desktop-nav-match-links">
+@media (min-width:851px){
+  .nav-actions{
+    align-items:center !important;
+    gap:10px !important;
+  }
+
+  .nav-actions > .nav-cta,
+  .nav-actions > .nav-resume,
+  .nav-actions > .portfolio-search-btn,
+  .nav-actions > .recruiter-nav-slot .recruiter-trigger{
+    appearance:none !important;
+    -webkit-appearance:none !important;
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    box-sizing:border-box !important;
+    height:auto !important;
+    min-height:0 !important;
+    padding:8px 11px !important;
+    margin:0 !important;
+    border:0 !important;
+    border-radius:9px !important;
+    background:transparent !important;
+    color:#8995a8 !important;
+    font-family:inherit !important;
+    font-size:.78rem !important;
+    font-weight:400 !important;
+    line-height:normal !important;
+    letter-spacing:normal !important;
+    text-transform:none !important;
+    white-space:nowrap !important;
+    text-decoration:none !important;
+    cursor:pointer !important;
+  }
+
+  .nav-actions > .nav-cta:hover,
+  .nav-actions > .nav-resume:hover,
+  .nav-actions > .portfolio-search-btn:hover,
+  .nav-actions > .recruiter-nav-slot .recruiter-trigger:hover{
+    background:rgba(255,255,255,.06) !important;
+    color:#fff !important;
+    border:0 !important;
+  }
+
+  .nav-actions > .recruiter-nav-slot{
+    display:flex !important;
+    align-items:center !important;
+    height:auto !important;
+    margin:0 !important;
+    padding:0 !important;
+    border:0 !important;
+  }
+}
+</style>
+<style id="desktop-nav-highlight-final">
+@media (min-width:851px){
+  .nav-actions > .nav-resume,
+  .nav-actions > .recruiter-nav-slot .recruiter-trigger{
+    appearance:none !important;
+    -webkit-appearance:none !important;
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    box-sizing:border-box !important;
+    height:40px !important;
+    min-height:40px !important;
+    padding:0 13px !important;
+    margin:0 !important;
+    border:1px solid rgba(103,232,249,.25) !important;
+    border-radius:9px !important;
+    background:rgba(255,255,255,.02) !important;
+    color:#b9eff7 !important;
+    font-family:inherit !important;
+    font-size:.78rem !important;
+    font-weight:400 !important;
+    line-height:1 !important;
+    letter-spacing:normal !important;
+    text-transform:none !important;
+    white-space:nowrap !important;
+    text-decoration:none !important;
+    cursor:pointer !important;
+  }
+
+  .nav-actions > .recruiter-nav-slot{
+    display:flex !important;
+    align-items:center !important;
+    height:40px !important;
+    margin:0 !important;
+    padding:0 !important;
+    border:0 !important;
+  }
+
+  .nav-actions > .nav-resume:hover,
+  .nav-actions > .recruiter-nav-slot .recruiter-trigger:hover{
+    color:#fff !important;
+    border-color:rgba(103,232,249,.55) !important;
+    background:rgba(103,232,249,.06) !important;
+  }
+}
+</style>
+<style id="nav-link-spacing-final">
+@media (min-width:851px){
+  .navin > .links{
+    margin-left:18px !important;
+  }
+}
+</style>
+
+<style id="nav-gap-fix">
+@media (min-width:851px){
+  .nav-actions{gap:10px !important;}
+  .nav-actions > .nav-cta,
+  .nav-actions > .portfolio-search-btn,
+  .nav-actions > .nav-resume,
+  .nav-actions > .recruiter-nav-slot{
+    margin-left:0 !important;
+    margin-right:0 !important;
+  }
+}
+</style>
+<style id="desktop-nav-true-equal-gap">
+@media (min-width:851px){
+  .nav-actions{
+    gap:24px !important;
+  }
+  .nav-actions > .nav-cta,
+  .nav-actions > .portfolio-search-btn{
+    padding-left:0 !important;
+    padding-right:0 !important;
+    margin:0 !important;
+  }
+  .nav-actions > .nav-resume{
+    margin:0 !important;
+  }
+  .nav-actions > .recruiter-nav-slot{
+    margin-left:12px !important;
+  }
+}
+</style>
+<style id="mobile-spacing-final">
+@media (max-width:850px){
+  /* PHONE = DESKTOP RHYTHM, SINGLE-COLUMN COMPOSITION */
+  .container{
+    width:92%!important;
+    max-width:var(--max)!important;
+  }
+
+  nav{
+    width:92%!important;
+    top:18px!important;
+    left:50%!important;
+    right:auto!important;
+    transform:translateX(-50%)!important;
+  }
+
+  .navin{
+    min-height:60px!important;
+    height:60px!important;
+    padding:0 14px 0 20px!important;
+  }
+
+  .hero{
+    min-height:auto!important;
+    padding:130px 0 70px!important;
+    display:block!important;
+  }
+
+  .hero-grid{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:60px!important;
+    align-items:center!important;
+  }
+
+  .tag{
+    font-size:.72rem!important;
+    gap:10px!important;
+    margin-bottom:22px!important;
+    letter-spacing:.12em!important;
+  }
+
+  .tag:before{
+    width:34px!important;
+  }
+
+  .hero h1{
+    font-size:clamp(4.5rem,18vw,7rem)!important;
+    line-height:.78!important;
+    letter-spacing:-.075em!important;
+  }
+
+  .hero p{
+    max-width:670px!important;
+    font-size:1rem!important;
+    line-height:1.6!important;
+    margin-top:29px!important;
+  }
+
+  .hero-actions{
+    display:flex!important;
+    gap:10px!important;
+    flex-wrap:wrap!important;
+    margin-top:30px!important;
+  }
+
+  .hero-actions .btn{
+    min-width:0!important;
+    padding:12px 16px!important;
+    text-align:center!important;
+    font-size:.8rem!important;
+  }
+
+  .orbit{
+    height:330px!important;
+    margin-top:0!important;
+    transform:none!important;
+  }
+
+  section{
+    padding:120px 0!important;
+  }
+
+  .about-grid,
+  .skill-wrap,
+  .projects,
+  .certs,
+  .contact-grid{
+    gap:15px!important;
+    margin-top:42px!important;
+  }
+
+  .panel{
+    padding:30px!important;
+  }
+
+  .section-title{
+    margin-top:9px!important;
+  }
+}
+
+@media (max-width:430px){
+  .navin{
+    padding:0 10px!important;
+  }
+
+  .hero{
+    padding:130px 0 70px!important;
+  }
+
+  .hero-grid{
+    gap:60px!important;
+  }
+
+  .hero h1{
+    font-size:clamp(4.15rem,18vw,6.5rem)!important;
+  }
+
+  .hero p{
+    font-size:1rem!important;
+    line-height:1.6!important;
+    margin-top:29px!important;
+  }
+
+  .hero-actions{
+    gap:10px!important;
+    margin-top:30px!important;
+  }
+
+  .hero-actions .btn{
+    padding:12px 14px!important;
+    font-size:.78rem!important;
+  }
+
+  .orbit{
+    height:300px!important;
+  }
+
+  section{
+    padding:120px 0!important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- VIDHAAN FUTURISTIC INTRO START -->
+<!-- VIDHAAN INTRO V3 START -->
+<div id="vidhaan-intro" aria-label="Vidhaan Mathur portfolio introduction">
+  <div class="vi-grid"></div>
+  <div class="vi-vignette"></div>
+  <div class="vi-scan"></div>
+  <div class="vi-orbit vi-orbit-a"></div>
+  <div class="vi-orbit vi-orbit-b"></div>
+  <div class="vi-core"></div>
+  <div class="vi-topbar"><span>VIDHAAN / PORTFOLIO</span><span>SYS-2026</span></div>
+  <div class="vi-status vi-status-left"><span>AI</span><b>ONLINE</b><span>PROJECTS</span><b>LOADED</b></div>
+  <div class="vi-status vi-status-right"><span>GITHUB</span><b>CONNECTED</b><span>SYSTEM</span><b>READY</b></div>
+  <div class="vi-name">
+    <div class="vi-kicker">INITIALIZING PORTFOLIO</div>
+    <div class="vi-first">VIDHAAN</div>
+    <div class="vi-last">MATHUR</div>
+    <div class="vi-rule"></div>
+    <div class="vi-role">SOFTWARE · AI · ELECTRONICS</div>
+  </div>
+  <button id="vi-enter" class="vi-enter" type="button"><span>ENTER PORTFOLIO</span><strong>→</strong></button>
+  <div class="vi-progress"><span></span></div>
+</div>
+<!-- VIDHAAN INTRO V3 END -->
+
+<!-- CURSOR + PROGRESS -->
+
+<div class="cursor" id="cursor"></div>
+
+<div class="progress" id="progress"></div>
+
+
+<!-- =========================
+     NAV
+========================= -->
+
+<nav>
+
+<div class="navin">
+
+<a class="brand" href="#home">
+VIDHAAN<span>.</span>
+</a>
+
+<div class="links" id="links">
+
+<a href="#about">About</a>
+
+<a href="#skills">Skills</a>
+
+<a href="#projects">Work</a>
+
+<a href="#experience">Experience</a>
+
+<a href="#lab">Lab</a>
+
+<a href="#contact">Contact</a>
+
+</div>
+
+<div class="nav-actions">
+
+<button
+class="menu"
+onclick="toggleMenu()"
+>
+☰
+</button>
+
+<a
+class="nav-cta"
+href="https://mail.google.com/mail/?view=cm&fs=1&to=vidhaanm07@gmail.com"
+target="_blank"
+>
+Let's talk ↗
+</a>
+
+<button class="portfolio-search-btn" id="portfolio-search-open" type="button" aria-label="Search portfolio">Search</button>
+
+<a class="nav-resume" href="resume.html">Resume ↗</a>
+
+<div class="recruiter-nav-slot">
+<button class="recruiter-trigger" id="recruiter-trigger" type="button">Recruiter Mode ↗</button>
+</div>
+
+</div>
+
+
+</div>
+
+</nav>
+
+
+<main>
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section
+class="hero"
+id="home"
+>
+
+<div class="container hero-grid">
+
+<div class="reveal">
+
+<div class="tag">
+Software × AI × Electronics
+</div>
+
+<h1>
+
+<span>VIDHAAN</span>
+
+<span class="outline">
+MATHUR
+</span>
+
+</h1>
+
+<p>
+
+Electronics Engineering
+(Instrumentation & Control)
+student at Thapar University,
+building toward software engineering
+through AI, GenAI, LLMs, AI agents,
+automation and practical technology.
+
+</p>
+
+<div class="hero-actions">
+
+<a
+class="btn main"
+href="#projects"
+>
+Explore work ↓
+</a>
+
+<a
+class="btn"
+href="https://in.linkedin.com/in/vidhaan-mathur-a2b54337a"
+target="_blank"
+>
+LinkedIn ↗
+</a>
+
+<a
+class="btn"
+href="https://github.com/vidhaanm07"
+target="_blank"
+>
+GitHub ↗
+</a>
+
+</div>
+
+</div>
+
+
+<!-- AI ORBIT -->
+
+<div class="orbit reveal">
+
+<div class="orb">
+
+<div>
+
+<strong>Welcome</strong>
+
+<small>
+CODE × AGENTS × IoT
+</small>
+
+</div>
+
+</div>
+
+<div class="ring"></div>
+
+<div class="ring r2"></div>
+
+<div class="node n1">
+LLMs
+</div>
+
+<div class="node n2">
+n8n
+</div>
+
+<div class="node n3">
+IoT
+</div>
+
+</div>
+
+</div>
+
+
+<div class="scroll">
+SCROLL TO EXPLORE
+</div>
+
+</section>
+
+
+<!-- =========================
+     ABOUT
+========================= -->
+
+<section id="about">
+
+<div class="container">
+
+<div class="reveal">
+
+<div class="eyebrow">
+01 / About
+</div>
+
+<h2 class="section-title">
+
+Curious by default.<br>
+
+Building by doing.
+
+</h2>
+
+<p class="section-copy">
+
+I like the space where software,
+AI and electronics meet — taking an idea,
+turning it into a prototype,
+and learning from what happens next.
+
+</p>
+
+</div>
+
+
+<div class="about-grid">
+
+
+<div class="panel reveal">
+
+<p>
+
+My current focus is software engineering
+and applied AI.
+
+I'm developing hands-on experience
+with Python, C/C++, SQL, LLM tooling,
+automation, NLP, retrieval and AI-agent
+workflows while continuing my electronics
+engineering foundation.
+
+</p>
+
+<p style="margin-top:17px">
+
+From support automation to multimodal
+pipelines and Arduino experiments,
+my projects are centered around practical
+systems that can be demonstrated,
+tested and improved.
+
+</p>
+
+</div>
+
+
+<div class="stats reveal">
+
+<div class="stat">
+
+<b>AI</b>
+
+<span>
+GenAI · LLMs · Agents
+</span>
+
+</div>
+
+
+<div class="stat">
+
+<b>CODE</b>
+
+<span>
+Python · C · C++ · SQL
+</span>
+
+</div>
+
+
+<div class="stat">
+
+<b>BUILD</b>
+
+<span>
+Automation · IoT
+</span>
+
+</div>
+
+
+<div class="stat">
+
+<b>LEARN</b>
+
+<span>
+Always experimenting
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     SKILLS
+========================= -->
+
+<section id="skills">
+
+<div class="container">
+
+<div class="reveal">
+
+<div class="eyebrow">
+02 / Skills
+</div>
+
+<h2 class="section-title">
+The toolkit.
+</h2>
+
+<p class="section-copy">
+
+Technologies and concepts
+I'm actively learning and applying.
+
+</p>
+
+</div>
+
+
+<div class="skill-wrap">
+
+
+<div class="panel skill reveal">
+
+<h3>
+Programming & Data
+</h3>
+
+<div class="chips">
+
+<span class="chip">Python</span>
+
+<span class="chip">C</span>
+
+<span class="chip">C++</span>
+
+<span class="chip">MySQL</span>
+
+</div>
+
+</div>
+
+
+<div class="panel skill reveal">
+
+<h3>
+AI & Machine Learning
+</h3>
+
+<div class="chips">
+
+<span class="chip">Generative AI</span>
+
+<span class="chip">LLMs</span>
+
+<span class="chip">NLP</span>
+
+<span class="chip">Transformers</span>
+
+<span class="chip">Hugging Face</span>
+
+<span class="chip">RAG</span>
+
+</div>
+
+</div>
+
+
+<div class="panel skill reveal">
+
+<h3>
+Agents & Automation
+</h3>
+
+<div class="chips">
+
+<span class="chip">AI Agents</span>
+
+<span class="chip">n8n</span>
+
+<span class="chip">MCP</span>
+
+<span class="chip">LangChain</span>
+
+<span class="chip">OpenAI SDK</span>
+
+<span class="chip">Vapi</span>
+
+<span class="chip">Clay AI</span>
+
+</div>
+
+</div>
+
+
+<div class="panel skill reveal">
+
+<h3>
+Electronics & Tools
+</h3>
+
+<div class="chips">
+
+<span class="chip">Arduino</span>
+
+<span class="chip">IoT</span>
+
+<span class="chip">Gradio</span>
+
+<span class="chip">GitHub</span>
+
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     PROJECTS
+========================= -->
+
+<section id="projects">
+
+<div class="container">
+
+<div class="reveal">
+
+<div class="eyebrow">
+03 / Selected Work
+</div>
+
+<h2 class="section-title">
+Projects with a purpose.
+</h2>
+
+<p class="section-copy">
+
+A growing collection of AI,
+automation, data and embedded experiments.
+
+</p>
+
+</div>
+
+
+<div class="projects" id="projects-grid"></div>
+
+</div>
+
+</section>
+
+
+
+<!-- LIVE GITHUB -->
+<section id="github-live" class="github-section">
+<div class="container">
+<div class="github-head reveal">
+<div>
+<div class="eyebrow">05 / GitHub</div>
+<h2 class="section-title">Built in public.</h2>
+<p class="section-copy">Live repository data from GitHub, updated automatically.</p>
+</div>
+<div class="github-status" id="github-status">Loading GitHub data...</div>
+</div>
+<div class="github-stats">
+<div class="github-stat"><b id="github-repos">—</b><span>Public repositories</span></div>
+<div class="github-stat"><b id="github-followers">—</b><span>Followers</span></div>
+<div class="github-stat"><b id="github-stars">—</b><span>Total stars</span></div>
+</div>
+<div class="github-grid" id="github-grid"></div>
+</div>
+</section>
+
+<!-- =========================
+     EXPERIENCE
+========================= -->
+
+<section id="experience">
+
+<div class="container">
+
+<div class="reveal">
+
+<div class="eyebrow">
+04 / Experience
+</div>
+
+<h2 class="section-title">
+Learning through life.
+</h2>
+
+</div>
+
+
+<div class="timeline">
+
+
+<div class="event reveal">
+
+<h3>
+AI Internship — IIT Jammu
+</h3>
+
+<div class="meta">
+AI · GenAI · LLMs · AI Agents
+</div>
+
+<p>
+
+Completed an internship focused
+on practical AI concepts and tools
+including n8n, NLP, Vapi, Clay AI,
+OpenAI SDK, Transformers,
+Hugging Face pipelines, Gradio,
+messaging bots, MCP, RAG and LangChain.
+
+</p>
+
+</div>
+
+
+<div class="event reveal">
+
+<h3>
+Electronics Engineering —
+Thapar University
+</h3>
+
+<div class="meta">
+INSTRUMENTATION & CONTROL · ONGOING
+</div>
+
+<p>
+
+Building foundations across
+electronics, signals and systems,
+analog devices and circuits,
+digital logic, embedded systems
+and programming.
+
+</p>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     LAB
+========================= -->
+
+<section id="lab">
+
+<div class="container">
+
+<div class="reveal">
+
+<div class="eyebrow">
+05 / The Lab
+</div>
+
+<h2 class="section-title">
+Where the interests connect.
+</h2>
+
+<p class="section-copy">
+
+An interactive map of the areas
+I'm exploring.
+
+</p>
+
+</div>
+
+
+<div class="lab reveal">
+
+
+<div class="lab-core">
+
+<b>
+VM
+</b>
+
+</div>
+
+
+<div class="lab-line ll1"></div>
+
+<div class="lab-line ll2"></div>
+
+<div class="lab-line ll3"></div>
+
+
+<div class="lab-node ln1">
+AI AGENTS
+</div>
+
+<div class="lab-node ln2">
+LLMs
+</div>
+
+<div class="lab-node ln3">
+AUTOMATION
+</div>
+
+<div class="lab-node ln4">
+IoT
+</div>
+
+<div class="lab-node ln5">
+ELECTRONICS
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     CERTIFICATIONS
+========================= -->
+
+<section id="certifications">
+
+<div class="container">
+
+<div class="reveal">
+
+<div class="eyebrow">
+06 / Certifications
+</div>
+
+<h2 class="section-title">
+Learning beyond class.
+</h2>
+
+</div>
+
+
+<div class="certs">
+
+
+<div class="panel cert reveal">
+
+<div>
+
+<h3>
+n8n Academy — n8n102
+</h3>
+
+<p>
+Integrations:
+API and Connected Workflows
+</p>
+
+</div>
+
+<small>
+AI AUTOMATION
+</small>
+
+</div>
+
+
+<div class="panel cert reveal">
+
+<div>
+
+<h3>
+Anthropic
+</h3>
+
+<p>
+Claude with Google Vertex AI
+· MCP Advanced
+</p>
+
+</div>
+
+<small>
+AI / MCP
+</small>
+
+</div>
+
+
+<div class="panel cert reveal">
+
+<div>
+
+<h3>
+Google Cloud
+</h3>
+
+<p>
+Arcade Facilitator Program 2026
+</p>
+
+</div>
+
+<small>
+CLOUD
+</small>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     CONTACT
+========================= -->
+
+<section id="contact">
+
+<div class="container">
+
+<div class="reveal">
+
+<div class="eyebrow">
+07 / Contact
+</div>
+
+</div>
+
+
+<div class="contact-grid">
+
+
+<div class="contact-main reveal">
+
+<h2>
+
+Let's make<br>
+
+something useful.
+
+</h2>
+
+<p>
+
+Have an idea, project or opportunity?
+
+Open a conversation.
+
+</p>
+
+<div class="hero-actions">
+
+<a
+class="btn main"
+href="https://mail.google.com/mail/?view=cm&fs=1&to=vidhaanm07@gmail.com"
+target="_blank"
+>
+Email me ↗
+</a>
+
+</div>
+
+</div>
+
+
+<div class="contact-list reveal">
+
+
+<a
+class="contact-link"
+href="https://in.linkedin.com/in/vidhaan-mathur-a2b54337a"
+target="_blank"
+>
+
+<span>
+LinkedIn
+</span>
+
+<span>
+↗
+</span>
+
+</a>
+
+
+<a
+class="contact-link"
+href="https://github.com/vidhaanm07"
+target="_blank"
+>
+
+<span>
+GitHub
+</span>
+
+<span>
+↗
+</span>
+
+</a>
+
+
+<a
+class="contact-link"
+href="mailto:vidhaanm07@gmail.com"
+>
+
+<span>
+Email Me
+</span>
+
+<span>
+↗
+</span>
+
+</a>
+
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+<div class="container">
+
+© 2026 VIDHAAN MATHUR
+· SOFTWARE × AI × ELECTRONICS
+
+</div>
+
+</footer>
+
+
+<script>
+
+/* MOBILE MENU */
+
+function toggleMenu(){
+
+    document
+        .getElementById("links")
+        .classList
+        .toggle("open");
+
+}
+
+
+/* YEAR */
+
+document
+    .getElementById("year");
+
+
+
+/* PROJECT DATA — EDIT THIS LIST TO ADD OR UPDATE PROJECTS */
+const projects = [
+    {
+        name: "CloudNest AI",
+        category: "AI / AUTOMATION",
+        description: "AI-powered support-ticket automation for classification, priority, sentiment, routing, summaries and human escalation.",
+        technologies: ["n8n", "LLMs", "AI Agents", "Automation"],
+        page: "cloudnest.html",
+        linkLabel: "GitHub ↗",
+        link: "https://github.com/vidhaanm07/AI-Customer-Support-System"
+    },
+    {
+        name: "AQI Prediction",
+        category: "DATA / ML",
+        description: "Machine-learning work focused on predicting air quality from environmental data.",
+        technologies: ["Python", "ML", "Data"],
+        page: "aqi.html"
+    },
+    {
+        name: "Multimodal AI Pipelines",
+        category: "MULTIMODAL AI",
+        description: "Experiments across text, image, audio and video using lightweight Hugging Face models.",
+        technologies: ["Transformers", "Hugging Face", "NLP"],
+        page: "multimodal.html",
+        linkLabel: "GitHub ↗",
+        link: "https://github.com/vidhaanm07/Hugging-Face-Multimodal-Pipelines"
+    },
+    {
+        name: "DevFlow AI",
+        category: "AI / DEVELOPER TOOLS",
+        description: "AI-focused developer workflow project exploring practical automation and intelligent development tooling.",
+        technologies: ["AI", "Automation", "Developer Tools"],
+        page: "devflow.html",
+        linkLabel: "GitHub ↗",
+        link: "https://github.com/vidhaanm07/DevFlow-AI-"
+    },
+    {
+        name: "Bots & Interfaces",
+        category: "BOTS / INTERFACES",
+        description: "Gradio and Telegram bot experiments connecting AI pipelines with interactive user interfaces.",
+        technologies: ["Gradio", "Telegram", "AI"],
+        page: "bots.html",
+        linkLabel: "GitHub ↗",
+        link: "https://github.com/vidhaanm07/Bots-Interfaces"
+    },
+{
+        name: "MediQuick AI",
+        category: "AI First Hackathon",
+        description: "An AI-powered guided troubleshooting assistant that diagnoses device issues through intelligent interactions",
+        technologies: ["Generative AI", "Computer Vision", "AI"],
+        page: "mediquick.html",
+        linkLabel: "GitHub ↗",
+        link: "https://github.com/vidhaanm07/MediQuick-AI"
+    },
+    {
+        name: "Arduino Fog Detection Car",
+        category: "EMBEDDED / IoT",
+        description: "Embedded prototype exploring obstacle detection using Arduino, ultrasonic sensing and motor control.",
+        technologies: ["Arduino", "Ultrasonic", "Embedded"],
+        page: "arduino.html",
+        linkLabel: "Drive ↗",
+        link: "https://drive.google.com/drive/u/2/folders/1H1hs-P02TtiHvbW2Lw_91Td5Q39Spo4y"
     }
-})();
+];
+
+const projectsGrid = document.getElementById("projects-grid");
+
+projectsGrid.innerHTML = projects.map((project, index) => `
+    <a href="${project.page}" class="panel project reveal">
+        <div>
+            <div class="p-top">
+                <span>PROJECT_${String(index + 1).padStart(2, "0")}</span>
+                <span>${project.category}</span>
+            </div>
+            <h3>${project.name}</h3>
+            <p>${project.description}</p>
+            <div class="chips">
+                ${project.technologies.map(tech => `<span class="chip">${tech}</span>`).join("")}
+            </div>
+        </div>
+        <div class="p-bottom">
+            <span class="project-number">${String(index + 1).padStart(2, "0")} / ${String(projects.length).padStart(2, "0")}</span>
+            ${project.link ? `<span class="project-link" data-url="${project.link}">${project.linkLabel}</span>` : ""}
+            <span class="arrow">↗</span>
+        </div>
+    </a>
+`).join("");
+
+/* REVEAL ANIMATIONS */
+
+const observer =
+new IntersectionObserver(
+
+    entries => {
+
+        entries.forEach(entry => {
+
+            if(entry.isIntersecting){
+
+                entry.target
+                    .classList
+                    .add("show");
+
+            }
+
+        });
+
+    },
+
+    {
+        threshold:.12
+    }
+
+);
+
+
+document
+    .querySelectorAll(".reveal")
+    .forEach(el =>
+        observer.observe(el)
+    );
+
+
+/* CURSOR */
+
+const cursor =
+document.getElementById("cursor");
+
+document.addEventListener(
+    "mousemove",
+    e => {
+
+        cursor.style.left =
+            e.clientX + "px";
+
+        cursor.style.top =
+            e.clientY + "px";
+
+    }
+);
+
+
+/* PROJECT SPOTLIGHT */
+
+document
+    .querySelectorAll(".project")
+    .forEach(project => {
+
+        project.addEventListener(
+            "mousemove",
+            e => {
+
+                const rect =
+                    project.getBoundingClientRect();
+
+                const x =
+                    ((e.clientX - rect.left)
+                    / rect.width) * 100;
+
+                const y =
+                    ((e.clientY - rect.top)
+                    / rect.height) * 100;
+
+                project.style
+                    .setProperty(
+                        "--mx",
+                        x + "%"
+                    );
+
+                project.style
+                    .setProperty(
+                        "--my",
+                        y + "%"
+                    );
+
+            }
+        );
+
+    });
+
+
+/* SCROLL PROGRESS */
+
+window.addEventListener(
+    "scroll",
+    () => {
+
+        const doc =
+            document.documentElement;
+
+        const scroll =
+            doc.scrollTop;
+
+        const height =
+            doc.scrollHeight -
+            doc.clientHeight;
+
+        const percentage =
+            (scroll / height) * 100;
+
+        document
+            .getElementById("progress")
+            .style.width =
+            percentage + "%";
+
+    }
+);
+
+
+/* ACTIVE NAV */
+
+const sections =
+[
+    ...document
+        .querySelectorAll(
+            "main section[id]"
+        )
+];
+
+const navLinks =
+[
+    ...document
+        .querySelectorAll(
+            ".links a"
+        )
+];
+
+window.addEventListener(
+    "scroll",
+    () => {
+
+        let current =
+            "home";
+
+        sections.forEach(section => {
+
+            if(
+                scrollY >=
+                section.offsetTop - 180
+            ){
+
+                current =
+                    section.id;
+
+            }
+
+        });
+
+        navLinks.forEach(link => {
+
+            link.classList.toggle(
+
+                "active",
+
+                link.getAttribute(
+                    "href"
+                ) === "#" + current
+
+            );
+
+        });
+
+    }
+);
+
+
+/* CLOSE MOBILE MENU */
+
+navLinks.forEach(link => {
+
+    link.addEventListener(
+        "click",
+        () => {
+
+            document
+                .getElementById("links")
+                .classList
+                .remove("open");
+
+        }
+    );
+
+});
+
 </script>
 
 <script>document.querySelectorAll(".project-link").forEach(link=>link.addEventListener("click",e=>{e.preventDefault();e.stopPropagation();window.open(link.dataset.url,"_blank","noopener,noreferrer");}));</script>
