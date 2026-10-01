@@ -2535,6 +2535,36 @@ nav{width:calc(100% - 12px)!important;left:6px!important;right:6px!important}
 .links.open{top:104px!important}
 }
 </style>
+<style id="mobile-three-dot-nav-final">
+@media (max-width:850px){
+  .nav-actions{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:6px!important;width:auto!important;height:42px!important;margin:0!important;padding:0!important}
+  .nav-actions>.menu,.nav-actions>.mobile-more{display:flex!important;align-items:center!important;justify-content:center!important;width:42px!important;height:42px!important;flex:0 0 42px!important;margin:0!important;padding:0!important;border:1px solid rgba(103,232,249,.25)!important;border-radius:8px!important;background:rgba(255,255,255,.02)!important;color:#b9eff7!important;font-family:"DM Mono",monospace!important}
+  .nav-actions>.menu{font-size:15px!important}
+  .mobile-more{font-size:22px!important;line-height:1!important;cursor:pointer!important}
+  .mobile-more-menu{display:none!important;position:absolute!important;top:50px!important;right:0!important;width:180px!important;z-index:999!important;flex-direction:column!important;gap:5px!important;padding:8px!important;border:1px solid rgba(103,232,249,.22)!important;border-radius:12px!important;background:rgba(5,8,15,.98)!important;box-shadow:0 18px 45px rgba(0,0,0,.55)!important;backdrop-filter:blur(18px)!important}
+  .mobile-more-menu.open{display:flex!important}
+  .mobile-more-menu>a,.mobile-more-menu .recruiter-trigger,.mobile-more-menu .portfolio-search-btn{display:flex!important;align-items:center!important;justify-content:flex-start!important;width:100%!important;height:40px!important;min-height:40px!important;margin:0!important;padding:0 12px!important;box-sizing:border-box!important;border:1px solid rgba(103,232,249,.18)!important;border-radius:8px!important;background:rgba(255,255,255,.02)!important;color:#b9eff7!important;font-family:"DM Mono",monospace!important;font-size:10px!important;font-weight:400!important;text-decoration:none!important;white-space:nowrap!important}
+  .mobile-more-menu .recruiter-nav-slot{display:block!important;width:100%!important;height:40px!important}
+  .mobile-more-menu .recruiter-trigger{cursor:pointer!important}
+}
+@media(max-width:430px){
+  .nav-actions{gap:4px!important}
+  .nav-actions>.menu,.nav-actions>.mobile-more{width:40px!important;height:40px!important;flex-basis:40px!important}
+  .mobile-more-menu{top:48px!important;right:0!important;width:175px!important}
+}
+</style>
+<script>
+(function(){
+  function initMobileMore(){
+    const b=document.getElementById('mobile-more'),m=document.getElementById('mobile-more-menu');
+    if(!b||!m||b.dataset.bound)return;
+    b.dataset.bound='1';
+    b.addEventListener('click',function(e){e.stopPropagation();m.classList.toggle('open');});
+    document.addEventListener('click',function(e){if(!m.contains(e.target)&&e.target!==b)m.classList.remove('open');});
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initMobileMore);else initMobileMore();
+})();
+</script>
 </head>
 
 <body>
@@ -2600,10 +2630,13 @@ VIDHAAN<span>.</span>
 
 <div class="nav-actions">
 <button class="menu" onclick="toggleMenu()">☰</button>
+<button class="mobile-more" id="mobile-more" type="button" aria-label="More navigation options">⋯</button>
+<div class="mobile-more-menu" id="mobile-more-menu">
+<a class="nav-cta" href="https://mail.google.com/mail/?view=cm&fs=1&to=vidhaanm07@gmail.com" target="_blank">Let's talk ↗</a>
 <a class="nav-resume" href="resume.html">Resume ↗</a>
 <button class="portfolio-search-btn" id="portfolio-search-open" type="button" aria-label="Search portfolio">Search</button>
-<div class="recruiter-nav-slot">
-<button class="recruiter-trigger" id="recruiter-trigger" type="button">RECRUITER MODE ↗</button>
+<div class="recruiter-nav-slot"><button class="recruiter-trigger" id="recruiter-trigger" type="button">RECRUITER MODE ↗</button></div>
+</div>
 </div>
 <a class="nav-cta" href="https://mail.google.com/mail/?view=cm&fs=1&to=vidhaanm07@gmail.com" target="_blank">Let's talk ↗</a>
 </div>
