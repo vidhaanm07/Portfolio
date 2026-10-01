@@ -1208,7 +1208,42 @@ footer{
     font:10px "DM Mono";
 }
 
-/* DISTINCT RECRUITER MODE CONTROL */
+/* RECRUITER MODE — TOP NAV INTEGRATION */
+.recruiter-trigger{
+    position:relative;
+    left:auto; top:auto; transform:none;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:0;
+    width:auto;
+    padding:8px 12px;
+    writing-mode:horizontal-tb;
+    text-orientation:initial;
+    letter-spacing:.08em;
+    font:700 10px "DM Mono",monospace;
+    color:#75f6ff;
+    background:rgba(103,232,249,.07);
+    border:1px solid rgba(103,232,249,.38);
+    border-radius:9px;
+    box-shadow:0 0 18px rgba(103,232,249,.06), inset 0 0 14px rgba(103,232,249,.03);
+    backdrop-filter:blur(12px);
+    cursor:pointer;
+    transition:.25s ease;
+}
+.recruiter-trigger:before{display:none}
+.recruiter-trigger:hover{
+    transform:translateY(-2px);
+    color:#fff;
+    border-color:rgba(117,246,255,.85);
+    background:rgba(103,232,249,.13);
+    box-shadow:0 0 25px rgba(103,232,249,.15), inset 0 0 18px rgba(103,232,249,.05);
+}
+@media(max-width:850px){
+    .recruiter-trigger{display:inline-flex;width:auto;height:auto;min-height:0;padding:8px 10px;transform:none;writing-mode:horizontal-tb}
+    .recruiter-trigger:hover{transform:translateY(-2px)}
+}
+
 .recruiter-trigger{
     position:fixed;
     left:22px;
@@ -1496,7 +1531,7 @@ footer{
 .rv-footer{margin-top:30px;color:#52677f;font:8px "DM Mono",monospace;letter-spacing:.12em}
 @media(max-width:700px){.recruiter-trigger{top:15px;right:15px}.rv-shell{padding:35px 18px 55px}.rv-grid{grid-template-columns:1fr}.rv-top{margin-bottom:32px}}
 
-</style>
+.recruiter-nav-slot{display:flex;align-items:center;margin-left:6px}.recruiter-nav-slot .recruiter-trigger{white-space:nowrap}.navin{gap:8px}@media(max-width:850px){.recruiter-nav-slot{margin-left:auto;margin-right:6px}.recruiter-nav-slot .recruiter-trigger{font-size:9px;padding:7px 9px}}</style>
 <style>.nav-resume{color:#9bb0c9;font:11px "DM Mono";text-decoration:none;border:1px solid rgba(255,255,255,.11);padding:8px 11px;border-radius:8px;margin-left:10px;transition:.2s}.nav-resume:hover{color:#fff;border-color:#5aa7ff}</style>
 <!-- PORTFOLIO SEARCH FEATURE -->
 <style>
@@ -3767,7 +3802,7 @@ document.addEventListener(
 // VIDHAAN INTRO V3 JS END
 </script>
 
-<button class="recruiter-trigger" id="recruiter-trigger" type="button">RECRUITER MODE ↗</button>
+<div class="recruiter-nav-slot"><button class="recruiter-trigger" id="recruiter-trigger" type="button">RECRUITER MODE ↗</button></div>
 <div id="recruiter-view" aria-hidden="true">
   <div class="rv-shell">
     <div class="rv-top"><div class="rv-label">VIDHAAN / RECRUITER MODE</div><button class="rv-close" id="recruiter-close" type="button">CLOSE ×</button></div>
