@@ -1911,6 +1911,141 @@ footer{
 @media(max-width:700px){.github-head{display:block}.github-stats,.github-grid{grid-template-columns:1fr}.github-stats{margin-top:20px}}
 </style>
 
+<style id="mobile-nav-final-fix">
+@media (max-width:850px){
+  nav{
+    width:calc(100% - 16px) !important;
+    max-width:none !important;
+    left:8px !important;
+    right:8px !important;
+    transform:none !important;
+    top:8px !important;
+  }
+
+  .navin{
+    width:100% !important;
+    min-height:100px !important;
+    height:auto !important;
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    grid-template-rows:42px 42px !important;
+    gap:5px !important;
+    padding:5px 7px !important;
+  }
+
+  .brand{
+    display:flex !important;
+    align-items:center !important;
+    height:42px !important;
+    font-family:"Space Grotesk",sans-serif !important;
+    font-size:1rem !important;
+  }
+
+  .nav-actions{
+    display:grid !important;
+    grid-template-columns:repeat(5,minmax(0,1fr)) !important;
+    width:100% !important;
+    height:42px !important;
+    gap:4px !important;
+    margin:0 !important;
+    padding:0 !important;
+    align-items:stretch !important;
+  }
+
+  .nav-actions > .nav-cta,
+  .nav-actions > .menu,
+  .nav-actions > .nav-resume,
+  .nav-actions > .portfolio-search-btn,
+  .nav-actions > .recruiter-nav-slot{
+    display:flex !important;
+    position:relative !important;
+    width:100% !important;
+    min-width:0 !important;
+    max-width:none !important;
+    height:42px !important;
+    margin:0 !important;
+    padding:0 2px !important;
+    align-items:center !important;
+    justify-content:center !important;
+    box-sizing:border-box !important;
+    border:1px solid rgba(103,232,249,.25) !important;
+    border-radius:8px !important;
+    background:rgba(255,255,255,.02) !important;
+    color:#b9eff7 !important;
+    font-family:"DM Mono",monospace !important;
+    font-size:7px !important;
+    font-weight:400 !important;
+    line-height:1 !important;
+    letter-spacing:0 !important;
+    text-align:center !important;
+    white-space:nowrap !important;
+    overflow:hidden !important;
+  }
+
+  .nav-actions > .nav-cta,
+  .nav-actions > .nav-resume,
+  .nav-actions > .portfolio-search-btn{
+    text-decoration:none !important;
+  }
+
+  .nav-actions > .menu{
+    cursor:pointer !important;
+    font-size:15px !important;
+  }
+
+  .nav-actions > .recruiter-nav-slot{
+    padding:0 !important;
+  }
+
+  .recruiter-nav-slot .recruiter-trigger{
+    width:100% !important;
+    height:100% !important;
+    min-width:0 !important;
+    padding:0 1px !important;
+    margin:0 !important;
+    border:0 !important;
+    border-radius:0 !important;
+    background:transparent !important;
+    color:inherit !important;
+    font:inherit !important;
+    letter-spacing:inherit !important;
+    white-space:nowrap !important;
+    overflow:hidden !important;
+    text-overflow:clip !important;
+  }
+
+  .recruiter-nav-slot .recruiter-trigger:before{
+    display:none !important;
+  }
+
+  .links.open{
+    top:104px !important;
+    left:0 !important;
+    right:0 !important;
+    width:100% !important;
+  }
+}
+
+@media (max-width:430px){
+  .navin{
+    grid-template-rows:40px 40px !important;
+    gap:4px !important;
+    padding:4px 6px !important;
+  }
+  .brand{height:40px !important;font-size:.98rem !important}
+  .nav-actions{height:40px !important;gap:3px !important}
+  .nav-actions > .nav-cta,
+  .nav-actions > .menu,
+  .nav-actions > .nav-resume,
+  .nav-actions > .portfolio-search-btn,
+  .nav-actions > .recruiter-nav-slot{
+    height:40px !important;
+    font-size:6.5px !important;
+  }
+  .nav-actions > .menu{font-size:14px !important}
+  .links.open{top:100px !important}
+}
+</style>
 </head>
 
 <body>
