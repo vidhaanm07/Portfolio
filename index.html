@@ -160,7 +160,7 @@ nav{
 
     transform:translateX(-50%);
 
-    width:min(1050px,92%);
+    width:min(1220px,94%);
 
     z-index:80;
 
@@ -174,15 +174,12 @@ nav{
 }
 
 .navin{
-    height:60px;
-
+    min-height:60px;
     display:flex;
-
     align-items:center;
-
     justify-content:space-between;
-
-    padding:0 14px 0 20px;
+    gap:8px;
+    padding:0 12px 0 20px;
 }
 
 .brand{
@@ -197,7 +194,7 @@ nav{
 
 .links{
     display:flex;
-    gap:6px;
+    gap:3px;
 }
 
 .links a{
@@ -1209,17 +1206,27 @@ footer{
 }
 
 /* RECRUITER MODE — TOP NAV INTEGRATION */
+.recruiter-nav-slot{
+    display:flex;
+    align-items:center;
+    margin-left:4px;
+}
+
 .recruiter-trigger{
     position:relative;
-    left:auto; top:auto; transform:none;
+    left:auto;
+    top:auto;
+    transform:none;
     display:inline-flex;
     align-items:center;
     justify-content:center;
-    min-height:0;
     width:auto;
-    padding:8px 12px;
+    min-height:0;
+    height:38px;
+    padding:0 13px;
     writing-mode:horizontal-tb;
     text-orientation:initial;
+    white-space:nowrap;
     letter-spacing:.08em;
     font:700 10px "DM Mono",monospace;
     color:#75f6ff;
@@ -1231,7 +1238,18 @@ footer{
     cursor:pointer;
     transition:.25s ease;
 }
-.recruiter-trigger:before{display:none}
+
+.recruiter-trigger:before{
+    content:"";
+    position:absolute;
+    left:10px;
+    bottom:0;
+    width:24px;
+    height:2px;
+    background:#67e8f9;
+    box-shadow:0 0 12px #67e8f9;
+}
+
 .recruiter-trigger:hover{
     transform:translateY(-2px);
     color:#fff;
@@ -1239,69 +1257,21 @@ footer{
     background:rgba(103,232,249,.13);
     box-shadow:0 0 25px rgba(103,232,249,.15), inset 0 0 18px rgba(103,232,249,.05);
 }
-@media(max-width:850px){
-    .recruiter-trigger{display:inline-flex;width:auto;height:auto;min-height:0;padding:8px 10px;transform:none;writing-mode:horizontal-tb}
-    .recruiter-trigger:hover{transform:translateY(-2px)}
-}
 
-.recruiter-trigger{
-    position:fixed;
-    left:22px;
-    top:50%;
-    transform:translateY(-50%);
-    z-index:150;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    width:46px;
-    min-height:178px;
-    padding:14px 9px;
-    writing-mode:vertical-rl;
-    text-orientation:mixed;
-    letter-spacing:.16em;
-    font:10px "DM Mono",monospace;
-    color:#75f6ff;
-    background:rgba(3,8,15,.88);
-    border:1px solid rgba(103,232,249,.35);
-    border-radius:12px;
-    box-shadow:0 0 28px rgba(103,232,249,.08), inset 0 0 18px rgba(103,232,249,.035);
-    backdrop-filter:blur(16px);
-    cursor:pointer;
-    transition:transform .25s ease, border-color .25s ease, box-shadow .25s ease, background .25s ease;
-}
-.recruiter-trigger:before{
-    content:"";
-    position:absolute;
-    left:0;
-    top:18px;
-    width:2px;
-    height:42px;
-    background:#67e8f9;
-    box-shadow:0 0 12px #67e8f9;
-}
-.recruiter-trigger:hover{
-    transform:translateY(-50%) translateX(5px);
-    border-color:rgba(117,246,255,.8);
-    background:rgba(5,16,27,.96);
-    box-shadow:0 0 34px rgba(103,232,249,.16), inset 0 0 22px rgba(103,232,249,.06);
-}
 @media(max-width:850px){
-    .recruiter-trigger{
-        left:12px;
-        top:auto;
-        bottom:22px;
-        transform:none;
-        width:auto;
-        min-height:0;
-        height:38px;
-        padding:0 13px;
-        writing-mode:horizontal-tb;
-        border-radius:9px;
+    .recruiter-nav-slot{
+        margin-left:auto;
+        margin-right:5px;
     }
-    .recruiter-trigger:before{left:10px;top:auto;bottom:0;width:24px;height:2px}
-    .recruiter-trigger:hover{transform:translateY(-3px)}
-}
 
+    .recruiter-trigger{
+        height:36px;
+        padding:0 10px;
+        font-size:9px;
+        letter-spacing:.06em;
+    }
+}
+ 
 /* =========================
    MOBILE
 ========================= */
@@ -1746,6 +1716,8 @@ onclick="toggleMenu()"
 
 <a class="nav-resume" href="resume.html">Resume ↗</a>
 <button class="portfolio-search-btn" id="portfolio-search-open" type="button" aria-label="Search portfolio">Search</button>
+
+<div class="recruiter-nav-slot"><button class="recruiter-trigger" id="recruiter-trigger" type="button">RECRUITER MODE ↗</button></div>
 
 
 </div>
@@ -3802,7 +3774,7 @@ document.addEventListener(
 // VIDHAAN INTRO V3 JS END
 </script>
 
-<div class="recruiter-nav-slot"><button class="recruiter-trigger" id="recruiter-trigger" type="button">RECRUITER MODE ↗</button></div>
+
 <div id="recruiter-view" aria-hidden="true">
   <div class="rv-shell">
     <div class="rv-top"><div class="rv-label">VIDHAAN / RECRUITER MODE</div><button class="rv-close" id="recruiter-close" type="button">CLOSE ×</button></div>
