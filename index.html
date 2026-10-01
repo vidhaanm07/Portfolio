@@ -4836,9 +4836,8 @@ document.addEventListener(
 
 
 <script>
-/* LIVE GITHUB INTEGRATION — LIVE + RESILIENT FALLBACK */
+/* LIVE GITHUB INTEGRATION — SERVER-SIDE GITHUB DATA */
 (async function(){
-  const user='vidhaanm07';
   const grid=document.getElementById('github-grid');
   const status=document.getElementById('github-status');
   const reposEl=document.getElementById('github-repos');
@@ -4864,76 +4863,51 @@ document.addEventListener(
     grid.innerHTML=repos.map(r=>`<article class="github-card"><div class="github-card-top"><h3>${esc(r.name)}</h3><span class="github-status">${esc(r.language||'Repository')}</span></div><p>${esc(r.description||'Public GitHub repository by Vidhaan Mathur.')}</p><div class="github-meta"><span>★ ${r.stargazers_count??r.stars??0}</span><span>Forks ${r.forks_count??r.forks??0}</span><span>Updated ${date(r.updated_at)}</span></div><a class="github-link" href="${esc(r.html_url||r.url)}" target="_blank" rel="noopener noreferrer">View repository ↗</a></article>`).join('');
   };
 
-  const getJSON=async url=>{
-    const res=await fetch(url,{headers:{Accept:'application/vnd.github+json'}});
-    if(!res.ok)throw new Error('GitHub '+res.status);
-    return res.json();
-  };
-
   try{
-    const cached=(()=>{try{return JSON.parse(localStorage.getItem('vidhaan-github-cache')||'null')}catch(_){return null}})();
+    const response=await fetch('/api/github',{cache:'no-store'});
+    if(!response.ok)throw new Error('GitHub server endpoint '+response.status);
+    const data=await response.json();
 
-    const [profileResult,reposResult]=await Promise.allSettled([
-      getJSON(`https://api.github.com/users/${user}`),
-      getJSON(`https://api.github.com/users/${user}/repos?per_page=100&sort=updated`)
-    ]);
+    const repos=Array.isArray(data.repos)?data.repos:[];
+    const preferred=['AI-Customer-Support-System','DevFlow-AI-','Hugging-Face-Multimodal-Pipelines'];
 
-    let profile=profileResult.status==='fulfilled'?profileResult.value:null;
-    let repos=reposResult.status==='fulfilled'?reposResult.value.filter(r=>!r.fork):null;
+    repos.sort((a,b)=>{
+      const ai=preferred.indexOf(a.name),bi=preferred.indexOf(b.name);
+      if(ai!==-1||bi!==-1)return(ai===-1?999:ai)-(bi===-1?999:bi);
+      return new Date(b.updated_at)-new Date(a.updated_at);
+    });
 
-    /* If profile endpoint fails, use a direct followers endpoint. */
-    if(!profile){
-      try{
-        const followers=await getJSON(`https://api.github.com/users/${user}/followers?per_page=100`);
-        profile={login:user,followers:Array.isArray(followers)?followers.length:0};
-      }catch(_){
-        profile={login:user,followers:cached?.profile?.followers??'—'};
-      }
-    }
+    reposEl.textContent=Number(data.public_repos??repos.length);
+    followersEl.textContent=Number(data.followers??0);
+    starsEl.textContent=Number(data.stars??repos.reduce((n,r)=>n+Number(r.stargazers_count||0),0));
+    status.textContent=`GitHub / ${data.login||'vidhaanm07'}`;
 
-    /* Render repository data even when profile data is unavailable. */
-    if(repos){
-      const repoStars=repos.reduce((n,r)=>n+Number(r.stargazers_count||0),0);
-      const repoForks=repos.reduce((n,r)=>n+Number(r.forks_count||0),0);
+    render(repos);
 
-      reposEl.textContent=profile.public_repos??repos.length;
-      followersEl.textContent=profile.followers??'—';
-      starsEl.textContent=repoStars;
-      status.textContent=`GitHub / ${profile.login||user}`;
-
-      const preferred=['AI-Customer-Support-System','DevFlow-AI-','Hugging-Face-Multimodal-Pipelines'];
-      repos.sort((a,b)=>{
-        const ai=preferred.indexOf(a.name),bi=preferred.indexOf(b.name);
-        if(ai!==-1||bi!==-1)return(ai===-1?999:ai)-(bi===-1?999:bi);
-        return new Date(b.updated_at)-new Date(a.updated_at);
-      });
-      render(repos);
-
-      try{
-        localStorage.setItem('vidhaan-github-cache',JSON.stringify({
-          profile:{public_repos:profile.public_repos??repos.length,followers:profile.followers??null,login:user},
-          repos
-        }));
-      }catch(_){}
-      return;
-    }
-
-    /* Full repository API failed: use cached live data if available. */
-    if(cached?.repos?.length){
-      reposEl.textContent=cached.profile?.public_repos??cached.repos.length;
-      followersEl.textContent=profile.followers??cached.profile?.followers??'—';
-      starsEl.textContent=cached.repos.reduce((n,r)=>n+Number(r.stargazers_count||r.stars||0),0);
-      status.textContent='GitHub / vidhaanm07';
-      render(cached.repos);
-      return;
-    }
-
-    throw new Error('GitHub repository data unavailable');
+    try{
+      localStorage.setItem('vidhaan-github-cache',JSON.stringify({
+        profile:{public_repos:data.public_repos,followers:data.followers,login:data.login},
+        repos
+      }));
+    }catch(_){}
   }catch(e){
-    console.warn('GitHub live data unavailable; using public repository fallback.',e);
+    console.warn('GitHub server data unavailable; using cached/fallback data.',e);
+
+    try{
+      const cached=JSON.parse(localStorage.getItem('vidhaan-github-cache')||'null');
+      if(cached?.repos?.length){
+        reposEl.textContent=Number(cached.profile?.public_repos??cached.repos.length);
+        followersEl.textContent=Number(cached.profile?.followers??0);
+        starsEl.textContent=cached.repos.reduce((n,r)=>n+Number(r.stargazers_count||r.stars||0),0);
+        status.textContent='GitHub / vidhaanm07';
+        render(cached.repos);
+        return;
+      }
+    }catch(_){}
+
     reposEl.textContent='8';
-    followersEl.textContent='—';
-    starsEl.textContent='—';
+    followersEl.textContent='0';
+    starsEl.textContent='0';
     status.textContent='GitHub / vidhaanm07';
     render(fallback);
   }
