@@ -197,6 +197,14 @@ nav{
     gap:3px;
 }
 
+.nav-actions{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-left:auto;
+    flex-shrink:0;
+}
+
 .links a{
     padding:8px 11px;
 
@@ -1209,9 +1217,9 @@ footer{
 .recruiter-nav-slot{
     display:flex;
     align-items:center;
-    margin-left:14px;
+    margin-left:2px;
     padding-left:14px;
-    border-left:1px solid rgba(103,232,249,.16);
+    border-left:1px solid rgba(103,232,249,.18);
 }
 .recruiter-nav-slot .recruiter-trigger{
     margin-left:0;
@@ -1284,6 +1292,10 @@ footer{
 ========================= */
 
 @media(max-width:850px){
+
+    .nav-actions{
+        gap:7px;
+    }
 
     nav{
         top:10px;
@@ -1706,6 +1718,8 @@ VIDHAAN<span>.</span>
 
 </div>
 
+<div class="nav-actions">
+
 <a
 class="nav-cta"
 href="https://mail.google.com/mail/?view=cm&fs=1&to=vidhaanm07@gmail.com"
@@ -1722,9 +1736,14 @@ onclick="toggleMenu()"
 </button>
 
 <a class="nav-resume" href="resume.html">Resume ↗</a>
+
 <button class="portfolio-search-btn" id="portfolio-search-open" type="button" aria-label="Search portfolio">Search</button>
 
-<div class="recruiter-nav-slot"><button class="recruiter-trigger" id="recruiter-trigger" type="button">RECRUITER MODE ↗</button></div>
+<div class="recruiter-nav-slot">
+<button class="recruiter-trigger" id="recruiter-trigger" type="button">RECRUITER MODE ↗</button>
+</div>
+
+</div>
 
 
 </div>
