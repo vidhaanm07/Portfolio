@@ -2403,115 +2403,100 @@ footer{
 
 <style id="mobile-nav-panel-layout">
 @media(max-width:850px){
-  /* Closed mobile navbar */
-  .nav-actions{gap:8px!important;}
-  .nav-actions>.recruiter-nav-slot{margin-left:0!important;padding-left:0!important;border-left:0!important;}
-  .nav-actions>.nav-cta,.nav-actions>.portfolio-search-btn,.nav-actions>.nav-resume,.nav-actions>.recruiter-nav-slot{margin-left:0!important;}
-
-  /* One unified mobile panel: About → Contact, then four equal actions. */
-  nav:has(.links.open){
-    border-radius:16px;
-    padding-bottom:70px!important;
+  /* Mobile top panel: navigation first, four equal actions underneath. */
+  nav{
+    width:92%!important;
+    top:10px!important;
   }
-  nav:has(.links.open) .navin{
+
+  .navin{
     height:auto!important;
     min-height:60px!important;
-    display:block!important;
-    padding:0!important;
-    position:relative;
-  }
-  nav:has(.links.open) .brand{
-    position:absolute;
-    left:20px;
-    top:20px;
-    z-index:3;
-  }
-  nav:has(.links.open) .nav-actions{
-    display:block!important;
-    position:static!important;
-    margin:0!important;
-    padding:0!important;
-    width:100%!important;
-  }
-  nav:has(.links.open) .menu{
-    display:block!important;
-    position:absolute;
-    top:14px;
-    right:14px;
-    z-index:5;
-    margin:0!important;
+    padding:0 14px!important;
+    display:flex!important;
+    flex-wrap:wrap!important;
+    align-items:center!important;
   }
 
-  nav:has(.links.open) .links.open{
-    display:grid!important;
-    position:static!important;
-    margin:0!important;
-    padding:68px 14px 14px!important;
-    grid-template-columns:repeat(2,minmax(0,1fr));
-    gap:8px!important;
+  .brand{
+    flex:0 0 auto;
+  }
+
+  .menu{
+    display:none!important;
+  }
+
+  .links{
+    display:flex!important;
+    order:3;
+    width:100%!important;
+    overflow-x:auto!important;
+    scrollbar-width:none;
+    gap:4px!important;
+    padding:8px 0!important;
+    border:0!important;
     background:transparent!important;
-    border:0!important;
-    border-radius:0!important;
-  }
-  nav:has(.links.open) .links.open a{
-    display:flex!important;
-    align-items:center;
-    justify-content:flex-start;
-    min-height:44px;
-    padding:10px 12px!important;
-    border:1px solid rgba(255,255,255,.10);
-    border-radius:9px;
-    background:rgba(255,255,255,.025);
-    font-size:.78rem!important;
+    position:static!important;
+    flex-direction:row!important;
   }
 
-  nav:has(.links.open) .nav-actions > .nav-cta,
-  nav:has(.links.open) .nav-actions > .portfolio-search-btn,
-  nav:has(.links.open) .nav-actions > .nav-resume,
-  nav:has(.links.open) .nav-actions > .recruiter-nav-slot{
-    display:flex!important;
-  }
-  nav:has(.links.open) .nav-actions > .nav-cta,
-  nav:has(.links.open) .nav-actions > .portfolio-search-btn,
-  nav:has(.links.open) .nav-actions > .nav-resume{
-    position:absolute;
-    bottom:14px;
-    height:42px!important;
-    min-height:42px!important;
-    margin:0!important;
-    padding:0 6px!important;
-    width:calc(25% - 10px)!important;
-    border:1px solid rgba(103,232,249,.25);
-    border-radius:9px;
-    font-size:9px!important;
-  }
-  nav:has(.links.open) .nav-actions > .nav-cta{left:14px;}
-  nav:has(.links.open) .nav-actions > .portfolio-search-btn{left:calc(25% + 4px);}
-  nav:has(.links.open) .nav-actions > .nav-resume{left:calc(50% + 2px);}
+  .links::-webkit-scrollbar{display:none;}
 
-  nav:has(.links.open) .nav-actions > .recruiter-nav-slot{
-    position:absolute;
-    right:14px;
-    bottom:14px;
-    width:calc(25% - 10px)!important;
-    height:42px!important;
-    min-height:42px!important;
-    margin:0!important;
-    padding:0!important;
-    border:0!important;
+  .links a{
+    flex:0 0 auto!important;
+    padding:8px 10px!important;
+    font-size:.72rem!important;
+    white-space:nowrap!important;
+    border-radius:8px!important;
   }
-  nav:has(.links.open) .recruiter-nav-slot .recruiter-trigger{
+
+  .nav-actions{
+    order:2;
+    margin-left:auto!important;
+    display:grid!important;
+    grid-template-columns:repeat(4,minmax(0,1fr))!important;
+    gap:6px!important;
     width:100%!important;
-    height:42px!important;
-    min-height:42px!important;
-    padding:0 5px!important;
-    font-size:9px!important;
-    border-radius:9px;
+    padding:8px 0 10px!important;
   }
-  nav:has(.links.open) .recruiter-trigger:before{
-    width:4px;
-    height:4px;
-    margin-right:4px;
+
+  .nav-actions > .nav-cta,
+  .nav-actions > .portfolio-search-btn,
+  .nav-actions > .nav-resume,
+  .nav-actions > .recruiter-nav-slot{
+    display:flex!important;
+    width:100%!important;
+    height:40px!important;
+    min-height:40px!important;
+    margin:0!important;
+    padding:0 5px!important;
+    align-items:center!important;
+    justify-content:center!important;
+    border:1px solid rgba(103,232,249,.25)!important;
+    border-radius:9px!important;
+    font:9px "DM Mono",monospace!important;
+    white-space:nowrap!important;
+  }
+
+  .nav-actions > .recruiter-nav-slot{
+    border:0!important;
+    padding:0!important;
+    height:40px!important;
+    min-height:40px!important;
+  }
+
+  .nav-actions > .recruiter-nav-slot .recruiter-trigger{
+    width:100%!important;
+    height:40px!important;
+    min-height:40px!important;
+    padding:0 4px!important;
+    font:9px "DM Mono",monospace!important;
+  }
+
+  .nav-actions > .recruiter-nav-slot .recruiter-trigger:before{
+    width:4px!important;
+    height:4px!important;
+    margin-right:4px!important;
   }
 }
 </style>
