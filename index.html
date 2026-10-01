@@ -1219,56 +1219,47 @@ footer{
     align-items:center;
     margin-left:2px;
     padding-left:14px;
-    border-left:1px solid rgba(103,232,249,.18);
-}
-.recruiter-nav-slot .recruiter-trigger{
-    margin-left:0;
+    border-left:1px solid rgba(103,232,249,.16);
 }
 
 .recruiter-trigger{
     position:relative;
-    left:auto;
-    top:auto;
-    transform:none;
     display:inline-flex;
     align-items:center;
     justify-content:center;
     width:auto;
     min-height:0;
-    height:38px;
-    padding:0 13px;
-    writing-mode:horizontal-tb;
-    text-orientation:initial;
+    height:auto;
+    padding:8px 12px;
     white-space:nowrap;
-    letter-spacing:.08em;
-    font:700 10px "DM Mono",monospace;
-    color:#75f6ff;
-    background:rgba(103,232,249,.07);
-    border:1px solid rgba(103,232,249,.38);
+    letter-spacing:0;
+    font:11px "DM Mono",monospace;
+    color:#b9eff7;
+    background:rgba(255,255,255,.02);
+    border:1px solid rgba(103,232,249,.32);
     border-radius:9px;
-    box-shadow:0 0 18px rgba(103,232,249,.06), inset 0 0 14px rgba(103,232,249,.03);
-    backdrop-filter:blur(12px);
+    box-shadow:none;
+    backdrop-filter:none;
     cursor:pointer;
-    transition:.25s ease;
+    transition:.2s ease;
 }
 
 .recruiter-trigger:before{
     content:"";
-    position:absolute;
-    left:10px;
-    bottom:0;
-    width:24px;
-    height:2px;
+    width:5px;
+    height:5px;
+    margin-right:8px;
+    border-radius:50%;
     background:#67e8f9;
-    box-shadow:0 0 12px #67e8f9;
+    box-shadow:0 0 9px rgba(103,232,249,.7);
 }
 
 .recruiter-trigger:hover{
-    transform:translateY(-2px);
+    transform:none;
     color:#fff;
-    border-color:rgba(117,246,255,.85);
-    background:rgba(103,232,249,.13);
-    box-shadow:0 0 25px rgba(103,232,249,.15), inset 0 0 18px rgba(103,232,249,.05);
+    border-color:rgba(103,232,249,.62);
+    background:rgba(103,232,249,.06);
+    box-shadow:0 0 18px rgba(103,232,249,.08);
 }
 
 @media(max-width:850px){
@@ -1280,10 +1271,14 @@ footer{
     }
 
     .recruiter-trigger{
-        height:36px;
-        padding:0 10px;
+        padding:7px 10px;
         font-size:9px;
-        letter-spacing:.06em;
+    }
+
+    .recruiter-trigger:before{
+        width:4px;
+        height:4px;
+        margin-right:6px;
     }
 }
  
