@@ -4849,8 +4849,6 @@ document.addEventListener(
     const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     const date=v=>v?new Date(v).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}):'—';
 
-    /* These are the user's current public repositories. They are only a
-       display fallback; live GitHub data is always preferred when available. */
     const fallback=[
       {name:'AI-Customer-Support-System',description:'AI-powered customer support system and automation project.',language:'Python',stars:0,forks:0,url:'https://github.com/vidhaanm07/AI-Customer-Support-System'},
       {name:'DevFlow-AI-',description:'AI-powered developer workflow and automation project.',language:'Python',stars:0,forks:0,url:'https://github.com/vidhaanm07/DevFlow-AI-'},
@@ -4862,24 +4860,41 @@ document.addEventListener(
       {name:'Portfolio',description:'Vidhaan Mathur — personal portfolio website.',language:'HTML',stars:0,forks:0,url:'https://github.com/vidhaanm07/Portfolio'}
     ];
 
-    const render=(repos)=>{
-      grid.innerHTML=repos.map(r=>`<article class="github-card"><div class="github-card-top"><h3>${esc(r.name)}</h3><span class="github-status">${esc(r.language||'Repository')}</span></div><p>${esc(r.description||'Public GitHub repository by Vidhaan Mathur.')}</p><div class="github-meta"><span>★ ${r.stars??r.stargazers_count??0}</span><span>Forks ${r.forks??r.forks_count??0}</span><span>Updated ${date(r.updated_at)}</span></div><a class="github-link" href="${esc(r.url||r.html_url)}" target="_blank" rel="noopener noreferrer">View repository ↗</a></article>`).join('');
+    const render=repos=>{
+      grid.innerHTML=repos.map(r=>`<article class="github-card"><div class="github-card-top"><h3>${esc(r.name)}</h3><span class="github-status">${esc(r.language||'Repository')}</span></div><p>${esc(r.description||'Public GitHub repository by Vidhaan Mathur.')}</p><div class="github-meta"><span>★ ${r.stargazers_count??r.stars??0}</span><span>Forks ${r.forks_count??r.forks??0}</span><span>Updated ${date(r.updated_at)}</span></div><a class="github-link" href="${esc(r.html_url||r.url)}" target="_blank" rel="noopener noreferrer">View repository ↗</a></article>`).join('');
     };
 
     try{
-        const [pr,rr]=await Promise.all([
-          fetch(`https://api.github.com/users/${user}`,{headers:{Accept:'application/vnd.github+json'}}),
-          fetch(`https://api.github.com/users/${user}/repos?per_page=100&sort=updated`,{headers:{Accept:'application/vnd.github+json'}})
-        ]);
-        if(!pr.ok||!rr.ok) throw new Error('GitHub API unavailable');
-        const profile=await pr.json();
-        const repos=(await rr.json()).filter(r=>!r.fork);
+      const cached=(()=>{try{return JSON.parse(localStorage.getItem('vidhaan-github-cache')||'null')}catch(_){return null}})();
+      const [profileResponse,reposResponse]=await Promise.allSettled([
+        fetch(`https://api.github.com/users/${user}`,{headers:{Accept:'application/vnd.github+json'}}),
+        fetch(`https://api.github.com/users/${user}/repos?per_page=100&sort=updated`,{headers:{Accept:'application/vnd.github+json'}})
+      ]);
 
-        reposEl.textContent=profile.public_repos??repos.length;
-        followersEl.textContent=profile.followers??0;
+      let profile=null,repos=null;
+      if(profileResponse.status==='fulfilled'&&profileResponse.value.ok) profile=await profileResponse.value.json();
+      if(reposResponse.status==='fulfilled'&&reposResponse.value.ok) repos=(await reposResponse.value.json()).filter(r=>!r.fork);
+
+      if(!profile){
+        try{
+          let page=1,count=0;
+          while(page<=10){
+            const fr=await fetch(`https://api.github.com/users/${user}/followers?per_page=100&page=${page}`,{headers:{Accept:'application/vnd.github+json'}});
+            if(!fr.ok)break;
+            const list=await fr.json();
+            count+=list.length;
+            if(list.length<100)break;
+            page++;
+          }
+          profile={login:user,followers:count};
+        }catch(_){}
+      }
+
+      if(repos&&repos.length){
+        reposEl.textContent=profile?.public_repos??repos.length;
+        followersEl.textContent=profile?.followers??cached?.profile?.followers??'—';
         starsEl.textContent=repos.reduce((n,r)=>n+(r.stargazers_count||0),0);
-        status.textContent=`GitHub / ${profile.login}`;
-
+        status.textContent=`GitHub / ${profile?.login||user}`;
         const preferred=['AI-Customer-Support-System','DevFlow-AI-','Hugging-Face-Multimodal-Pipelines'];
         repos.sort((a,b)=>{
           const ai=preferred.indexOf(a.name),bi=preferred.indexOf(b.name);
@@ -4887,25 +4902,26 @@ document.addEventListener(
           return new Date(b.updated_at)-new Date(a.updated_at);
         });
         render(repos);
-        try{localStorage.setItem('vidhaan-github-cache',JSON.stringify({profile:{public_repos:profile.public_repos,followers:profile.followers,login:profile.login},repos:repos}));}catch(_){}
-    }catch(e){
-        console.warn('GitHub live data unavailable; restoring cached/public repository display.',e);
-        try{
-          const cached=JSON.parse(localStorage.getItem('vidhaan-github-cache')||'null');
-          if(cached?.repos?.length){
-            reposEl.textContent=cached.profile?.public_repos??cached.repos.length;
-            followersEl.textContent=cached.profile?.followers??'—';
-            starsEl.textContent=cached.repos.reduce((n,r)=>n+(r.stargazers_count||0),0);
-            status.textContent='GitHub / vidhaanm07';
-            render(cached.repos);
-            return;
-          }
-        }catch(_){}
-        reposEl.textContent='8';
-        followersEl.textContent='—';
-        starsEl.textContent='—';
+        try{localStorage.setItem('vidhaan-github-cache',JSON.stringify({profile:{public_repos:profile?.public_repos??repos.length,followers:profile?.followers??cached?.profile?.followers??null,login:user},repos}));}catch(_){}
+        return;
+      }
+
+      if(cached?.repos?.length){
+        reposEl.textContent=cached.profile?.public_repos??cached.repos.length;
+        followersEl.textContent=cached.profile?.followers??'—';
+        starsEl.textContent=cached.repos.reduce((n,r)=>n+(r.stargazers_count||r.stars||0),0);
         status.textContent='GitHub / vidhaanm07';
-        render(fallback);
+        render(cached.repos);
+        return;
+      }
+      throw new Error('GitHub data unavailable');
+    }catch(e){
+      console.warn('GitHub live data unavailable; restoring public repository display.',e);
+      reposEl.textContent='8';
+      followersEl.textContent='—';
+      starsEl.textContent='—';
+      status.textContent='GitHub / vidhaanm07';
+      render(fallback);
     }
 })();
 </script>
