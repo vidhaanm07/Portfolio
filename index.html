@@ -4863,7 +4863,7 @@ document.addEventListener(
     ];
 
     const render=(repos)=>{
-      grid.innerHTML=repos.slice(0,8).map(r=>`<article class="github-card"><div class="github-card-top"><h3>${esc(r.name)}</h3><span class="github-status">${esc(r.language||'Repository')}</span></div><p>${esc(r.description||'Public GitHub repository by Vidhaan Mathur.')}</p><div class="github-meta"><span>★ ${r.stars??r.stargazers_count??0}</span><span>Forks ${r.forks??r.forks_count??0}</span><span>Updated ${date(r.updated_at)}</span></div><a class="github-link" href="${esc(r.url||r.html_url)}" target="_blank" rel="noopener noreferrer">View repository ↗</a></article>`).join('');
+      grid.innerHTML=repos.map(r=>`<article class="github-card"><div class="github-card-top"><h3>${esc(r.name)}</h3><span class="github-status">${esc(r.language||'Repository')}</span></div><p>${esc(r.description||'Public GitHub repository by Vidhaan Mathur.')}</p><div class="github-meta"><span>★ ${r.stars??r.stargazers_count??0}</span><span>Forks ${r.forks??r.forks_count??0}</span><span>Updated ${date(r.updated_at)}</span></div><a class="github-link" href="${esc(r.url||r.html_url)}" target="_blank" rel="noopener noreferrer">View repository ↗</a></article>`).join('');
     };
 
     try{
@@ -4887,7 +4887,7 @@ document.addEventListener(
           return new Date(b.updated_at)-new Date(a.updated_at);
         });
         render(repos);
-        try{localStorage.setItem('vidhaan-github-cache',JSON.stringify({profile:{public_repos:profile.public_repos,followers:profile.followers,login:profile.login},repos:repos.slice(0,8)}));}catch(_){}
+        try{localStorage.setItem('vidhaan-github-cache',JSON.stringify({profile:{public_repos:profile.public_repos,followers:profile.followers,login:profile.login},repos:repos}));}catch(_){}
     }catch(e){
         console.warn('GitHub live data unavailable; restoring cached/public repository display.',e);
         try{
