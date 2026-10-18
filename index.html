@@ -4964,12 +4964,26 @@ navLinks.forEach(link => {
     padding:10px 14px 10px 16px!important;
   }
 
-  /* Use the same section padding as the other mobile sections. */
-  #experience,#lab{
-    padding:76px 0!important;
+  /* Keep Experience → Lab spacing identical to the normal mobile section rhythm. */
+  #experience{
+    padding-top:76px!important;
+    padding-bottom:76px!important;
     margin:0!important;
   }
-  #experience + #lab > :first-child{margin-top:0!important}
+  #lab{
+    padding-top:76px!important;
+    padding-bottom:76px!important;
+    margin:0!important;
+  }
+  #experience + #lab{
+    margin-top:0!important;
+  }
+  #experience + #lab > .container{
+    margin-top:0!important;
+  }
+  #experience + #lab > .container > :first-child{
+    margin-top:0!important;
+  }
 
   /* Keep the existing SCROLL TO EXPLORE typography unchanged */
   .hero > .scroll{
