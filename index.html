@@ -4907,6 +4907,43 @@ navLinks.forEach(link => {
 @media(prefers-reduced-motion:reduce){#portfolio-intro *{animation:none!important}}
 
 </style>
+
+<style id="mobile-overflow-and-nav-fix">
+@media(max-width:850px){
+  /* Keep the phone navigation compact; open links only after tapping the menu. */
+  .navin{position:relative!important;min-width:0!important}
+  .navin>.links{display:none!important}
+  .navin>.links.open{display:flex!important}
+  .nav-actions>.menu{display:flex!important}
+
+  /* Prevent the hero text and controls from being pushed beyond the viewport. */
+  #home .container,
+  .hero-grid,
+  .hero-grid>*{
+    box-sizing:border-box!important;
+    min-width:0!important;
+    max-width:100%!important;
+  }
+  #home .container{
+    width:calc(100% - 32px)!important;
+    margin-left:auto!important;
+    margin-right:auto!important;
+  }
+  .hero-grid{width:100%!important}
+  .hero h1{
+    font-size:clamp(3rem,13vw,4.8rem)!important;
+    letter-spacing:-.055em!important;
+    overflow-wrap:normal!important;
+    word-break:normal!important;
+    max-width:100%!important;
+  }
+  .hero p{max-width:100%!important}
+  .hero-actions{width:100%!important;min-width:0!important}
+  .hero-actions .btn{min-width:0!important;max-width:100%!important}
+  #lab .lab{max-width:calc(100% - 28px)!important}
+}
+</style>
+
 <style id="mobile-final-layout-fix">
 @media(max-width:850px){
   /* Smaller VIDHAAN. hamburger */
