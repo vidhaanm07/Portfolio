@@ -3109,6 +3109,127 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid #67e8
 }
 </style>
 
+
+<style id="professional-intersections-diagram">
+#lab .lab{
+  min-height:0;
+  margin-top:34px;
+  padding:clamp(18px,3.5vw,38px);
+  display:block;
+  overflow:hidden;
+  border:1px solid rgba(130,164,202,.2);
+  border-radius:16px;
+  background:
+    linear-gradient(rgba(108,145,187,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(108,145,187,.035) 1px,transparent 1px),
+    linear-gradient(145deg,rgba(10,19,33,.98),rgba(5,9,16,.99));
+  background-size:28px 28px,28px 28px,auto;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025);
+}
+#lab .lab-domain-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+}
+#lab .lab-domain{
+  min-width:0;
+  padding:20px 19px 22px;
+  border:1px solid rgba(130,164,202,.22);
+  border-radius:9px;
+  background:rgba(9,16,27,.92);
+  position:relative;
+}
+#lab .lab-domain:after{
+  content:"";
+  position:absolute;
+  bottom:-15px;
+  left:50%;
+  width:1px;
+  height:14px;
+  background:linear-gradient(to bottom,rgba(103,190,255,.65),rgba(103,190,255,.15));
+}
+#lab .lab-index,#lab .lab-outcome-label{
+  display:block;
+  color:#7f9bb9;
+  font:9px "DM Mono",monospace;
+  letter-spacing:.13em;
+  line-height:1.5;
+}
+#lab .lab-domain h3,#lab .lab-outcome h3{
+  margin:13px 0 7px;
+  color:#e5edf7;
+  font:600 clamp(14px,1.4vw,17px) "Space Grotesk",sans-serif;
+  letter-spacing:-.025em;
+}
+#lab .lab-domain p,#lab .lab-outcome p{
+  margin:0;
+  color:#91a2b8;
+  font-size:12px;
+  line-height:1.65;
+}
+#lab .lab-convergence{
+  height:39px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  justify-items:center;
+  position:relative;
+}
+#lab .lab-convergence:after{
+  content:"";
+  position:absolute;
+  top:19px;
+  left:16.666%;
+  right:16.666%;
+  height:1px;
+  background:rgba(103,190,255,.36);
+}
+#lab .lab-convergence span{
+  width:5px;
+  height:5px;
+  margin-top:17px;
+  border-radius:50%;
+  background:#71c9f5;
+  box-shadow:0 0 9px rgba(103,190,255,.3);
+  z-index:1;
+}
+#lab .lab-outcome{
+  display:grid;
+  grid-template-columns:minmax(110px,.55fr) minmax(0,1.5fr) auto;
+  align-items:center;
+  gap:20px;
+  padding:20px 22px;
+  border:1px solid rgba(103,190,255,.34);
+  border-radius:9px;
+  background:linear-gradient(100deg,rgba(21,49,75,.55),rgba(10,20,33,.96) 70%);
+}
+#lab .lab-outcome h3{margin:0 0 5px;font-size:18px}
+#lab .lab-outcome-flow{
+  color:#a9c7e3;
+  font:9px "DM Mono",monospace;
+  letter-spacing:.08em;
+  white-space:nowrap;
+}
+#lab .lab-outcome-flow i{color:#63c9f5;font-style:normal;padding:0 5px}
+@media(max-width:650px){
+  #lab .lab{padding:14px;margin-top:26px}
+  #lab .lab-domain-grid{grid-template-columns:1fr;gap:10px}
+  #lab .lab-domain{padding:15px 16px}
+  #lab .lab-domain h3{margin:7px 0 4px;font-size:15px}
+  #lab .lab-domain p{font-size:12px}
+  #lab .lab-domain:after{display:none}
+  #lab .lab-convergence{height:26px;grid-template-columns:1fr}
+  #lab .lab-convergence:after{left:50%;right:auto;top:0;height:26px;width:1px}
+  #lab .lab-convergence span{display:none}
+  #lab .lab-outcome{grid-template-columns:1fr;gap:9px;padding:17px}
+  #lab .lab-outcome h3{font-size:17px}
+  #lab .lab-outcome-flow{white-space:normal;font-size:9px}
+}
+@media(prefers-reduced-motion:no-preference){
+  #lab .lab-domain,#lab .lab-outcome{transition:border-color .2s ease,background-color .2s ease}
+  #lab .lab-domain:hover{border-color:rgba(103,190,255,.45);background:rgba(12,23,38,.98)}
+}
+</style>
+
 </head>
 
 <body>
@@ -3735,46 +3856,35 @@ I'm exploring.
 </div>
 
 
-<div class="lab reveal">
-
-
-<div class="lab-core">
-
-<b>
-VM
-</b>
-
-</div>
-
-
-<div class="lab-line ll1"></div>
-
-<div class="lab-line ll2"></div>
-
-<div class="lab-line ll3"></div>
-
-
-<div class="lab-node ln1">
-AI AGENTS
-</div>
-
-<div class="lab-node ln2">
-LLMs
-</div>
-
-<div class="lab-node ln3">
-AUTOMATION
-</div>
-
-<div class="lab-node ln4">
-IoT
-</div>
-
-<div class="lab-node ln5">
-ELECTRONICS
-</div>
-
-
+<div class="lab reveal" aria-label="How software, AI and electronics combine into applied systems">
+  <div class="lab-domain-grid">
+    <article class="lab-domain">
+      <span class="lab-index">01 / INTELLIGENCE</span>
+      <h3>AI &amp; Language Models</h3>
+      <p>LLMs, NLP and AI agents</p>
+    </article>
+    <article class="lab-domain">
+      <span class="lab-index">02 / ORCHESTRATION</span>
+      <h3>Software &amp; Automation</h3>
+      <p>Python, APIs and workflows</p>
+    </article>
+    <article class="lab-domain">
+      <span class="lab-index">03 / PHYSICAL SYSTEMS</span>
+      <h3>Electronics &amp; IoT</h3>
+      <p>Sensing, embedded systems and control</p>
+    </article>
+  </div>
+  <div class="lab-convergence" aria-hidden="true">
+    <span></span><span></span><span></span>
+  </div>
+  <div class="lab-outcome">
+    <span class="lab-outcome-label">CONVERGENCE</span>
+    <div>
+      <h3>Applied Systems</h3>
+      <p>Ideas translated into integrated, testable prototypes.</p>
+    </div>
+    <span class="lab-outcome-flow">DESIGN <i>→</i> BUILD <i>→</i> VALIDATE</span>
+  </div>
 </div>
 
 </div>
