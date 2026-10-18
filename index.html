@@ -4945,33 +4945,6 @@ navLinks.forEach(link => {
 #back-to-top{display:none!important}
 </style>
 
-<style id="mobile-nav-uniform-final">
-@media(max-width:850px){
-  /* Compact top bar; links appear as a uniform dropdown when opened. */
-  .navin{justify-content:space-between!important;gap:12px!important}
-  .navin>#links:not(.open){display:none!important}
-  .navin>#links.open{
-    display:flex!important;
-    position:absolute!important;
-    top:calc(100% + 8px)!important;
-    left:0!important;right:0!important;width:100%!important;
-    flex-direction:column!important;align-items:stretch!important;
-    gap:4px!important;padding:8px!important;
-    background:rgba(5,8,15,.98)!important;
-    border:1px solid var(--line)!important;border-radius:14px!important;
-    box-sizing:border-box!important;z-index:999!important;
-  }
-  .navin>#links.open a{
-    display:flex!important;align-items:center!important;
-    justify-content:flex-start!important;width:100%!important;
-    min-height:44px!important;padding:0 14px!important;
-    margin:0!important;box-sizing:border-box!important;
-    font-size:14px!important;line-height:1.2!important;
-  }
-  .nav-actions>.menu{display:flex!important}
-}
-</style>
-
 <style id="mobile-final-layout-fix">
 @media(max-width:850px){
   /* Smaller VIDHAAN. hamburger */
