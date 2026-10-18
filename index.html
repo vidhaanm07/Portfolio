@@ -4964,20 +4964,10 @@ navLinks.forEach(link => {
     padding:10px 14px 10px 16px!important;
   }
 
-  /* Match the Experience → Lab gap to the Lab → Contact gap */
-  #experience{
-    padding-bottom:0!important;
-    margin-bottom:0!important;
-  }
-
-  #lab{
-    padding-top:0!important;
-    margin-top:0!important;
-  }
-
-  #experience + #lab{
-    margin-top:120px!important;
-  }
+  /* Keep Experience → Lab spacing identical to the standard mobile section spacing. */
+  #experience{padding-bottom:76px!important;margin-bottom:0!important}
+  #lab{padding-top:76px!important;margin-top:0!important}
+  #experience + #lab{margin-top:0!important}
 
   /* Keep the existing SCROLL TO EXPLORE typography unchanged */
   .hero > .scroll{
@@ -5016,12 +5006,9 @@ navLinks.forEach(link => {
     border-radius:8px!important;
   }
 
-  #experience{padding-bottom:0!important}
-  #lab{padding-top:0!important}
-
-  #experience + #lab{
-    margin-top:120px!important;
-  }
+  #experience{padding-bottom:76px!important}
+  #lab{padding-top:76px!important}
+  #experience + #lab{margin-top:0!important}
 
   .hero > .scroll{
     margin-top:12px!important;
