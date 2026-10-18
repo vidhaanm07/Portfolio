@@ -4940,6 +4940,13 @@ navLinks.forEach(link => {
 }
 </style>
 
+<style id="mobile-hide-overlapping-top-arrow">
+@media(max-width:850px){
+  /* Prevent the back-to-top arrow from appearing behind the floating AI button. */
+  #back-to-top{display:none!important}
+}
+</style>
+
 <style id="mobile-final-layout-fix">
 @media(max-width:850px){
   /* Smaller VIDHAAN. hamburger */
