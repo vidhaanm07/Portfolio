@@ -4910,11 +4910,7 @@ navLinks.forEach(link => {
 
 <style id="mobile-overflow-and-nav-fix">
 @media(max-width:850px){
-  /* Keep the phone navigation compact; open links only after tapping the menu. */
-  .navin{position:relative!important;min-width:0!important}
-  .navin>.links{display:none!important}
-  .navin>.links.open{display:flex!important}
-  .nav-actions>.menu{display:flex!important}
+  /* Preserve the existing mobile toolbar and navigation behavior. */
 
   /* Prevent the hero text and controls from being pushed beyond the viewport. */
   #home .container,
