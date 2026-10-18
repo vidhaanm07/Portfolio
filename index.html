@@ -3230,6 +3230,74 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid #67e8
 }
 </style>
 
+
+<style id="mobile-center-alignment-final">
+@media (max-width:650px){
+  /* Consistent centered composition across the full mobile experience */
+  section{ text-align:center!important; }
+  section .container{ width:calc(100% - 30px)!important; max-width:520px!important; margin-inline:auto!important; }
+  section .eyebrow, section .section-title, section .section-copy{ text-align:center!important; margin-left:auto!important; margin-right:auto!important; }
+  section .section-copy{ max-width:38ch!important; }
+  section .about-grid,
+  section .skill-wrap,
+  section .projects,
+  section .timeline,
+  section .certs,
+  section .github-grid,
+  section .github-stats,
+  section .contact-grid{
+    width:100%!important; margin-left:auto!important; margin-right:auto!important;
+    justify-items:stretch!important; align-items:stretch!important;
+  }
+  #about .about-grid{ grid-template-columns:minmax(0,1fr)!important; }
+  #about .panel, #about .stats, #about .stat,
+  #skills .skill, #projects .project, #experience .event,
+  #certifications .cert, #github-live .github-stat,
+  #contact .contact-main, #contact .contact-list{
+    width:100%!important; min-width:0!important; margin-left:auto!important; margin-right:auto!important;
+    text-align:center!important;
+  }
+  #about .stats{ grid-template-columns:repeat(2,minmax(0,1fr))!important; gap:10px!important; }
+  #about .stat{ display:flex!important; flex-direction:column!important; align-items:center!important; justify-content:center!important; }
+  #skills .skill-wrap, #projects .projects, #experience .timeline, #certifications .certs, #github-live .github-grid{
+    grid-template-columns:minmax(0,1fr)!important; gap:12px!important;
+  }
+  #skills .skill, #projects .project, #experience .event, #certifications .cert{
+    display:flex!important; flex-direction:column!important; align-items:center!important; justify-content:center!important;
+  }
+  #skills .chips, #projects .chips{ justify-content:center!important; }
+  #projects .p-top, #projects .p-bottom{ width:100%!important; justify-content:center!important; flex-wrap:wrap!important; gap:10px!important; }
+  #projects .project h3, #projects .project p, #experience .event h3, #experience .event p,
+  #certifications .cert h3, #certifications .cert p{ text-align:center!important; margin-left:auto!important; margin-right:auto!important; }
+  #experience .event .meta{ text-align:center!important; }
+  #certifications .cert{ gap:18px!important; }
+  #github-live .github-head{ display:flex!important; flex-direction:column!important; align-items:center!important; text-align:center!important; gap:14px!important; }
+  #github-live .github-status{ text-align:center!important; }
+  #github-live .github-stats{ grid-template-columns:repeat(3,minmax(0,1fr))!important; gap:7px!important; }
+  #github-live .github-stat{ padding:13px 5px!important; display:flex!important; flex-direction:column!important; align-items:center!important; justify-content:center!important; }
+  #github-live .github-stat b{ font-size:clamp(18px,6vw,25px)!important; }
+  #github-live .github-stat span{ font-size:9px!important; line-height:1.4!important; text-align:center!important; }
+  #lab .lab{ transform:none!important; margin-inline:auto!important; text-align:center!important; }
+  #lab .lab-domain-grid{ grid-template-columns:minmax(0,1fr)!important; }
+  #lab .lab-domain, #lab .lab-outcome{ width:100%!important; min-width:0!important; text-align:center!important; justify-items:center!important; }
+  #lab .lab-outcome{ grid-template-columns:minmax(0,1fr)!important; }
+  #lab .lab-domain h3, #lab .lab-domain p, #lab .lab-outcome h3, #lab .lab-outcome p{ text-align:center!important; }
+  #contact .contact-grid{ grid-template-columns:minmax(0,1fr)!important; gap:12px!important; }
+  #contact .contact-main{ padding:24px 18px!important; display:flex!important; flex-direction:column!important; align-items:center!important; }
+  #contact .contact-main h2, #contact .contact-main p{ text-align:center!important; margin-left:auto!important; margin-right:auto!important; }
+  #contact .hero-actions{ width:100%!important; display:flex!important; justify-content:center!important; }
+  #contact .contact-list{ display:flex!important; flex-direction:column!important; align-items:stretch!important; }
+  #contact .contact-link{ width:100%!important; justify-content:center!important; gap:12px!important; }
+  footer, footer .container{ text-align:center!important; margin-inline:auto!important; }
+}
+@media (max-width:380px){
+  section .container{width:calc(100% - 24px)!important}
+  #about .stats{grid-template-columns:minmax(0,1fr)!important}
+  #github-live .github-stats{grid-template-columns:minmax(0,1fr)!important}
+  #github-live .github-stat{flex-direction:row!important;gap:12px!important}
+}
+</style>
+
 </head>
 
 <body>
