@@ -4964,24 +4964,22 @@ navLinks.forEach(link => {
     padding:10px 14px 10px 16px!important;
   }
 
-  /* Keep Experience → Lab spacing identical to the normal mobile section rhythm. */
+  /* Match the visible Experience → Lab gap to the other mobile section gaps. */
   #experience{
-    padding-top:76px!important;
-    padding-bottom:76px!important;
+    padding:76px 0!important;
     margin:0!important;
   }
   #lab{
-    padding-top:76px!important;
-    padding-bottom:76px!important;
+    padding:76px 0!important;
     margin:0!important;
   }
+  #experience .container > :last-child{
+    margin-bottom:0!important;
+  }
+  #lab .container > :first-child{
+    margin-top:0!important;
+  }
   #experience + #lab{
-    margin-top:0!important;
-  }
-  #experience + #lab > .container{
-    margin-top:0!important;
-  }
-  #experience + #lab > .container > :first-child{
     margin-top:0!important;
   }
 
@@ -5026,7 +5024,9 @@ navLinks.forEach(link => {
     padding:64px 0!important;
     margin:0!important;
   }
-  #experience + #lab > :first-child{margin-top:0!important}
+  #experience .container > :last-child{margin-bottom:0!important}
+  #lab .container > :first-child{margin-top:0!important}
+  #experience + #lab{margin-top:0!important}
 
   .hero > .scroll{
     margin-top:12px!important;
