@@ -4964,18 +4964,10 @@ navLinks.forEach(link => {
     padding:10px 14px 10px 16px!important;
   }
 
-  /* Normalize section spacing so Experience → Lab matches every other section gap. */
-  #experience{
-    padding-top:76px!important;
-    padding-bottom:76px!important;
-    margin-top:0!important;
-    margin-bottom:0!important;
-  }
-  #lab{
-    padding-top:76px!important;
-    padding-bottom:76px!important;
-    margin-top:0!important;
-    margin-bottom:0!important;
+  /* Use the same section padding as the other mobile sections. */
+  #experience,#lab{
+    padding:76px 0!important;
+    margin:0!important;
   }
   #experience + #lab > :first-child{margin-top:0!important}
 
@@ -5016,14 +5008,8 @@ navLinks.forEach(link => {
     border-radius:8px!important;
   }
 
-  #experience{
-    padding-top:76px!important;
-    padding-bottom:76px!important;
-    margin:0!important;
-  }
-  #lab{
-    padding-top:76px!important;
-    padding-bottom:76px!important;
+  #experience,#lab{
+    padding:64px 0!important;
     margin:0!important;
   }
   #experience + #lab > :first-child{margin-top:0!important}
