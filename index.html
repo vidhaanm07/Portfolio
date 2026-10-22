@@ -4981,27 +4981,16 @@ navLinks.forEach(link => {
     padding:10px 14px 10px 16px!important;
   }
 
-  /* Match the visible Experience → Lab gap to the other mobile section gaps. */
-  #experience{
+  /* Use the same section padding rhythm as the rest of the mobile page. */
+  #experience,#lab{
     padding:76px 0!important;
     margin:0!important;
   }
-  #lab{
-    padding:76px 0!important;
-    margin:0!important;
-  }
-  #experience .container > :last-child{
-    margin-bottom:0!important;
-  }
-  #experience .timeline .event:last-child{
-    margin-bottom:0!important;
-  }
-  #lab .container > :first-child{
-    margin-top:0!important;
-  }
-  #experience + #lab{
-    margin-top:0!important;
-  }
+  /* Remove only excess internal spacing at this section boundary. */
+  #experience .timeline{margin-bottom:0!important}
+  #experience .timeline .event:last-child{margin-bottom:0!important}
+  #lab .container > :first-child{margin-top:0!important}
+  #experience + #lab{margin-top:0!important}
 
   /* Keep the existing SCROLL TO EXPLORE typography unchanged */
   .hero > .scroll{
@@ -5044,7 +5033,8 @@ navLinks.forEach(link => {
     padding:64px 0!important;
     margin:0!important;
   }
-  #experience .container > :last-child{margin-bottom:0!important}
+  #experience .timeline{margin-bottom:0!important}
+  #experience .timeline .event:last-child{margin-bottom:0!important}
   #lab .container > :first-child{margin-top:0!important}
   #experience + #lab{margin-top:0!important}
 
